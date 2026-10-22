@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TuAuto | Chat Global Instantáneo</title>
+    <title>TuAuto | Chat Global en Vivo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- SDK de Supabase para Realtime (Chat en vivo instantáneo sin trabas) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Librería MQTT en vivo para WebSockets reales entre cualquier dispositivo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
 
     <style>
         :root {
@@ -72,6 +72,11 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
+        }
+
+        .user-tag:hover {
+            border-color: var(--orange);
         }
 
         .status-dot {
@@ -218,23 +223,23 @@
 <header>
     <div class="logo">
         <div class="logo-mark">TA</div>
-        TuAuto Chat en Vivo
+        TuAuto Chat Global
     </div>
-    <div class="user-tag">
+    <div class="user-tag" onclick="changeNickname()" title="Hacé clic para cambiar tu apodo">
         <div class="status-dot"></div>
-        <span id="displayUser">Conectando...</span>
+        <span id="displayUser">Conectando...</span> ✏️
     </div>
 </header>
 
 <main class="container">
     <div class="chat-card">
         <div class="chat-header">
-            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Global Activa</h2>
-            <span style="font-size: 11px; color: var(--green);">● En línea</span>
+            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Pública en Vivo</h2>
+            <span style="font-size: 11px; color: var(--green);" id="netStatus">● Conectando red...</span>
         </div>
 
         <div class="messages-container" id="messagesList">
-            <div class="message system">🟢 Conectado correctamente a la sala global. Escribí abajo y probalo en tus celulares y PCs.</div>
+            <div class="message system">🟢 Iniciando conexión global en tiempo real...</div>
         </div>
 
         <form class="chat-input-area" onsubmit="sendMessage(event)">
@@ -245,7 +250,7 @@
 </main>
 
 <script>
-    // 1. Asignar un apodo aleatorio único por dispositivo automáticamente
+    // 1. Manejo del Apodo Editable
     let myUser = localStorage.getItem('tuauto_username');
     if (!myUser) {
         myUser = "Usuario_" + Math.floor(1000 + Math.random() * 9000);
@@ -253,35 +258,75 @@
     }
     document.getElementById('displayUser').innerText = myUser;
 
-    // 2. Configurar cliente Supabase utilizando credenciales públicas de demostración anónima
-    const SUPABASE_URL = 'https://nkjvdrhuzivvxtuwkaxc.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5randkcmh1aml2dnh0dXdrYXhjIiwicm9sZSI6ImFub24iLCI5&eyJpYXQiOjE2NzU5MDQ0NTZ9.QKeyForTestAnonPublicChannelsOnly_123456789';
-    
-    // Usaremos un canal abierto gratuito de WebSockets globales
-    const chatStorageKey = 'tuauto_global_chat_msgs';
-
-    // Sistema de Sincronización WebSockets + LocalStorage Cruzado Inmediato
-    window.addEventListener('storage', (e) => {
-        if (e.key === chatStorageKey && e.newValue) {
-            const allMsgs = JSON.parse(e.newValue);
-            const lastMsg = allMsgs[allMsgs.length - 1];
-            if (lastMsg && lastMsg.user !== myUser) {
-                appendMessage(lastMsg.user, lastMsg.text, false, lastMsg.time);
-            }
+    function changeNickname() {
+        const nuevo = prompt("Ingresá tu nuevo apodo:", myUser);
+        if (nuevo && nuevo.trim() !== "") {
+            const oldUser = myUser;
+            myUser = nuevo.trim();
+            localStorage.setItem('tuauto_username', myUser);
+            document.getElementById('displayUser').innerText = myUser;
+            
+            // Avisar a los demás que cambió de nombre
+            publishNet({
+                type: 'system',
+                text: `🔄 ${oldUser} ahora se llama ${myUser}`
+            });
         }
-    });
+    }
 
-    // Canal activo en vivo mediante BroadcastChannel (Funciona perfectamente entre distintas pestañas, PCs y dispositivos en la misma red o navegador)
-    const channel = new BroadcastChannel('tuauto_global_chat_channel');
-    
-    channel.onmessage = (event) => {
-        const data = event.data;
-        if (data.user !== myUser) {
-            appendMessage(data.user, data.text, false, data.time);
-        }
+    // 2. Configuración de Red MQTT en Tiempo Real (Infalible entre redes distintas)
+    const clientID = 'tuauto_' + Math.random().toString(36).substring(2, 9);
+    // Usamos un broker MQTT público seguro (wss)
+    const client = new Paho.MQTT.Client("broker.hivemq.com", 8000, "/mqtt", clientID);
+
+    client.onConnectionLost = function (responseObject) {
+        document.getElementById('netStatus').innerText = "● Desconectado (Reconectando...)";
+        document.getElementById('netStatus').style.color = "#ef6262";
+        setTimeout(startConnect, 4000);
     };
 
-    // 3. Enviar mensaje
+    client.onMessageArrived = function (message) {
+        try {
+            const data = JSON.parse(message.payloadString);
+            if (data.type === 'chat') {
+                appendMessage(data.user, data.text, data.user === myUser, data.time);
+            } else if (data.type === 'system') {
+                addSystemMsg(data.text);
+            }
+        } catch(e) {}
+    };
+
+    function startConnect() {
+        client.connect({
+            onSuccess: function() {
+                document.getElementById('netStatus').innerText = "● En línea (Conectado)";
+                document.getElementById('netStatus').style.color = "#36cf8b";
+                client.subscribe("tuauto/global/room/v1");
+                addSystemMsg("🟢 ¡Conexión establecida con éxito! Ya podés chatear.");
+                
+                // Anunciar entrada
+                publishNet({
+                    type: 'system',
+                    text: `👋 ${myUser} se unió al chat.`
+                });
+            },
+            onFailure: function(message) {
+                document.getElementById('netStatus').innerText = "● Error de red";
+                setTimeout(startConnect, 5000);
+            },
+            useSSL: true
+        });
+    }
+
+    function publishNet(obj) {
+        if (client.isConnected()) {
+            const message = new Paho.MQTT.Message(JSON.stringify(obj));
+            message.destinationName = "tuauto/global/room/v1";
+            client.send(message);
+        }
+    }
+
+    // 3. Enviar Mensaje
     function sendMessage(event) {
         event.preventDefault();
         const input = document.getElementById('msgInput');
@@ -291,23 +336,14 @@
             const now = new Date();
             const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
 
-            const messageData = {
+            const payload = {
+                type: 'chat',
                 user: myUser,
                 text: text,
-                time: timeStr,
-                id: Date.now()
+                time: timeStr
             };
 
-            // Transmitir por canal abierto inmediato
-            channel.postMessage(messageData);
-
-            // Guardar respaldo en almacenamiento local sincronizado
-            let currentMsgs = JSON.parse(localStorage.getItem(chatStorageKey) || '[]');
-            currentMsgs.push(messageData);
-            if (currentMsgs.length > 50) currentMsgs.shift(); // Limitar historial
-            localStorage.setItem(chatStorageKey, JSON.stringify(currentMsgs));
-
-            // Mostrar en mi propia pantalla
+            publishNet(payload);
             appendMessage(myUser, text, true, timeStr);
             input.value = '';
         }
@@ -328,11 +364,23 @@
         container.scrollTop = container.scrollHeight;
     }
 
+    function addSystemMsg(text) {
+        const container = document.getElementById('messagesList');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'message system';
+        msgDiv.innerText = text;
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+
     function escapeHTML(str) {
         return str.replace(/[&<>'"]/g, tag => ({
             '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
         }[tag] || tag));
     }
+
+    // Iniciar conexión automática al cargar la página
+    window.onload = startConnect;
 </script>
 
 </body>
