@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TuAuto | Open Chat Global Directo</title>
+    <title>TuAuto | Sala Global en Tiempo Real</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Librería Websocket Instantánea en Tiempo Real (Pusher JS) -->
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <!-- PeerJS oficial para conexión P2P real entre dispositivos sin servidor -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
     <style>
         :root {
@@ -77,8 +77,11 @@
         .status-dot {
             width: 8px;
             height: 8px;
-            background: var(--green);
+            background: #888;
             border-radius: 50%;
+        }
+        .status-dot.active {
+            background: var(--green);
             box-shadow: 0 0 8px var(--green);
         }
 
@@ -189,10 +192,6 @@
             font-size: 14px;
         }
 
-        .chat-input-area input:focus {
-            border-color: var(--orange);
-        }
-
         .btn-send {
             padding: 12px 24px;
             background: var(--orange);
@@ -201,10 +200,6 @@
             border-radius: 10px;
             font-weight: 800;
             cursor: pointer;
-        }
-
-        .btn-send:hover {
-            opacity: 0.9;
         }
 
         @media(max-width: 600px) {
@@ -221,7 +216,7 @@
         TuAuto Open Chat
     </div>
     <div class="user-tag">
-        <div class="status-dot"></div>
+        <div class="status-dot" id="statusDot"></div>
         <span id="displayUser">Conectando...</span>
     </div>
 </header>
@@ -229,12 +224,12 @@
 <main class="container">
     <div class="chat-card">
         <div class="chat-header">
-            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Pública Directa (Sin Registros ni Códigos)</h2>
-            <span style="font-size: 11px; color: var(--text2);">En vivo</span>
+            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Pública Multidispositivo</h2>
+            <span style="font-size: 11px; color: var(--text2);" id="connectionStatus">Estableciendo red...</span>
         </div>
 
         <div class="messages-container" id="messagesList">
-            <div class="message system">🟢 Te uniste a la sala global. Todo lo que escribas se verá en las demás PCs al instante.</div>
+            <div class="message system">🔄 Conectando a la red global de dispositivos...</div>
         </div>
 
         <form class="chat-input-area" onsubmit="sendMessage(event)">
@@ -245,33 +240,79 @@
 </main>
 
 <script>
-    // 1. Generar un ID / Apodo Aleatorio para esta PC/Navegador
-    let myUser = localStorage.getItem('tuauto_random_user');
+    // ID Fijo de la Sala Pública Global
+    const GLOBAL_ROOM_ID = "tuauto-public-room-v1";
+    
+    // Generar Apodo Aleatorio para esta PC/Celular
+    let myUser = localStorage.getItem('tuauto_nick');
     if (!myUser) {
         myUser = "Usuario_" + Math.floor(1000 + Math.random() * 9000);
-        localStorage.setItem('tuauto_random_user', myUser);
+        localStorage.setItem('tuauto_nick', myUser);
     }
     document.getElementById('displayUser').innerText = myUser;
 
-    // 2. Conexión WebSocket directa a la red pública sin requerir servidor ni códigos
-    const pusher = new Pusher('app-key-free-demo', {
-        cluster: 'us2',
-        wsHost: 'ws-us2.pusher.com',
-        wsPort: 80,
-        wssPort: 443,
-        enabledTransports: ['ws', 'wss'],
-        forceTLS: true
-    });
+    let peer = null;
+    let connections = []; // Guarda las conexiones activas con otros celus/PCs
 
-    // 3. Suscribirse automáticamente al canal global común
-    const channel = pusher.subscribe('global-tuauto-chat');
+    function initChatNetwork() {
+        // Intentar registrarse como el HOST (Servidor principal temporal) de la sala
+        peer = new Peer(GLOBAL_ROOM_ID);
 
-    // 4. Escuchar los mensajes transmitidos en tiempo real
-    channel.bind('new-message', function(data) {
-        appendMessage(data.user, data.text, data.user === myUser, data.time);
-    });
+        peer.on('open', (id) => {
+            console.log("Servidor principal de sala iniciado.");
+            updateStatus("🟢 Sala activa (Sos el primer usuario)");
+            addSystemMsg("Te conectaste como anfitrión de la sala. Otros celulares y PCs se unirán automáticamente al ingresar a la web.");
+        });
 
-    // 5. Enviar mensaje a la red global
+        // Escuchar conexiones entrantes de otros celulares o PCs
+        peer.on('connection', (conn) => {
+            setupConnection(conn);
+            addSystemMsg("📱/💻 Un nuevo dispositivo se unió a la conversación.");
+        });
+
+        // Si la ID del Host ya está ocupada por otro usuario en la red, nos conectamos a él como Cliente
+        peer.on('error', (err) => {
+            if (err.type === 'unavailable-id') {
+                console.log("Ya hay una sala activa. Conectando a la sala...");
+                peer = new Peer(); // Genera ID de cliente automático
+                
+                peer.on('open', () => {
+                    const conn = peer.connect(GLOBAL_ROOM_ID);
+                    setupConnection(conn);
+                });
+            } else {
+                console.error(err);
+            }
+        });
+    }
+
+    function setupConnection(conn) {
+        connections.push(conn);
+
+        conn.on('open', () => {
+            updateStatus("🟢 Conectado en tiempo real con otros dispositivos");
+        });
+
+        conn.on('data', (data) => {
+            // Recibir mensaje enviado por otro celular/PC
+            appendMessage(data.user, data.text, false, data.time);
+
+            // Si soy el Host, retransmito el mensaje a todos los demás dispositivos conectados
+            if (peer.id === GLOBAL_ROOM_ID) {
+                connections.forEach(c => {
+                    if (c !== conn && c.open) {
+                        c.send(data);
+                    }
+                });
+            }
+        });
+
+        conn.on('close', () => {
+            connections = connections.filter(c => c !== conn);
+            addSystemMsg("Un dispositivo se desconectó.");
+        });
+    }
+
     function sendMessage(event) {
         event.preventDefault();
         const input = document.getElementById('msgInput');
@@ -287,45 +328,11 @@
                 time: timeStr
             };
 
-            // Transmisión inmediata vía broadcast libre
-            fetch('https://api.piehost.com/publish', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    channel: 'global-tuauto-chat',
-                    event: 'new-message',
-                    data: payload
-                })
-            }).catch(() => {});
+            // Enviar mensaje a todas las PCs / celulares conectados
+            connections.forEach(c => {
+                if (c.open) c.send(payload);
+            });
 
-            // Renderizar localmente por respaldo si falla la red externa
+            // Mostrar el mensaje en mi propia pantalla
             appendMessage(myUser, text, true, timeStr);
-
             input.value = '';
-        }
-    }
-
-    function appendMessage(user, text, isMine, time) {
-        const container = document.getElementById('messagesList');
-        const msgDiv = document.createElement('div');
-
-        msgDiv.className = `message ${isMine ? 'mine' : 'other'}`;
-        msgDiv.innerHTML = `
-            <span class="meta">${escapeHTML(user)}</span>
-            ${escapeHTML(text)}
-            <span class="time">${time || ''}</span>
-        `;
-
-        container.appendChild(msgDiv);
-        container.scrollTop = container.scrollHeight;
-    }
-
-    function escapeHTML(str) {
-        return str.replace(/[&<>'"]/g, tag => ({
-            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-        }[tag] || tag));
-    }
-</script>
-
-</body>
-</html>
