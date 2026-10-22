@@ -3,111 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#c96c02">
-    <title>TuAuto | Marketplace inteligente de vehículos</title>
+    <title>TuAuto | Open Chat Global en Tiempo Real</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Firebase SDK (para tiempo real entre 2 o más PCs) -->
+    <!-- Firebase SDK (Version Compat para fácil integración) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
         :root {
-            --bg: #090e13;
-            --bg2: #0d151c;
-            --bg3: #111d25;
+            --bg: #171717;
             --surface: #14222b;
             --surface2: #192a34;
-            --surface3: #20343f;
             --border: #283b46;
-            --border2: #39515d;
             --orange: #c96c02;
-            --orange2: #f39a24;
-            --orange-soft: rgba(201, 108, 2, 0.15);
-            --blue: #58a9c7;
-            --blue2: #9dd8e6;
-            --blue-soft: rgba(88,169,199,.12);
-            --green: #36cf8b;
-            --green-soft: rgba(54,207,139,.12);
-            --red: #ef6262;
-            --red-soft: rgba(239,98,98,.12);
-            --yellow: #efc95d;
+            --orange-soft: rgba(201, 108, 2, 0.18);
             --text: #f5f8fa;
             --text2: #bac8cf;
-            --text3: #71838e;
             --radius: 14px;
-            --shadow: 0 20px 60px rgba(0,0,0,.35);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: Inter, sans-serif; background: #171717; color: var(--text); min-height: 100vh; }
-        
-        header { position: sticky; top: 0; z-index: 100; height: 76px; display: flex; align-items: center; justify-content: space-between; padding: 0 4%; background: rgba(9,14,19,.95); border-bottom: 3px solid var(--orange); }
-        .logo { display: flex; align-items: center; gap: 11px; font-size: 23px; font-weight: 900; }
-        .logo-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: var(--orange); color: #fff; font-weight: 900; }
-        
-        nav { display: flex; gap: 6px; }
-        nav button { border: 0; background: transparent; color: var(--text2); padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; transition: .2s; }
-        nav button:hover, nav button.active { background: var(--surface2); color: #fff; border-bottom: 2px solid var(--orange); }
-        
-        .user-area { display: flex; align-items: center; gap: 10px; font-size: 12px; }
-        .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--orange); color: #fff; display: grid; place-items: center; font-weight: 900; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-        .container { width: min(1200px, 92%); margin: 25px auto 80px; }
-        .view { display: none; }
-        .view.active { display: block; }
+        header {
+            height: 70px;
+            background: #090e13;
+            border-bottom: 3px solid var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+        }
 
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 18px; }
-        .grid { display: grid; gap: 18px; }
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
 
-        .btn { min-height: 44px; border: 0; border-radius: 8px; padding: 12px 18px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: .18s; }
-        .btn-primary { background: var(--orange); color: #fff; }
-        .btn-primary:hover { background: #b96700; }
-        .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border2); }
-        .btn-danger { background: var(--red-soft); color: var(--red); border: 1px solid var(--red); }
-        .btn-success { background: var(--green-soft); color: var(--green); border: 1px solid var(--green); }
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            background: var(--orange);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            font-weight: 900;
+        }
 
-        .status { display: inline-flex; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 900; }
-        .status.ok { background: var(--green-soft); color: var(--green); }
-        .status.warning { background: var(--orange-soft); color: var(--orange2); }
+        .user-tag {
+            font-size: 12px;
+            background: var(--surface2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-        /* LISTA VEHICULOS */
-        .vehicle-photo { height: 200px; border-radius: 10px; overflow: hidden; background: #000; margin-bottom: 12px; }
-        .vehicle-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .price { font-size: 22px; font-weight: 900; color: var(--orange2); }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #36cf8b;
+            border-radius: 50%;
+        }
 
-        /* CHAT */
-        .chat-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 550px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-        .chat-list { border-right: 1px solid var(--border); background: var(--bg2); }
-        .conversation { padding: 15px; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .conversation.active { background: var(--orange-soft); border-left: 4px solid var(--orange); }
-        
-        .messages { height: 350px; overflow-y: auto; padding: 20px; background: #080d11; display: flex; flex-direction: column; gap: 10px; }
-        .message { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.4; }
-        .message.mine { margin-left: auto; background: var(--orange); color: #fff; }
-        .message.other { background: var(--surface2); border: 1px solid var(--border); }
-        .message.system { margin: auto; background: rgba(255,255,255,0.05); color: var(--text2); font-size: 12px; text-align: center; }
+        .container {
+            width: min(800px, 94%);
+            margin: 20px auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-        .chat-input { display: flex; gap: 8px; padding: 15px; background: var(--surface); border-top: 1px solid var(--border); }
-        .chat-input input { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg2); color: #fff; outline: none; }
+        .chat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 140px);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        /* FORMULARIO */
-        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .field { display: flex; flex-direction: column; gap: 5px; }
-        .field label { font-size: 12px; font-weight: 700; color: var(--text2); }
-        .field input, .field select, .field textarea { padding: 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg2); color: #fff; outline: none; }
+        .chat-header {
+            padding: 15px 20px;
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* TOAST & MODAL */
-        .toast { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: var(--orange); color: #fff; border-radius: 8px; font-weight: 800; display: none; z-index: 999; }
-        .toast.show { display: block; }
+        .chat-header h2 {
+            font-size: 16px;
+            font-weight: 800;
+        }
 
-        @media(max-width: 768px) {
-            .grid-2, .grid-3, .form-grid, .chat-layout { grid-template-columns: 1fr; }
-            .chat-list { display: none; }
+        .messages-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #0d151c;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .message.mine {
+            margin-left: auto;
+            background: var(--orange);
+            color: #fff;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.other {
+            margin-right: auto;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 2px;
+        }
+
+        .meta {
+            display: block;
+            font-size: 10px;
+            opacity: 0.75;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .time {
+            font-size: 9px;
+            opacity: 0.6;
+            margin-top: 4px;
+            text-align: right;
+            display: block;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #090e13;
+            color: #fff;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--orange);
+        }
+
+        .btn-send {
+            padding: 12px 24px;
+            background: var(--orange);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-send:hover {
+            opacity: 0.9;
+        }
+
+        @media(max-width: 600px) {
+            .container { width: 100%; margin: 0; }
+            .chat-card { height: calc(100vh - 70px); border-radius: 0; border: 0; }
         }
     </style>
 </head>
@@ -116,272 +213,107 @@
 <header>
     <div class="logo">
         <div class="logo-mark">TA</div>
-        TuAuto
+        TuAuto Open Chat
     </div>
-    <nav>
-        <button class="active" onclick="showView('inicio', this)">Inicio</button>
-        <button onclick="showView('comprar', this)">Comprar</button>
-        <button onclick="showView('vender', this)">Vender</button>
-        <button onclick="showView('chat', this)">Mensajes</button>
-    </nav>
-    <div class="user-area">
-        <span id="userIdLabel">ID: Generando...</span>
-        <div class="avatar" id="userAvatar">U</div>
+    <div class="user-tag">
+        <div class="status-dot"></div>
+        <span id="displayUser">Conectando...</span>
     </div>
 </header>
 
 <main class="container">
-
-    <!-- INICIO -->
-    <section id="inicio" class="view active">
-        <div class="card" style="background: linear-gradient(135deg, #2c1600, #14222b); border-color: var(--orange);">
-            <h1 style="font-size: 32px; margin-bottom: 10px;">Marketplace de Vehículos en Tiempo Real</h1>
-            <p style="color: var(--text2); margin-bottom: 20px;">Publicá tu auto desde una PC y realizá pruebas de chat e interacción directa desde otra pantalla en vivo.</p>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-primary" onclick="showView('comprar')">🔎 Buscar Autos</button>
-                <button class="btn btn-outline" onclick="showView('vender')">🚗 Publicar un Vehículo</button>
-            </div>
+    <div class="chat-card">
+        <div class="chat-header">
+            <h2>💬 Sala Pública Global de Pruebas</h2>
+            <span style="font-size: 11px; color: var(--text2);">Tiempo Real Activo</span>
         </div>
-    </section>
 
-    <!-- COMPRAR -->
-    <section id="comprar" class="view">
-        <h2 style="margin-bottom: 15px;">Vehículos Publicados en Tiempo Real</h2>
-        <div id="vehicleGrid" class="grid grid-2">
-            <!-- Se cargan dinámicamente desde Firebase -->
+        <div class="messages-container" id="messagesList">
+            <!-- Mensajes en tiempo real se cargan aquí -->
         </div>
-    </section>
 
-    <!-- VENDER -->
-    <section id="vender" class="view">
-        <div class="card">
-            <h2 style="margin-bottom: 15px;">Publicar mi vehículo</h2>
-            <form id="publishForm" onsubmit="handlePublish(event)">
-                <div class="form-grid">
-                    <div class="field">
-                        <label>Marca *</label>
-                        <input id="p_marca" required placeholder="Ej: Toyota">
-                    </div>
-                    <div class="field">
-                        <label>Modelo *</label>
-                        <input id="p_modelo" required placeholder="Ej: Corolla">
-                    </div>
-                    <div class="field">
-                        <label>Año *</label>
-                        <input id="p_anio" type="number" required placeholder="2022">
-                    </div>
-                    <div class="field">
-                        <label>Precio ($) *</label>
-                        <input id="p_precio" type="number" required placeholder="24500000">
-                    </div>
-                    <div class="field">
-                        <label>Kilometraje *</label>
-                        <input id="p_km" type="number" required placeholder="45000">
-                    </div>
-                    <div class="field">
-                        <label>URL Imagen Foto *</label>
-                        <input id="p_foto" required placeholder="https://images.unsplash.com/photo-1623869675781-80aa31012a5a">
-                    </div>
-                </div>
-                <button class="btn btn-primary" type="submit" style="margin-top: 20px; width: 100%;">🚀 Publicar Ahora (Visible en todas las PCs)</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- CHAT -->
-    <section id="chat" class="view">
-        <div class="chat-layout">
-            <div class="chat-list" id="chatList">
-                <div style="padding: 15px; font-weight: 800; border-bottom: 1px solid var(--border);">Mis Chats Activos</div>
-                <!-- Lista dinámica de chats -->
-            </div>
-            <div style="display: flex; flex-direction: column;">
-                <div style="padding: 15px; border-bottom: 1px solid var(--border); font-weight: 800;" id="chatTitle">
-                    Seleccioná una conversación
-                </div>
-                <div class="messages" id="messageList">
-                    <div class="message system">Seleccioná o iniciá un chat desde la sección "Comprar" para empezar.</div>
-                </div>
-                <div class="chat-input">
-                    <input id="msgInput" placeholder="Escribí un mensaje..." onkeydown="if(event.key==='Enter') sendChatMessage()">
-                    <button class="btn btn-primary" onclick="sendChatMessage()">Enviar</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
+        <form class="chat-input-area" onsubmit="sendMessage(event)">
+            <input type="text" id="msgInput" placeholder="Escribí un mensaje público..." autocomplete="off" required>
+            <button type="submit" class="btn-send">Enviar</button>
+        </form>
+    </div>
 </main>
 
-<div id="toast" class="toast"></div>
-
 <script>
-    // Inicialización de Firebase (público para demostración / testing libre)
+    // 1. Configuración de Firebase Realtime Database pública para pruebas
     const firebaseConfig = {
-        apiKey: "AIzaSyD-DemoKeyForTuAutoRealtimeTest",
-        authDomain: "tuauto-demo.firebaseapp.com",
-        projectId: "tuauto-demo",
-        storageBucket: "tuauto-demo.appspot.com",
-        messagingSenderId: "1234567890",
-        appId: "1:1234567890:web:abcdef123456"
+        databaseURL: "https://tuauto-demo-default-rtdb.firebaseio.com"
     };
 
-    // Si Firebase no conecta por bloqueo de API Key de prueba, usamos fallback en tiempo real local/simulado
-    try {
-        firebase.initializeApp(firebaseConfig);
-        window.db = firebase.firestore();
-    } catch(e) {
-        console.log("Modo local activo");
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const chatRef = database.ref("global_open_chat");
+
+    // 2. Generar un Nombre/ID de Usuario único para esta computadora/navegador
+    let myUser = localStorage.getItem('tuauto_chat_username');
+    if (!myUser) {
+        myUser = "Usuario_" + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem('tuauto_chat_username', myUser);
     }
+    document.getElementById('displayUser').innerText = myUser;
 
-    // Identificación de usuario por PC
-    let myUserId = localStorage.getItem('tuauto_user_id');
-    if (!myUserId) {
-        myUserId = 'User_' + Math.floor(Math.random() * 8999 + 1000);
-        localStorage.setItem('tuauto_user_id', myUserId);
-    }
-    document.getElementById('userIdLabel').innerText = myUserId;
-    document.getElementById('userAvatar').innerText = myUserId.charAt(5);
+    // 3. Enviar mensaje a Firebase
+    function sendMessage(event) {
+        event.preventDefault();
+        const input = document.getElementById('msgInput');
+        const text = input.value.trim();
 
-    let activeChatId = null;
+        if (text) {
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
 
-    // Control de Vistas
-    function showView(viewId, btn = null) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-        if (btn) {
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            chatRef.push({
+                user: myUser,
+                text: text,
+                time: timeStr,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            input.value = '';
         }
     }
 
-    // Toast de notificaciones
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.innerText = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 3000);
-    }
+    // 4. Escuchar mensajes en Tiempo Real (Sincronización instantánea entre PCs)
+    chatRef.limitToLast(100).on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        appendMessage(data);
+    });
 
-    // Memoria local sincronizada de publicaciones (para que funcione 100% garantizado)
-    function getStoredCars() {
-        return JSON.parse(localStorage.getItem('tuauto_cars_db') || '[]');
-    }
+    // 5. Renderizar mensaje en pantalla
+    function appendMessage(data) {
+        const container = document.getElementById('messagesList');
+        const msgDiv = document.createElement('div');
+        const isMine = data.user === myUser;
 
-    function saveCars(cars) {
-        localStorage.setItem('tuauto_cars_db', JSON.stringify(cars));
-        window.dispatchEvent(new Event('storage'));
-    }
+        msgDiv.className = `message ${isMine ? 'mine' : 'other'}`;
+        msgDiv.innerHTML = `
+            <span class="meta">${escapeHTML(data.user)}</span>
+            ${escapeHTML(data.text)}
+            <span class="time">${data.time || ''}</span>
+        `;
 
-    // Publicar auto
-    function handlePublish(e) {
-        e.preventDefault();
-        const car = {
-            id: 'car_' + Date.now(),
-            marca: document.getElementById('p_marca').value,
-            modelo: document.getElementById('p_modelo').value,
-            anio: document.getElementById('p_anio').value,
-            precio: document.getElementById('p_precio').value,
-            km: document.getElementById('p_km').value,
-            foto: document.getElementById('p_foto').value,
-            sellerId: myUserId
-        };
-
-        const cars = getStoredCars();
-        cars.unshift(car);
-        saveCars(cars);
-
-        showToast('¡Auto publicado con éxito!');
-        document.getElementById('publishForm').reset();
-        showView('comprar');
-        renderCars();
-    }
-
-    // Cargar vehículos en pantalla
-    function renderCars() {
-        const grid = document.getElementById('vehicleGrid');
-        const cars = getStoredCars();
-
-        // Autos base por defecto si no hay ninguno publicado
-        if (cars.length === 0) {
-            cars.push(
-                { id: 'demo1', marca: 'Toyota', modelo: 'Corolla XEI', anio: '2021', precio: '24500000', km: '48200', foto: 'https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=800&q=80', sellerId: 'Vendedor_Demo' },
-                { id: 'demo2', marca: 'Volkswagen', modelo: 'Polo Highline', anio: '2022', precio: '27900000', km: '31700', foto: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80', sellerId: 'Vendedor_Demo2' }
-            );
-            saveCars(cars);
-        }
-
-        grid.innerHTML = cars.map(c => `
-            <article class="card">
-                <div class="vehicle-photo">
-                    <img src="${c.foto}" alt="${c.marca}">
-                </div>
-                <h3>${c.marca} ${c.modelo}</h3>
-                <p style="color:var(--text3); font-size:13px;">${c.anio} · ${Number(c.km).toLocaleString()} km · Vendedor: ${c.sellerId}</p>
-                <div class="price" style="margin: 10px 0;">$${Number(c.precio).toLocaleString('es-AR')}</div>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn btn-primary" onclick="startChat('${c.id}', '${c.marca} ${c.modelo}', '${c.sellerId}')">💬 Contactar Vendedor</button>
-                </div>
-            </article>
-        `).join('');
-    }
-
-    // Iniciar Chat
-    function startChat(carId, carTitle, sellerId) {
-        activeChatId = carId;
-        showView('chat');
-        document.getElementById('chatTitle').innerText = 'Chat por: ' + carTitle + ' (' + sellerId + ')';
-        loadMessages();
-    }
-
-    // Cargar Mensajes
-    function loadMessages() {
-        if (!activeChatId) return;
-        const allMsgs = JSON.parse(localStorage.getItem('tuauto_msg_' + activeChatId) || '[]');
-        const container = document.getElementById('messageList');
-
-        if (allMsgs.length === 0) {
-            container.innerHTML = `<div class="message system">Iniciaste la conversación por este vehículo. ¡Escribile al vendedor!</div>`;
-            return;
-        }
-
-        container.innerHTML = allMsgs.map(m => `
-            <div class="message ${m.sender === myUserId ? 'mine' : 'other'}">
-                <div style="font-size:10px; opacity:0.7;">${m.sender}</div>
-                ${m.text}
-            </div>
-        `).join('');
-
+        container.appendChild(msgDiv);
         container.scrollTop = container.scrollHeight;
     }
 
-    // Enviar Mensaje
-    function sendChatMessage() {
-        const input = document.getElementById('msgInput');
-        const text = input.value.trim();
-        if (!text || !activeChatId) return;
-
-        const allMsgs = JSON.parse(localStorage.getItem('tuauto_msg_' + activeChatId) || '[]');
-        allMsgs.push({
-            sender: myUserId,
-            text: text,
-            timestamp: Date.now()
-        });
-
-        localStorage.setItem('tuauto_msg_' + activeChatId, JSON.stringify(allMsgs));
-        window.dispatchEvent(new Event('storage'));
-
-        input.value = '';
-        loadMessages();
+    // Función de seguridad para evitar inyección de HTML
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag)
+        );
     }
-
-    // Escuchar cambios entre las 2 computadoras/pestañas
-    window.addEventListener('storage', () => {
-        renderCars();
-        if (activeChatId) loadMessages();
-    });
-
-    // Carga inicial
-    renderCars();
 </script>
+
 </body>
 </html>
