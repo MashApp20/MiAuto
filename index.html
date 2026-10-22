@@ -89,6 +89,46 @@
             box-shadow: 0 4px 20px var(--orange-glow);
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-live {
+            background: rgba(201, 108, 2, 0.15);
+            color: var(--orange);
+            border: 1px solid var(--orange);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .btn-live:hover {
+            background: var(--orange);
+            color: #fff;
+            box-shadow: 0 0 15px var(--orange-glow);
+        }
+
+        .btn-live.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: #fff;
+            animation: pulseLive 1.5s infinite;
+        }
+
+        @keyframes pulseLive {
+            0% { box-shadow: 0 0 0 0 rgba(239, 98, 98, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 98, 98, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 98, 98, 0); }
+        }
+
         .user-tag {
             font-size: 13px;
             background: var(--surface2);
@@ -119,6 +159,112 @@
         .status-dot.online { 
             background: var(--green); 
             box-shadow: 0 0 10px var(--green-glow); 
+        }
+
+        /* Banner de Transmisión en Vivo Interactiva */
+        .live-banner {
+            background: linear-gradient(135deg, rgba(201,108,2,0.2), rgba(33,33,33,0.9));
+            border: 1px solid var(--orange);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 12px 24px 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .live-banner-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .live-banner-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-banner-action {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-watch {
+            background: var(--green);
+            color: #000;
+        }
+        .btn-watch:hover { opacity: 0.9; }
+
+        .btn-ignore {
+            background: rgba(255,255,255,0.1);
+            color: var(--text2);
+        }
+        .btn-ignore:hover { background: rgba(255,255,255,0.2); }
+
+        /* Contenedor Flotante/Grid de Videos P2P */
+        .video-grid-modal {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: min(380px, 92vw);
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 14px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            z-index: 60;
+        }
+
+        .video-grid-modal.active {
+            display: flex;
+        }
+
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            height: 220px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-label {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .container {
@@ -581,9 +727,14 @@
         <div class="logo-mark">TA</div>
         TuAuto P2P 2026
     </div>
-    <div class="user-tag" onclick="changeNickname()" title="Hacé clic para cambiar tu apodo">
-        <div class="status-dot" id="statusDot"></div>
-        <span id="displayUser">Cargando ID...</span> ✏️
+    <div class="header-actions">
+        <button class="btn-live" id="btnToggleVideo" onclick="toggleMyVideoStream()">
+            <span>📹</span> <span id="liveBtnText">Transmitir Video</span>
+        </button>
+        <div class="user-tag" onclick="changeNickname()" title="Hacé clic para cambiar tu apodo">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="displayUser">Cargando ID...</span> ✏️
+        </div>
     </div>
 </header>
 
@@ -594,54 +745,76 @@
             <span class="net-status" id="netStatus">Iniciando protocolo P2P...</span>
         </div>
 
-        <div class="messages-container" id="messagesList">
-            <div class="message system">⚡ Red global activa. Cualquier dispositivo que abra este link se conectará en tiempo real sin registro.</div>
+        <!-- Banner Interactivo para Aceptar o Ignorar Transmisión Remota -->
+        <div class="live-banner" id="liveBanner" style="display: none;">
+            <div class="live-banner-info">
+                <span>🔴</span>
+                <span id="liveBannerText">Alguien inició una transmisión en vivo.</span>
+            </div>
+            <div class="live-banner-btns">
+                <button class="btn-banner-action btn-watch" onclick="acceptRemoteVideo()">Ver Video</button>
+                <button class="btn-banner-action btn-ignore" onclick="ignoreRemoteVideo()">Ignorar</button>
+            </div>
         </div>
 
+        <div class="messages-container" id="messagesList">
+            <div class="message system">⚡ Red global activa. Transmite video o chatea en tiempo real con cifrado P2P directo.</div>
+        </div>
+
+        <!-- Footer / Barra de Input con Adjuntos y Micrófono -->
         <div class="chat-input-wrapper">
-            <!-- Menú Flotante de Adjuntos Minimalista 2026 -->
+            <!-- Menú Desplegable de Adjuntos -->
             <div class="attach-menu" id="attachMenu">
                 <div class="attach-item" onclick="triggerFileInput('image/*')">
                     <div class="attach-icon">🖼️</div>
-                    <span>Foto / Imagen</span>
+                    <span>Enviar Imagen</span>
                 </div>
                 <div class="attach-item" onclick="triggerFileInput('video/*')">
                     <div class="attach-icon">🎥</div>
-                    <span>Video HD</span>
+                    <span>Enviar Video</span>
                 </div>
                 <div class="attach-item" onclick="triggerFileInput('*/*')">
-                    <div class="attach-icon">📄</div>
-                    <span>Documento / Archivo</span>
+                    <div class="attach-icon">📁</div>
+                    <span>Enviar Archivo</span>
                 </div>
             </div>
 
             <!-- Interfaz de Grabación de Nota de Voz -->
             <div class="voice-rec-bar" id="voiceRecBar">
                 <div class="rec-dot"></div>
-                <div class="rec-timer" id="recTimer">00:00</div>
-                <canvas class="wave-canvas" id="waveCanvas"></canvas>
+                <span class="rec-timer" id="recTimer">00:00</span>
+                <canvas class="wave-canvas" id="waveCanvas" width="200" height="36"></canvas>
                 <button class="btn-cancel-rec" onclick="cancelVoiceRecording()">Cancelar</button>
-                <button class="action-btn" style="background: var(--orange); color: #fff; border: 0;" onclick="stopAndSendVoice()">➔</button>
+                <button class="btn-send" onclick="stopAndSendVoice()">Enviar Voice 🎙️</button>
             </div>
 
-            <!-- Barra de Texto y Acciones Principal -->
+            <!-- Input principal de Texto -->
             <form class="chat-input-area" onsubmit="sendMessage(event)">
-                <button type="button" class="action-btn" onclick="toggleAttachMenu()" title="Adjuntar multimedia">+</button>
-                <button type="button" class="action-btn" onclick="startVoiceRecording()" title="Grabar nota de voz">🎙️</button>
-                
-                <input type="text" id="msgInput" placeholder="Escribí un mensaje..." autocomplete="off" disabled required>
+                <button type="button" class="action-btn" onclick="toggleAttachMenu()" title="Adjuntar">＋</button>
+                <input type="text" id="msgInput" placeholder="Escribí un mensaje..." autocomplete="off" disabled>
+                <button type="button" class="action-btn" onclick="startVoiceRecording()" title="Nota de voz">🎙️</button>
                 <button type="submit" class="btn-send" id="sendBtn" disabled>Enviar</button>
             </form>
+            <input type="file" id="hiddenFileInput" style="display:none;" onchange="handleFileSelected(event)">
         </div>
     </div>
 </main>
 
-<!-- Inputs de archivo ocultos -->
-<input type="file" id="hiddenFileInput" style="display: none;" onchange="handleFileSelected(event)">
+<!-- Mini Reproductor de Video Flotante P2P -->
+<div class="video-grid-modal" id="videoModal">
+    <div class="video-header">
+        <span id="videoModalTitle">📹 Transmisión en Vivo</span>
+        <button class="action-btn" style="width:28px; height:28px; font-size:12px;" onclick="closeVideoModal()">✕</button>
+    </div>
+    <div class="video-wrapper">
+        <video id="p2pVideoPlayer" autoplay playsinline muted></video>
+        <div class="video-label" id="videoPlayerLabel">Mi Cámara</div>
+    </div>
+</div>
 
-<!-- Modal Visor de Fotos en Pantalla Completa -->
+<!-- Modal para ver Fotos Expandidas -->
 <div class="modal-overlay" id="imgModal" onclick="closeModal()">
-    <img src="" class="modal-img" id="modalImg">
+    <img src="" id="modalImg" class="modal-img" alt="Vista previa">
 </div>
 
 <script>
@@ -652,6 +825,27 @@
         localStorage.setItem('tuauto_nick_2026', myUser);
     }
     document.getElementById('displayUser').innerText = myUser;
+
+    // Variables de Red y Streaming P2P
+    const MASTER_ROOM_ID = "tuauto-global-mesh-room-2026";
+    let peer = null;
+    let activeConns = [];
+    let isHost = false;
+    let myStream = null;
+    let isBroadcasting = false;
+    let currentMediaCall = null;
+    let pendingStreamUser = null;
+
+    const peerConfig = {
+        debug: 1,
+        config: {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' }
+            ]
+        }
+    };
 
     function changeNickname() {
         const nuevo = prompt("Elegí tu nuevo apodo para el chat P2P:", myUser);
@@ -664,27 +858,8 @@
         }
     }
 
-    // Lógica de Red P2P Automática
-    const MASTER_ROOM_ID = "tuauto-global-mesh-room-2026";
-    let peer = null;
-    let activeConns = [];
-    let isHost = false;
-
-    // Configuración ICE/STUN universal para evitar bloqueos en iFrames y Canvas
-    const peerConfig = {
-        debug: 1,
-        config: {
-            iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' },
-                { urls: 'stun:stun2.l.google.com:19302' }
-            ]
-        }
-    };
-
     function initP2PMesh() {
         try {
-            // Attempt standard PeerJS connection
             peer = new Peer(MASTER_ROOM_ID, peerConfig);
 
             peer.on('open', (id) => {
@@ -696,7 +871,6 @@
 
             peer.on('error', (err) => {
                 if (err.type === 'unavailable-id') {
-                    // Host exists, connect as peer client
                     isHost = false;
                     try {
                         peer = new Peer(peerConfig);
@@ -720,17 +894,34 @@
             peer.on('connection', (conn) => {
                 setupConnection(conn);
                 addSystemMsg("📱 Un nuevo dispositivo ingresó a la sala.");
+
+                if (isBroadcasting) {
+                    setTimeout(() => {
+                        conn.send({ type: 'live_started', user: myUser });
+                    }, 1000);
+                }
             });
+
+            // Recibir Llamada/Stream de Video P2P
+            peer.on('call', (call) => {
+                currentMediaCall = call;
+                call.on('stream', (remoteStream) => {
+                    const videoElem = document.getElementById('p2pVideoPlayer');
+                    videoElem.srcObject = remoteStream;
+                    videoElem.muted = false;
+                    videoElem.play();
+                });
+            });
+
         } catch (e) {
             console.warn("Error WebSocket/PeerJS en entorno sandbox:", e);
             fallbackLocalMode("Vista previa local activada");
         }
     }
 
-    // Fallback cuando WebSockets están bloqueados por políticas de seguridad de iframe/canvas
     function fallbackLocalMode(reason) {
         updateStatus("🟡 Modo Local / Demo", true);
-        addSystemMsg(`⚠️ ${reason}. La interfaz multimedia (notas de voz, fotos y archivos) está lista para probar localmente.`);
+        addSystemMsg(`⚠️ ${reason}. La interfaz multimedia (notas de voz, fotos y video) está lista para probar localmente.`);
         enableInputs(true);
     }
 
@@ -742,7 +933,6 @@
         conn.on('data', (data) => {
             handleIncomingData(data);
 
-            // Si somos Host, retrasmitimos la carga útil a todos los demás pares
             if (isHost) {
                 activeConns.forEach(c => {
                     if (c !== conn && c.open) c.send(data);
@@ -768,7 +958,80 @@
             appendMediaMessage(data.user, data.mediaType, data.fileData, data.fileName, false, data.time);
         } else if (data.type === 'system') {
             addSystemMsg(data.text);
+        } else if (data.type === 'live_started') {
+            pendingStreamUser = data.user;
+            document.getElementById('liveBannerText').innerText = `📹 ${data.user} está transmitiendo video en vivo.`;
+            document.getElementById('liveBanner').style.display = 'flex';
+            addSystemMsg(`🔴 ${data.user} inició una transmisión en vivo.`);
+        } else if (data.type === 'live_stopped') {
+            document.getElementById('liveBanner').style.display = 'none';
+            document.getElementById('videoModal').classList.remove('active');
+            addSystemMsg(`⏹️ ${data.user} finalizó la transmisión de video.`);
         }
+    }
+
+    // Lógica de Videochat / Transmisión en Vivo
+    async function toggleMyVideoStream() {
+        if (!isBroadcasting) {
+            try {
+                myStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                isBroadcasting = true;
+
+                document.getElementById('btnToggleVideo').classList.add('active');
+                document.getElementById('liveBtnText').innerText = "Detener Vivo";
+                
+                const videoElem = document.getElementById('p2pVideoPlayer');
+                videoElem.srcObject = myStream;
+                videoElem.muted = true;
+                document.getElementById('videoPlayerLabel').innerText = `Mi Cámara (${myUser})`;
+                document.getElementById('videoModal').classList.add('active');
+
+                broadcastData({ type: 'live_started', user: myUser });
+                addSystemMsg(`📹 Iniciaste tu transmisión de video en vivo.`);
+
+                activeConns.forEach(conn => {
+                    if (peer) peer.call(conn.peer, myStream);
+                });
+
+            } catch (err) {
+                alert("No se pudo acceder a la cámara o micrófono.");
+            }
+        } else {
+            stopMyVideoStream();
+        }
+    }
+
+    function stopMyVideoStream() {
+        if (myStream) {
+            myStream.getTracks().forEach(track => track.stop());
+            myStream = null;
+        }
+        isBroadcasting = false;
+
+        document.getElementById('btnToggleVideo').classList.remove('active');
+        document.getElementById('liveBtnText').innerText = "Transmitir Video";
+        document.getElementById('videoModal').classList.remove('active');
+
+        broadcastData({ type: 'live_stopped', user: myUser });
+        addSystemMsg(`⏹️ Detuviste tu transmisión de video.`);
+    }
+
+    function acceptRemoteVideo() {
+        document.getElementById('liveBanner').style.display = 'none';
+        document.getElementById('videoPlayerLabel').innerText = `En Vivo: ${pendingStreamUser || 'Usuario'}`;
+        document.getElementById('videoModal').classList.add('active');
+
+        if (currentMediaCall) {
+            currentMediaCall.answer(null);
+        }
+    }
+
+    function ignoreRemoteVideo() {
+        document.getElementById('liveBanner').style.display = 'none';
+    }
+
+    function closeVideoModal() {
+        document.getElementById('videoModal').classList.remove('active');
     }
 
     // Envío de Mensaje de Texto Normal
@@ -803,7 +1066,6 @@
         const file = e.target.files[0];
         if (!file) return;
 
-        // Limite de tamaño para P2P liviano (15MB)
         if (file.size > 15 * 1024 * 1024) {
             alert("El archivo supera el límite recomendado de 15MB para transferencia P2P instantánea.");
             return;
@@ -835,7 +1097,7 @@
         e.target.value = '';
     }
 
-    // Lógica de Grabación de Notas de Voz e Hidratación del Micrófono
+    // Lógica de Grabación de Notas de Voz
     let mediaRecorder = null;
     let audioChunks = [];
     let recInterval = null;
@@ -855,7 +1117,6 @@
             mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
             mediaRecorder.start();
 
-            // Temporizador
             secondsRecorded = 0;
             document.getElementById('recTimer').innerText = "00:00";
             recInterval = setInterval(() => {
@@ -865,7 +1126,6 @@
                 document.getElementById('recTimer').innerText = `${mins}:${secs}`;
             }, 1000);
 
-            // Visualizador en tiempo real (Waveform Canvas)
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             analyser = audioCtx.createAnalyser();
             const source = audioCtx.createMediaStreamSource(stream);
