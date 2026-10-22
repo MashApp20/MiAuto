@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -8,9 +8,9 @@
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<meta name="theme-color" content="#c96c02">
+<meta name="theme-color" content="#0b1117">
 
-<title>TuAuto | Autos, motos y más · Portal de Compra-Venta</title>
+<title>TuAuto | Marketplace inteligente de vehículos</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,51 +22,57 @@
 <style>
 
 /* =========================================================
-   TU AUTO - PREMIUM DARK & LIGHT MARKETPLACE
+   TU AUTO
+   PREMIUM DARK TECH
 ========================================================= */
 
 :root{
 
-    --bg:#171717;
-    --bg2:#222222;
-    --bg3:#2c2c2c;
+    --bg:#090e13;
+    --bg2:#0d151c;
+    --bg3:#111d25;
 
-    --surface:#ffffff;
-    --surface2:#f7f7f7;
-    --surface3:#efefef;
+    --surface:#14222b;
+    --surface2:#192a34;
+    --surface3:#20343f;
 
-    --border:#3a3a3a;
-    --border2:#555555;
-    --border-light:#e0e0e0;
+    --border:#283b46;
+    --border2:#39515d;
 
-    --orange:#c96c02;
-    --orange2:#e07b03;
-    --orange-soft:rgba(201,108,2,.12);
+    --orange:#f39a24;
+    --orange2:#ffc46b;
+    --orange-soft:rgba(243,154,36,.12);
 
-    --blue:#3483fa;
-    --blue2:#2968c8;
-    --blue-soft:rgba(52,131,250,.12);
+    --blue:#58a9c7;
+    --blue2:#9dd8e6;
+    --blue-soft:rgba(88,169,199,.12);
 
-    --green:#168a52;
-    --green-soft:rgba(22,138,82,.12);
+    --green:#36cf8b;
+    --green-soft:rgba(54,207,139,.12);
 
-    --red:#d94141;
-    --red-soft:rgba(217,65,65,.12);
+    --red:#ef6262;
+    --red-soft:rgba(239,98,98,.12);
 
-    --yellow:#a88400;
-    --yellow-soft:rgba(168,132,0,.12);
+    --yellow:#efc95d;
+    --yellow-soft:rgba(239,201,93,.12);
 
     --text:#f5f8fa;
-    --text2:#cccccc;
-    --text3:#888888;
-    --text-dark:#333333;
-    --text-dark2:#666666;
+    --text2:#bac8cf;
+    --text3:#71838e;
 
-    --radius:8px;
+    --radius:16px;
 
-    --shadow: 0 4px 18px rgba(0,0,0,.35);
-    --shadow2: 0 2px 8px rgba(0,0,0,.15);
+    --shadow:
+        0 20px 60px rgba(0,0,0,.28);
+
+    --shadow2:
+        0 8px 25px rgba(0,0,0,.20);
 }
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
     margin:0;
@@ -79,1745 +85,6832 @@ html{
 }
 
 body{
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(243,154,36,.08),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 95% 0%,
+            rgba(88,169,199,.08),
+            transparent 28%
+        ),
+
+        var(--bg);
+
+    color:var(--text);
+
     min-height:100vh;
+
     -webkit-tap-highlight-color:transparent;
 }
 
-button, input, select, textarea{
+button,
+input,
+select,
+textarea{
+
     font-family:inherit;
+
 }
 
 button{
+
     cursor:pointer;
+
     touch-action:manipulation;
+
 }
 
 img{
+
     max-width:100%;
+
     display:block;
+
 }
 
 a{
+
     color:inherit;
+
     text-decoration:none;
+
 }
 
 ::-webkit-scrollbar{
     width:8px;
 }
+
 ::-webkit-scrollbar-track{
     background:var(--bg);
 }
+
 ::-webkit-scrollbar-thumb{
     background:var(--border2);
     border-radius:20px;
 }
+
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 header{
+
     position:sticky;
+
     top:0;
+
     z-index:100;
-    min-height:64px;
-    display:grid;
-    grid-template-columns: 150px minmax(200px, 1fr) auto auto;
-    gap: 16px;
+
+    height:76px;
+
+    display:flex;
+
     align-items:center;
-    padding:10px 4%;
-    background: var(--orange) !important;
-    color: #171717 !important;
-    border-bottom: 3px solid #2d69c4;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+
+    justify-content:space-between;
+
+    padding:0 4%;
+
+    background:rgba(9,14,19,.92);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid var(--border);
+
 }
 
 .logo{
+
     display:flex;
+
     align-items:center;
-    gap:9px;
-    font-size:22px;
+
+    gap:11px;
+
+    font-size:23px;
+
     font-weight:900;
-    color: #171717;
-    cursor: pointer;
+
+    cursor:pointer;
+
 }
 
 .logo-mark{
-    width:36px;
-    height:36px;
+
+    width:42px;
+
+    height:42px;
+
     display:grid;
+
     place-items:center;
-    border-radius:50%;
-    background: #171717;
-    color: var(--orange);
-    font-weight: 900;
-    font-size: 14px;
-}
 
-.header-search{
-    height:38px;
-    display:flex;
-    min-width:0;
-    background:#fff;
-    border-radius:4px;
-    box-shadow:0 1px 3px rgba(0,0,0,0.2);
-    overflow:hidden;
-}
+    border-radius:13px;
 
-.header-search input{
-    min-width:0;
-    flex:1;
-    border:0;
-    outline:0;
-    padding:0 12px;
-    background:#fff;
-    color:#333;
-    font-size:13px;
-}
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange2)
+        );
 
-.header-search button{
-    width:40px;
-    border:0;
-    border-left:1px solid #eee;
-    background:#f5f5f5;
-    color:#555;
-    font-size:16px;
+    color:#21170a;
+
+    box-shadow:
+        0 7px 28px rgba(243,154,36,.22);
+
 }
 
 nav{
+
     display:flex;
-    gap:2px;
+
+    gap:4px;
+
 }
 
 nav button{
+
     border:0;
+
     background:transparent;
-    color:#171717;
-    padding:8px 12px;
-    border-radius:4px;
+
+    color:var(--text2);
+
+    padding:10px 13px;
+
+    border-radius:10px;
+
     font-size:13px;
-    font-weight:700;
+
+    font-weight:800;
+
     transition:.2s;
+
 }
 
-nav button:hover, nav button.active{
-    background: rgba(0,0,0,0.12);
+nav button:hover,
+nav button.active{
+
+    background:var(--surface2);
+
+    color:#fff;
+
 }
 
 .user-area{
+
     display:flex;
+
     align-items:center;
+
     gap:10px;
+
 }
 
 .notification{
-    width:36px;
-    height:36px;
+
+    width:40px;
+
+    height:40px;
+
     display:grid;
+
     place-items:center;
-    background: rgba(0,0,0,0.1);
-    border: 0;
-    border-radius:50%;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:11px;
+
     cursor:pointer;
-    position: relative;
+
+    position:relative;
+
 }
 
-.badge-dot{
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 8px;
-    height: 8px;
-    background: #d94141;
-    border-radius: 50%;
+.notification-badge {
+
+    position:absolute;
+
+    top:4px;
+
+    right:4px;
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+
 }
 
 .avatar{
-    width:36px;
-    height:36px;
+
+    width:40px;
+
+    height:40px;
+
     display:grid;
+
     place-items:center;
+
     border-radius:50%;
-    background: #171717;
-    color:#fff;
-    font-weight:800;
-    font-size: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue2)
+        );
+
+    color:#07151a;
+
+    font-weight:900;
+
+    cursor:pointer;
+
 }
 
 .mobile-menu-btn{
+
     display:none;
-    width:38px;
-    height:38px;
-    border:0;
-    background:rgba(0,0,0,0.1);
-    color:#171717;
-    border-radius:6px;
+
+    width:42px;
+
+    height:42px;
+
+    border:1px solid var(--border);
+
+    background:var(--surface);
+
+    color:white;
+
+    border-radius:11px;
+
     font-size:20px;
+
 }
 
-/* SUBNAV */
-.market-subnav{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    padding:6px 4% 8px;
-    background:var(--orange);
-    color:#171717;
-    font-size:12px;
-    font-weight: 600;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-}
 
-.market-subnav button{
-    border:0;
-    background:transparent;
-    color:#171717;
-    font-size:12px;
-    font-weight: 600;
-}
+/* =========================================================
+   CONTAINER
+========================================================= */
 
-.market-subnav button:hover{
-    text-decoration:underline;
-}
-
-.market-subnav span{
-    flex:1;
-}
-
-/* CONTAINER & VIEWS */
 .container{
-    width:min(1100px, 94%);
-    margin:24px auto 60px;
+
+    width:min(1280px,92%);
+
+    margin:30px auto 80px;
+
 }
 
 .view{
+
     display:none;
+
 }
 
 .view.active{
+
     display:block;
+
 }
 
-/* HERO SECTION */
+
+/* =========================================================
+   HERO
+========================================================= */
+
 .hero{
+
     position:relative;
+
     overflow:hidden;
-    padding:40px 30px;
-    border-radius:var(--radius);
-    background: linear-gradient(180deg, #c96c02 0%, #8e4204 60%, #171717 100%) !important;
-    color:#171717;
-    margin-bottom: 25px;
-    box-shadow: var(--shadow);
+
+    min-height:390px;
+
+    padding:55px;
+
+    border-radius:28px;
+
+    border:1px solid rgba(243,154,36,.25);
+
+    background:
+
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(88,169,199,.20),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 75% 90%,
+            rgba(243,154,36,.18),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #172832,
+            #101920
+        );
+
+    box-shadow:var(--shadow);
+
 }
 
 .hero h1{
-    font-size: clamp(28px, 4vw, 42px);
-    line-height:1.1;
-    letter-spacing:-1px;
-    margin-bottom:12px;
-    color: #171717;
-    font-weight: 900;
+
+    max-width:800px;
+
+    font-size:
+        clamp(34px,5vw,60px);
+
+    line-height:1.03;
+
+    letter-spacing:-2px;
+
+    margin-bottom:20px;
+
+}
+
+.hero h1 span{
+
+    color:var(--orange);
+
 }
 
 .hero p{
-    color:#21180e;
-    font-size:15px;
-    max-width:600px;
-    line-height: 1.5;
+
+    max-width:700px;
+
+    color:var(--text2);
+
+    font-size:17px;
+
+    line-height:1.7;
+
 }
 
 .hero-actions{
+
     display:flex;
-    gap:10px;
-    margin-top:20px;
+
+    gap:12px;
+
     flex-wrap:wrap;
+
+    margin-top:28px;
+
+}
+
+.hero-badges{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:9px;
+
+    margin-top:28px;
+
 }
 
 .hero-badge{
-    display: inline-block;
-    padding:4px 10px;
-    border-radius:20px;
-    background:#ffffff;
-    border:1px solid #ffffff;
-    color:#222222;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid var(--border);
+
+    color:var(--text2);
+
     font-size:11px;
+
     font-weight:800;
-    margin-bottom: 10px;
+
 }
 
-/* CARDS & PANELS (Paneles Blancos con Texto Oscuro) */
-.card, .market-panel{
-    background:#ffffff;
-    color: var(--text-dark);
-    border-radius: var(--radius);
-    padding:20px;
-    border: 1px solid var(--border-light);
-    box-shadow: var(--shadow2);
-    margin-bottom: 20px;
-}
 
-.card h3{
-    color: var(--text-dark);
-    margin-bottom: 8px;
-}
+/* =========================================================
+   SECTION
+========================================================= */
 
-.card p{
-    color: var(--text-dark2);
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* BUTTONS */
-.btn{
-    min-height:40px;
-    border:0;
-    border-radius:6px;
-    padding:10px 16px;
-    font-weight:700;
-    font-size: 13px;
-    transition:.18s;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-}
-
-.btn:hover{
-    opacity: 0.9;
-    transform:translateY(-1px);
-}
-
-.btn:active{
-    transform:scale(.98);
-}
-
-.btn-primary{
-    background: var(--orange);
-    color: #ffffff;
-    border: 1px solid #b05e02;
-}
-
-.btn-blue{
-    background: var(--blue);
-    color: #ffffff;
-}
-
-.btn-dark{
-    background: #333333;
-    color: #ffffff;
-}
-
-.btn-outline{
-    background: transparent;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-}
-
-.btn-danger{
-    background: var(--red-soft);
-    color: var(--red);
-    border: 1px solid rgba(217,65,65,0.3);
-}
-
-.btn-success{
-    background: var(--green);
-    color: #ffffff;
-}
-
-.btn-sm{
-    min-height: 32px;
-    padding: 6px 12px;
-    font-size: 12px;
-}
-
-/* GRID LAYOUTS */
-.grid{
-    display:grid;
-    gap:18px;
-}
-
-.grid-2{ grid-template-columns:repeat(2,1fr); }
-.grid-3{ grid-template-columns:repeat(3,1fr); }
-.grid-4{ grid-template-columns:repeat(4,1fr); }
-
-/* TITLES */
 .section-title{
-    margin: 25px 0 15px;
+
+    margin:38px 0 18px;
+
 }
 
 .section-title h2{
-    font-size: 22px;
-    color: #ffffff;
-    letter-spacing: -0.5px;
+
+    font-size:28px;
+
+    letter-spacing:-.6px;
+
 }
 
 .section-title p{
-    color: #aaaaaa;
-    font-size: 13px;
-    margin-top: 4px;
+
+    margin-top:6px;
+
+    color:var(--text3);
+
+    line-height:1.5;
+
 }
 
-/* VEHICLE CARDS */
-.vehicle-card{
-    overflow:hidden;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid{
+
+    display:grid;
+
+    gap:18px;
+
 }
 
-.vehicle-photo{
-    position:relative;
-    height:200px;
-    overflow:hidden;
-    background:#e0e0e0;
+.grid-2{
+    grid-template-columns:repeat(2,1fr);
 }
 
-.vehicle-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition: transform .3s;
+.grid-3{
+    grid-template-columns:repeat(3,1fr);
 }
 
-.vehicle-card:hover .vehicle-photo img{
-    transform:scale(1.04);
+.grid-4{
+    grid-template-columns:repeat(4,1fr);
 }
 
-.vehicle-photo-badge{
-    position:absolute;
-    left:10px;
-    top:10px;
-    padding:4px 8px;
-    border-radius:4px;
-    background:rgba(0,0,0,0.75);
-    color:#fff;
-    font-size:10px;
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface),
+            var(--surface2)
+        );
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    padding:23px;
+
+    box-shadow:var(--shadow2);
+
+    transition:
+        transform .2s,
+        border-color .2s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-2px);
+
+    border-color:var(--border2);
+
+}
+
+.card h3{
+
+    margin-bottom:8px;
+
+}
+
+.card p{
+
+    color:var(--text2);
+
+    line-height:1.55;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+
+    min-height:44px;
+
+    border:0;
+
+    border-radius:11px;
+
+    padding:12px 17px;
+
     font-weight:800;
-}
 
-.vehicle-body{
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
+    transition:.18s;
 
-.vehicle-header{
-    display:flex;
-    justify-content:space-between;
-    align-items: flex-start;
-    gap:10px;
-}
-
-.vehicle-title{
-    font-size:18px;
-    font-weight:800;
-    color: #222222;
-}
-
-.price{
-    font-size:20px;
-    font-weight:900;
-    color: #111111;
-    white-space:nowrap;
-}
-
-.vehicle-meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    margin:10px 0;
-}
-
-.meta-pill{
-    padding:4px 8px;
-    border-radius:4px;
-    background:#f0f0f0;
-    color:#555555;
-    font-size:11px;
-    font-weight: 600;
-}
-
-/* STATUS TAGS */
-.status{
     display:inline-flex;
-    align-items:center;
-    gap:5px;
-    padding:4px 8px;
-    border-radius:4px;
-    font-size:11px;
-    font-weight:700;
-}
-.status.ok{ color:var(--green); background:var(--green-soft); }
-.status.warning{ color:var(--yellow); background:var(--yellow-soft); }
-.status.danger{ color:var(--red); background:var(--red-soft); }
-.status.blue{ color:var(--blue); background:var(--blue-soft); }
 
-/* STATS */
-.stat-value{
-    margin:6px 0 2px;
-    font-size:26px;
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-1px);
+
+}
+
+.btn:active{
+
+    transform:scale(.98);
+
+}
+
+.btn-primary{
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange2)
+        );
+
+    color:#21170a;
+
+    box-shadow:
+        0 8px 25px
+        rgba(243,154,36,.16);
+
+}
+
+.btn-blue{
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue2)
+        );
+
+    color:#07151a;
+
+}
+
+.btn-dark{
+
+    background:var(--surface3);
+
+    color:white;
+
+    border:1px solid var(--border);
+
+}
+
+.btn-outline{
+
+    background:transparent;
+
+    color:white;
+
+    border:1px solid var(--border2);
+
+}
+
+.btn-danger{
+
+    background:var(--red-soft);
+
+    color:var(--red);
+
+    border:1px solid rgba(239,98,98,.2);
+
+}
+
+.btn-success{
+
+    background:var(--green-soft);
+
+    color:var(--green);
+
+    border:1px solid rgba(54,207,139,.2);
+
+}
+
+.btn-whatsapp{
+
+    background:#25D366;
+
+    color:#06130a;
+
     font-weight:900;
-    color: #222;
+
+}
+
+.actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:9px;
+
+    margin-top:17px;
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    font-size:10px;
+
+    font-weight:900;
+
+}
+
+.status.ok{
+
+    color:var(--green);
+
+    background:var(--green-soft);
+
+}
+
+.status.warning{
+
+    color:var(--yellow);
+
+    background:var(--yellow-soft);
+
+}
+
+.status.danger{
+
+    color:var(--red);
+
+    background:var(--red-soft);
+
+}
+
+.status.neutral{
+
+    color:var(--text2);
+
+    background:rgba(255,255,255,.06);
+
+}
+
+.status.blue{
+
+    color:var(--blue2);
+
+    background:var(--blue-soft);
+
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.icon{
+
+    width:50px;
+
+    height:50px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:14px;
+
+    margin-bottom:15px;
+
+    background:var(--blue-soft);
+
+    border:1px solid rgba(88,169,199,.16);
+
+    font-size:22px;
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stat-value{
+
+    margin:7px 0;
+
+    font-size:30px;
+
+    font-weight:900;
+
 }
 
 .stat-label{
-    color:#666;
-    font-size:12px;
+
+    color:var(--text3);
+
+    font-size:13px;
+
 }
 
-/* FORMS */
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
+
+/* =========================================================
+   VEHICLE CARD
+========================================================= */
+
+.vehicle-card{
+
+    overflow:hidden;
+
 }
 
-.field{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
+.vehicle-photo{
+
+    position:relative;
+
+    height:240px;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    margin-bottom:18px;
+
+    background:#101a20;
+
+    border:1px solid var(--border);
+
 }
 
-.field.full{
-    grid-column:1/-1;
-}
+.vehicle-photo img{
 
-.field label{
-    color:#444444;
-    font-size:12px;
-    font-weight:700;
-}
-
-.field input, .field select, .field textarea{
     width:100%;
-    min-height:40px;
-    padding:10px;
-    border:1px solid #cccccc;
-    border-radius:6px;
-    background:#ffffff;
-    color:#333333;
-    outline:none;
-    font-size: 13px;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:
+        transform .45s ease;
+
 }
 
-.field textarea{
-    min-height:90px;
-    resize:vertical;
+.vehicle-card:hover .vehicle-photo img{
+
+    transform:scale(1.07);
+
 }
 
-.field input:focus, .field select:focus, .field textarea:focus{
-    border-color:var(--blue);
+.vehicle-photo-badge{
+
+    position:absolute;
+
+    left:12px;
+
+    top:12px;
+
+    padding:7px 10px;
+
+    border-radius:999px;
+
+    background:rgba(8,13,17,.78);
+
+    backdrop-filter:blur(8px);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    font-size:10px;
+
+    font-weight:900;
+
 }
 
-/* SEARCH & FILTERS */
-.search-box{
+.vehicle-header{
+
     display:flex;
-    gap:8px;
-    padding:6px;
-    background:#fff;
-    border:1px solid #ccc;
-    border-radius:6px;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+}
+
+.vehicle-title{
+
+    font-size:23px;
+
+    font-weight:900;
+
+}
+
+.price{
+
+    font-size:23px;
+
+    font-weight:900;
+
+    color:var(--orange2);
+
+    white-space:nowrap;
+
+}
+
+.vehicle-meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:7px;
+
+    margin-top:10px;
+
+}
+
+.meta-pill{
+
+    padding:6px 8px;
+
+    border-radius:8px;
+
+    background:rgba(255,255,255,.035);
+
+    border:1px solid var(--border);
+
+    color:var(--text2);
+
+    font-size:10px;
+
+}
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+.data-list{
+
+    display:grid;
+
+}
+
+.data-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:13px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.data-row:last-child{
+
+    border-bottom:0;
+
+}
+
+.data-label{
+
+    color:var(--text3);
+
+}
+
+.data-value{
+
+    text-align:right;
+
+    font-weight:800;
+
+}
+
+
+/* =========================================================
+   CHECKS
+========================================================= */
+
+.check-list{
+
+    display:grid;
+
+    gap:10px;
+
+}
+
+.check{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:12px;
+
+    background:rgba(255,255,255,.025);
+
+    border:1px solid var(--border);
+
+    border-radius:11px;
+
+}
+
+.check > span{
+
+    width:28px;
+
+    min-width:28px;
+
+    height:28px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:50%;
+
+    background:var(--green-soft);
+
+    color:var(--green);
+
+    font-weight:900;
+
+}
+
+.check p{
+
+    margin-top:3px;
+
+    font-size:12px;
+
+    color:var(--text3);
+
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.security-box{
+
+    padding:17px;
+
+    border-radius:14px;
+
+    background:var(--blue-soft);
+
+    border:1px solid rgba(88,169,199,.20);
+
+}
+
+.security-box p{
+
+    margin-top:7px;
+
+    color:var(--text2);
+
+    font-size:14px;
+
+}
+
+.warning-box{
+
+    padding:17px;
+
+    border-radius:14px;
+
+    background:var(--orange-soft);
+
+    border:1px solid rgba(243,154,36,.25);
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-box{
+
+    display:flex;
+
+    gap:9px;
+
+    padding:7px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
 }
 
 .search-box input{
+
     flex:1;
+
+    min-width:0;
+
+    background:transparent;
+
     border:0;
+
     outline:0;
-    padding:8px;
-    color:#333;
+
+    color:white;
+
+    padding:10px;
+
 }
+
+.filters{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:13px;
+
+}
+
+.filter{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    padding:8px 11px;
+
+    border-radius:999px;
+
+    background:var(--surface2);
+
+    border:1px solid var(--border);
+
+    color:var(--text2);
+
+    font-size:11px;
+
+    cursor:pointer;
+
+}
+
+.filter:hover, .filter.active{
+
+    background:var(--surface3);
+
+    border-color:var(--orange);
+
+    color:#fff;
+
+}
+
+
+/* =========================================================
+   ADVANCED FILTERS
+========================================================= */
 
 .filter-panel{
-    margin-top:14px;
+
+    margin-top:18px;
+
     display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap:10px;
-    background: #f8f8f8;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
 }
 
-/* USER SWITCHER / SYSTEM SIMULATION */
-.user-selector-bar{
-    background: #252525;
-    padding: 10px 16px;
-    border-radius: var(--radius);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #444;
+.filter-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
 }
 
-.user-selector-info{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.filter-field label{
+
+    color:var(--text3);
+
+    font-size:11px;
+
+    font-weight:800;
+
 }
 
-.user-selector-info strong{
-    color: var(--orange);
+.filter-field select,
+.filter-field input{
+
+    width:100%;
+
+    min-height:43px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    background:var(--bg2);
+
+    color:white;
+
+    padding:10px;
+
+    outline:none;
+
 }
 
-/* REAL CHAT SYSTEM STYLING */
-.chat-layout{
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-grid{
+
     display:grid;
-    grid-template-columns: 280px 1fr;
-    min-height: 580px;
-    background:#ffffff;
-    border-radius: var(--radius);
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
+
+}
+
+.field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+}
+
+.field.full{
+
+    grid-column:1/-1;
+
+}
+
+.field label{
+
+    color:var(--text2);
+
+    font-size:12px;
+
+    font-weight:800;
+
+}
+
+.field input,
+.field select,
+.field textarea{
+
+    width:100%;
+
+    min-height:45px;
+
+    padding:12px;
+
+    border:1px solid var(--border);
+
+    border-radius:11px;
+
+    background:var(--bg2);
+
+    color:white;
+
+    outline:none;
+
+}
+
+.field textarea{
+
+    min-height:110px;
+
+    resize:vertical;
+
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+
+    border-color:var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(88,169,199,.1);
+
+}
+
+
+/* =========================================================
+   UPLOAD AREA
+========================================================= */
+
+.upload-zone{
+
+    padding:25px;
+
+    border:1px dashed var(--border2);
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.02);
+
+    text-align:center;
+
+}
+
+.upload-zone input{
+
+    display:none;
+
+}
+
+.upload-button{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-height:45px;
+
+    padding:12px 17px;
+
+    border-radius:11px;
+
+    background:var(--surface3);
+
+    border:1px solid var(--border2);
+
+    cursor:pointer;
+
+    font-weight:800;
+
+}
+
+.media-preview{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:9px;
+
+    margin-top:15px;
+
+}
+
+.media-preview-item{
+
+    height:105px;
+
+    border-radius:10px;
+
     overflow:hidden;
+
+    border:1px solid var(--border);
+
+    background:var(--bg2);
+
+    position:relative;
+
+}
+
+.media-preview-item img,
+.media-preview-item video{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+.chat-layout{
+
+    display:grid;
+
+    grid-template-columns:290px 1fr;
+
+    min-height:700px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
     box-shadow:var(--shadow);
-    color: #333333;
-    border: 1px solid var(--border-light);
+
 }
 
 .chat-list{
-    border-right:1px solid #e0e0e0;
-    background:#f7f7f7;
-    display: flex;
-    flex-direction: column;
+
+    border-right:1px solid var(--border);
+
+    background:var(--bg2);
+
 }
 
 .chat-list-header{
+
+    padding:20px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.conversation{
+
     padding:16px;
-    border-bottom:1px solid #e0e0e0;
-    background: #efefef;
-    font-weight: 800;
-    font-size: 14px;
-}
 
-.conversations-container{
-    overflow-y: auto;
-    flex: 1;
-}
+    border-bottom:1px solid var(--border);
 
-.conversation-item{
-    padding:14px;
-    border-bottom:1px solid #eee;
     cursor:pointer;
-    transition: background 0.2s;
+
 }
 
-.conversation-item:hover{
-    background: #eaeaea;
-}
+.conversation:hover,
+.conversation.active{
 
-.conversation-item.active{
-    background: #e1edff;
-    border-left: 4px solid var(--blue);
-}
+    background:var(--blue-soft);
 
-.conv-title{
-    font-weight: 800;
-    font-size: 13px;
-    color: #222;
-    margin-bottom: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.conv-sub{
-    font-size: 11px;
-    color: #666;
-    display: flex;
-    justify-content: space-between;
-}
-
-.conv-last-msg{
-    font-size: 12px;
-    color: #777;
-    margin-top: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .chat-main{
+
+    min-width:0;
+
     display:flex;
+
     flex-direction:column;
-    background: #ffffff;
+
 }
 
 .chat-header{
-    padding:12px 18px;
+
+    padding:17px;
+
     display:flex;
+
     justify-content:space-between;
-    align-items: center;
-    border-bottom:1px solid #e0e0e0;
-    background:#fdfdfd;
+
+    gap:15px;
+
+    border-bottom:1px solid var(--border);
+
 }
 
-.chat-header-info h4{
-    font-size: 15px;
-    color: #111;
+.chat-stage{
+
+    padding:20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #111d24,
+            #0c151b
+        );
+
+    border-bottom:1px solid var(--border);
+
 }
 
-.chat-header-info p{
-    font-size: 12px;
-    color: #666;
+.stage-progress{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:7px;
+
+    margin:14px 0;
+
 }
 
-.messages-area{
-    flex:1;
-    overflow-y:auto;
+.stage-dot{
+
+    height:6px;
+
+    border-radius:999px;
+
+    background:var(--border);
+
+}
+
+.stage-dot.done{
+
+    background:var(--green);
+
+}
+
+.stage-dot.current{
+
+    background:var(--orange);
+
+}
+
+.question-card{
+
     padding:18px;
-    background:#f4f6f8;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 400px;
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    background:var(--surface);
+
 }
 
-.msg-bubble{
-    max-width: 75%;
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.4;
-    position: relative;
-    word-break: break-word;
+.question-number{
+
+    color:var(--orange);
+
+    font-size:11px;
+
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    margin-bottom:8px;
+
 }
 
-.msg-bubble.me{
-    align-self: flex-end;
-    background: var(--blue);
-    color: #ffffff;
-    border-bottom-right-radius: 2px;
+.question{
+
+    font-size:17px;
+
+    font-weight:800;
+
+    line-height:1.4;
+
 }
 
-.msg-bubble.other{
-    align-self: flex-start;
-    background: #ffffff;
-    color: #333333;
-    border: 1px solid #ddd;
-    border-bottom-left-radius: 2px;
-}
+.question-actions{
 
-.msg-bubble .msg-meta{
-    font-size: 10px;
-    opacity: 0.7;
-    margin-top: 4px;
-    text-align: right;
-    display: block;
-}
-
-.msg-bubble.system{
-    align-self: center;
-    max-width: 90%;
-    background: #fff8e1;
-    color: #856404;
-    border: 1px solid #ffeeba;
-    text-align: center;
-    font-size: 12px;
-}
-
-.chat-input-bar{
     display:flex;
-    gap:8px;
-    padding:12px;
-    border-top:1px solid #e0e0e0;
-    background:#ffffff;
+
+    gap:10px;
+
+    margin-top:17px;
+
 }
 
-.chat-input-bar input{
+.question-actions .btn{
+
     flex:1;
-    border:1px solid #ccc;
-    border-radius:6px;
-    padding:10px 12px;
-    outline:none;
+
 }
 
-/* FOOTER */
-footer{
-    margin-top:60px;
-    padding:40px 4% 20px;
+.chat-free-banner{
+
+    padding:13px 17px;
+
+    border-bottom:1px solid var(--border);
+
+    background:var(--green-soft);
+
+    color:var(--green);
+
+    font-size:12px;
+
+    font-weight:800;
+
+}
+
+.messages{
+
+    flex:1;
+
+    min-height:250px;
+
+    max-height:430px;
+
+    overflow-y:auto;
+
+    padding:22px;
+
+    background:#0b141a;
+
+}
+
+.message{
+
+    max-width:75%;
+
+    padding:12px 15px;
+
+    border-radius:16px;
+
+    margin-bottom:13px;
+
+    line-height:1.48;
+
+    word-wrap:break-word;
+
+}
+
+.message.buyer{
+
+    margin-left:auto;
+
+    background:var(--blue);
+
+    color:#07151a;
+
+    border-bottom-right-radius:4px;
+
+}
+
+.message.seller{
+
+    background:var(--surface2);
+
+    border:1px solid var(--border);
+
+    border-bottom-left-radius:4px;
+
+}
+
+.message.system{
+
+    margin-left:auto;
+
+    margin-right:auto;
+
+    max-width:90%;
+
+    text-align:center;
+
+    background:var(--orange-soft);
+
+    border:1px solid rgba(243,154,36,.2);
+
+    color:var(--text2);
+
+}
+
+.message small{
+
+    display:block;
+
+    margin-top:5px;
+
+    font-size:10px;
+
+    opacity:.65;
+
+}
+
+.chat-input{
+
+    display:flex;
+
+    gap:9px;
+
+    padding:15px;
+
     border-top:1px solid var(--border);
-    background:#111111;
-    color:#aaaaaa;
+
+    background:var(--surface);
+
+}
+
+.chat-input input{
+
+    flex:1;
+
+    min-width:0;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:13px;
+
+    background:var(--bg);
+
+    color:white;
+
+    outline:none;
+
+}
+
+.chat-locked{
+
+    padding:17px;
+
+    color:var(--text3);
+
+    text-align:center;
+
+    background:var(--bg2);
+
+}
+
+
+/* =========================================================
+   NEGOTIATION
+========================================================= */
+
+.negotiation{
+
+    padding:18px;
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    background:var(--surface2);
+
+}
+
+.price-negotiation{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+
+}
+
+.offer-box{
+
+    padding:14px;
+
+    border-radius:12px;
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+}
+
+.offer-label{
+
+    color:var(--text3);
+
+    font-size:11px;
+
+}
+
+.offer-value{
+
+    margin-top:5px;
+
+    color:var(--orange2);
+
+    font-size:21px;
+
+    font-weight:900;
+
+}
+
+
+/* =========================================================
+   APPOINTMENT
+========================================================= */
+
+.meeting-card{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+}
+
+.map-box{
+
+    min-height:240px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+    background:
+
+        linear-gradient(
+            35deg,
+            #152c2a 25%,
+            #10201f 25%,
+            #10201f 50%,
+            #152c2a 50%,
+            #152c2a 75%,
+            #10201f 75%
+        );
+
+    background-size:50px 50px;
+
+}
+
+.map-road{
+
+    position:absolute;
+
+    background:#d1b77a;
+
+    opacity:.7;
+
+}
+
+.map-road.one{
+
+    width:120%;
+
+    height:18px;
+
+    transform:rotate(28deg);
+
+    top:40%;
+
+    left:-10%;
+
+}
+
+.map-road.two{
+
+    width:130%;
+
+    height:14px;
+
+    transform:rotate(-15deg);
+
+    top:60%;
+
+    left:-10%;
+
+}
+
+.map-pin{
+
+    position:absolute;
+
+    left:50%;
+
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50% 50% 50% 0;
+
+    transform:
+        translate(-50%,-50%)
+        rotate(-45deg);
+
+    background:var(--orange);
+
+    box-shadow:0 10px 30px rgba(243,154,36,.35);
+
+}
+
+.map-pin::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:16px;
+
+    height:16px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    top:16px;
+
+    left:16px;
+
+}
+
+
+/* =========================================================
+   LOYALTY
+========================================================= */
+
+.points-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(243,154,36,.2),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #182933,
+            #111c23
+        );
+
+}
+
+.points-number{
+
+    font-size:40px;
+
+    font-weight:900;
+
+    color:var(--orange2);
+
+}
+
+.progress{
+
+    width:100%;
+
+    height:9px;
+
+    margin-top:12px;
+
+    overflow:hidden;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+.progress > div{
+
+    height:100%;
+
+    width:68%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--orange),
+            var(--orange2)
+        );
+
+    border-radius:inherit;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:50px 4% 30px;
+
+    border-top:1px solid var(--border);
+
+    background:#070b0f;
+
 }
 
 .footer-grid{
-    width:min(1100px, 100%);
+
+    width:min(1250px,92%);
+
     margin:auto;
+
     display:grid;
-    grid-template-columns: 1.5fr repeat(3, 1fr);
-    gap:25px;
-    font-size: 12px;
+
+    grid-template-columns:
+        1.4fr repeat(3,1fr);
+
+    gap:30px;
+
 }
 
-.footer-col h4{
-    color: #ffffff;
-    margin-bottom: 12px;
+.footer-column{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:9px;
+
 }
 
-.footer-col a{
-    display: block;
-    margin-bottom: 6px;
-    color: #888888;
+.footer-column h4{
+
+    margin-bottom:7px;
+
 }
 
-.footer-col a:hover{
-    color: #ffffff;
+.footer-column a{
+
+    color:var(--text3);
+
+    font-size:13px;
+
 }
 
-/* TOAST & MODAL */
-.toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:1000;
-    display:none;
+.footer-column a:hover{
+
+    color:white;
+
+}
+
+.footer-brand p{
+
     max-width:320px;
-    padding:12px 16px;
-    border-radius:6px;
-    background:#222;
-    color:#fff;
-    box-shadow:var(--shadow);
-    font-size: 13px;
-    border-left: 4px solid var(--orange);
+
+    margin-top:10px;
+
+    color:var(--text3);
+
+    line-height:1.6;
+
+    font-size:13px;
+
 }
 
-.toast.show{ display:block; }
+.legal-box{
+
+    margin-top:35px;
+
+    padding-top:20px;
+
+    border-top:1px solid var(--border);
+
+    color:var(--text3);
+
+    font-size:11px;
+
+    line-height:1.7;
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
 
 .modal{
+
     position:fixed;
+
     inset:0;
+
     z-index:500;
+
     display:none;
+
     place-items:center;
+
     padding:20px;
-    background:rgba(0,0,0,0.7);
-    backdrop-filter:blur(4px);
+
+    background:rgba(0,0,0,.76);
+
+    backdrop-filter:blur(8px);
+
 }
 
-.modal.show{ display:grid; }
+.modal.show{
+
+    display:grid;
+
+}
 
 .modal-card{
-    width:min(550px, 100%);
+
+    width:min(650px,100%);
+
     max-height:90vh;
+
     overflow-y:auto;
-    padding:24px;
-    border-radius:8px;
-    background:#ffffff;
-    color:#333;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+    padding:25px;
+
+    border-radius:20px;
+
+    border:1px solid var(--border2);
+
+    background:var(--surface);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.5);
+
 }
 
-/* MOBILE RESPONSIVE */
-.mobile-nav{
-    display:none;
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
     position:fixed;
-    top:64px;
-    left:0; right:0;
-    z-index:99;
-    background:#ffffff;
-    border-bottom:1px solid #ccc;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+    right:20px;
+
+    bottom:20px;
+
+    z-index:1000;
+
+    display:none;
+
+    max-width:350px;
+
+    padding:15px 18px;
+
+    border-radius:12px;
+
+    background:var(--surface3);
+
+    border:1px solid var(--border2);
+
+    box-shadow:var(--shadow);
+
 }
 
-.mobile-nav.show{ display:grid; }
+.toast.show{
+
+    display:block;
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-nav{
+
+    display:none;
+
+    position:fixed;
+
+    top:76px;
+
+    left:0;
+
+    right:0;
+
+    z-index:99;
+
+    padding:12px;
+
+    background:rgba(9,14,19,.97);
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.mobile-nav.show{
+
+    display:grid;
+
+}
 
 .mobile-nav button{
-    padding:14px;
-    border:0;
-    border-bottom:1px solid #eee;
+
+    min-height:48px;
+
     background:transparent;
-    color:#333;
+
+    border:0;
+
+    border-bottom:1px solid var(--border);
+
+    color:white;
+
     text-align:left;
-    font-weight:700;
+
+    padding:12px;
+
+    font-weight:800;
+
 }
 
-@media(max-width:850px){
-    header{ grid-template-columns: 130px 1fr auto; }
-    nav{ display:none; }
-    .mobile-menu-btn{ display:block; }
-    .grid-4{ grid-template-columns: repeat(2,1fr); }
-    .grid-3{ grid-template-columns: repeat(2,1fr); }
-    .chat-layout{ grid-template-columns: 1fr; }
-    .chat-list{ display:none; }
-    .chat-list.mobile-show{ display:flex; }
-    .chat-main.mobile-hide{ display:none; }
-    .footer-grid{ grid-template-columns: 1fr 1fr; }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    nav{
+
+        display:none;
+
+    }
+
+    .mobile-menu-btn{
+
+        display:block;
+
+    }
+
+    .user-area > span{
+
+        display:none;
+
+    }
+
+    .grid-4{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .filter-panel{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .footer-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
 }
 
-@media(max-width:550px){
-    .grid-2, .grid-3, .grid-4, .form-grid, .filter-panel{ grid-template-columns: 1fr; }
-    header{ grid-template-columns: 1fr auto; }
-    .header-search{ grid-column: 1/-1; }
-    .footer-grid{ grid-template-columns: 1fr; }
+@media(max-width:760px){
+
+    .container{
+
+        width:94%;
+
+        margin-top:18px;
+
+    }
+
+    header{
+
+        height:68px;
+
+        padding:0 3%;
+
+    }
+
+    .mobile-nav{
+
+        top:68px;
+
+    }
+
+    .hero{
+
+        padding:30px 23px;
+
+        min-height:auto;
+
+    }
+
+    .hero h1{
+
+        font-size:38px;
+
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .form-grid,
+    .filter-panel{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .vehicle-header{
+
+        flex-direction:column;
+
+    }
+
+    .price{
+
+        font-size:25px;
+
+    }
+
+    .chat-layout{
+
+        grid-template-columns:1fr;
+
+        min-height:0;
+
+    }
+
+    .chat-list{
+
+        display:none;
+
+    }
+
+    .chat-main{
+
+        min-height:700px;
+
+    }
+
+    .chat-header{
+
+        flex-direction:column;
+
+    }
+
+    .message{
+
+        max-width:88%;
+
+    }
+
+    .meeting-card,
+    .price-negotiation{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .media-preview{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .footer-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .search-box{
+
+        flex-direction:column;
+
+        padding:10px;
+
+    }
+
+    .search-box .btn{
+
+        width:100%;
+
+    }
+
+    .actions .btn{
+
+        min-height:46px;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media(max-width:420px){
+
+    .logo{
+
+        font-size:19px;
+
+    }
+
+    .logo-mark{
+
+        width:37px;
+
+        height:37px;
+
+    }
+
+    .hero h1{
+
+        font-size:32px;
+
+    }
+
+    .section-title h2{
+
+        font-size:24px;
+
+    }
+
+    .question-actions{
+
+        flex-direction:column;
+
+    }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <!-- =========================================================
      HEADER
 ========================================================= -->
+
 <header>
+
     <div class="logo" onclick="showView('inicio')">
-        <div class="logo-mark">TA</div>
+
+        <div class="logo-mark">
+            TA
+        </div>
+
         TuAuto
+
     </div>
 
-    <form class="header-search" onsubmit="event.preventDefault(); filterGlobalVehicles();">
-        <input id="headerSearchInput" type="search" placeholder="Buscar autos, motos, camionetas...">
-        <button type="submit">🔎</button>
-    </form>
 
     <nav>
-        <button class="active" onclick="showView('inicio', this)">Inicio</button>
-        <button onclick="showView('comprar', this)">Comprar</button>
-        <button onclick="showView('vender', this)">Vender</button>
-        <button onclick="showView('chat', this)">Mensajes</button>
-        <button onclick="showView('cuenta', this)">Mi cuenta</button>
+
+        <button
+            class="active"
+            onclick="showView('inicio',this)">
+            Inicio
+        </button>
+
+        <button
+            onclick="showView('comprar',this)">
+            Comprar
+        </button>
+
+        <button
+            onclick="showView('vender',this)">
+            Vender
+        </button>
+
+        <button
+            onclick="showView('chat',this)">
+            Mensajes
+        </button>
+
+        <button
+            onclick="showView('misvehiculos',this)">
+            Mis Vehículos
+        </button>
+
+        <button
+            onclick="showView('cuenta',this)">
+            Mi cuenta
+        </button>
+
     </nav>
 
+
     <div class="user-area">
-        <div class="notification" onclick="showToast('No tienes notificaciones pendientes')">
+
+        <div
+            class="notification"
+            onclick="showNotifications()">
             🔔
-            <span class="badge-dot"></span>
+            <div class="notification-badge"></div>
         </div>
 
-        <div class="avatar" id="headerAvatar">U1</div>
+        <span>
+            Usuario demo
+        </span>
 
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        <div class="avatar" onclick="showView('cuenta')">
+            U
+        </div>
+
+        <button
+            class="mobile-menu-btn"
+            onclick="toggleMobileMenu()">
+
+            ☰
+
+        </button>
+
     </div>
+
 </header>
 
-<div class="market-subnav">
-    <button onclick="showToast('Ubicación predeterminada: Córdoba, Argentina')">📍 Córdoba, Argentina</button>
-    <button onclick="showView('comprar')">Categorías ⌄</button>
-    <button onclick="showModal('modalAyuda')">Ayuda y Seguridad</button>
-    <span></span>
-    <button onclick="showView('vender')">＋ Publicar Vehículo</button>
+
+<div
+    id="mobileNav"
+    class="mobile-nav">
+
+    <button onclick="mobileNavigate('inicio')">
+        🏠 Inicio
+    </button>
+
+    <button onclick="mobileNavigate('comprar')">
+        🚗 Comprar
+    </button>
+
+    <button onclick="mobileNavigate('vender')">
+        💰 Vender
+    </button>
+
+    <button onclick="mobileNavigate('chat')">
+        💬 Mensajes
+    </button>
+
+    <button onclick="mobileNavigate('misvehiculos')">
+        🚘 Mis Vehículos
+    </button>
+
+    <button onclick="mobileNavigate('cuenta')">
+        👤 Mi cuenta
+    </button>
+
 </div>
 
-<div id="mobileNav" class="mobile-nav">
-    <button onclick="mobileNavigate('inicio')">🏠 Inicio</button>
-    <button onclick="mobileNavigate('comprar')">🚗 Comprar Vehículos</button>
-    <button onclick="mobileNavigate('vender')">➕ Vender mi Vehículo</button>
-    <button onclick="mobileNavigate('chat')">💬 Mensajes y Chat</button>
-    <button onclick="mobileNavigate('cuenta')">👤 Mi Perfil y Cuenta</button>
-</div>
 
-<!-- =========================================================
-     MAIN CONTAINER
-========================================================= -->
+
 <main class="container">
 
-    <!-- BARRA SIMULADORA DE MÚLTIPLES USUARIOS -->
-    <div class="user-selector-bar">
-        <div class="user-selector-info">
-            <span>Usuario actual activo:</span>
-            <strong id="currentActiveUserLabel">Juan Pérez (Comprador)</strong>
+
+<!-- =========================================================
+     INICIO
+========================================================= -->
+
+<section
+    id="inicio"
+    class="view active">
+
+
+    <div class="hero">
+
+        <h1>
+
+            Una forma más clara de
+            <span>
+                comprar y vender vehículos.
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            TuAuto organiza publicaciones,
+            información del vehículo,
+            documentación declarada,
+            comunicación entre las partes,
+            negociación y coordinación
+            de encuentros en una experiencia
+            centralizada.
+
+        </p>
+
+
+        <div class="hero-actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="showView('comprar')">
+
+                🔎 Buscar vehículos
+
+            </button>
+
+
+            <button
+                class="btn btn-blue"
+                onclick="showView('vender')">
+
+                🚗 Publicar mi auto
+
+            </button>
+
+
+            <a
+                class="btn btn-whatsapp"
+                href="https://wa.me/543517734031?text=Hola%20TuAuto%2C%20quiero%20consultar%20sobre%20la%20plataforma."
+                target="_blank">
+
+                <span style="font-size:18px;">◉</span>
+                WhatsApp
+
+            </a>
+
+
+            <a
+                class="btn btn-outline"
+                href="mailto:soporte@tuauto.demo?subject=Consulta%20sobre%20TuAuto">
+
+                ✉️ Gmail / Email
+
+            </a>
+
         </div>
-        <div>
-            <button class="btn btn-dark btn-sm" onclick="switchUserRole()">🔄 Cambiar/Simular otro usuario</button>
-            <button class="btn btn-outline btn-sm" style="color:#fff; border-color:#888;" onclick="showModal('modalNuevoUsuario')">＋ Crear Usuario</button>
+
+
+        <div class="hero-badges">
+
+            <div class="hero-badge">
+                🔐 Comunicación centralizada
+            </div>
+
+            <div class="hero-badge">
+                📋 Información organizada
+            </div>
+
+            <div class="hero-badge">
+                📍 Coordinación de encuentros
+            </div>
+
+            <div class="hero-badge">
+                🤝 Negociación
+            </div>
+
         </div>
+
     </div>
 
-    <!-- =========================================================
-         VISTA 1: INICIO
-    ========================================================= -->
-    <section id="inicio" class="view active">
-        
-        <div class="hero">
-            <span class="hero-badge">PLATA FORM COMPRA-VENTA</span>
-            <h1>Encontrá o vendé tu próximo auto hoy</h1>
-            <p>Conectate directamente con compradores y vendedores mediante nuestro sistema de chat instantáneo y seguro.</p>
-            <div class="hero-actions">
-                <button class="btn btn-primary" onclick="showView('comprar')">Explorar Vehículos</button>
-                <button class="btn btn-dark" onclick="showView('vender')">Publicar Gratis</button>
+
+
+    <!-- =====================================================
+         STATS
+    ====================================================== -->
+
+    <div class="section-title">
+
+        <h2>
+            Tu actividad
+        </h2>
+
+        <p>
+            Resumen de tu cuenta.
+        </p>
+
+    </div>
+
+
+    <div class="grid grid-4">
+
+        <div class="card" style="cursor:pointer" onclick="showView('misvehiculos')">
+
+            <span class="status ok">
+                ACTIVO
+            </span>
+
+            <div class="stat-value" id="userVehiclesCount">
+                1
             </div>
+
+            <div class="stat-label">
+                Publicaciones
+            </div>
+
         </div>
 
-        <div class="section-title">
-            <h2>Vehículos Destacados</h2>
-            <p>Opciones seleccionadas con contacto directo disponible.</p>
+
+        <div class="card" style="cursor:pointer" onclick="showView('chat')">
+
+            <span class="status neutral">
+                ABIERTAS
+            </span>
+
+            <div class="stat-value">
+                2
+            </div>
+
+            <div class="stat-label">
+                Conversaciones
+            </div>
+
         </div>
 
-        <div id="homeFeaturedGrid" class="grid grid-3">
-            <!-- Cargar publicaciones dinámicas -->
+
+        <div class="card" style="cursor:pointer" onclick="showSecurity()">
+
+            <span class="status warning">
+                PENDIENTES
+            </span>
+
+            <div class="stat-value">
+                1
+            </div>
+
+            <div class="stat-label">
+                Revisiones
+            </div>
+
         </div>
 
-    </section>
 
-    <!-- =========================================================
-         VISTA 2: COMPRAR / BUSCAR
-    ========================================================= -->
-    <section id="comprar" class="view">
-        <div class="section-title">
-            <h2>Catálogo de Vehículos</h2>
-            <p>Explorá todas las publicaciones disponibles o filtrá según tu necesidad.</p>
+        <div class="card points-card" style="cursor:pointer" onclick="showPoints()">
+
+            <span class="status warning">
+                TU AUTO POINTS
+            </span>
+
+            <div class="stat-value" id="dashPointsValue">
+                680
+            </div>
+
+            <div class="stat-label">
+                Puntos acumulados
+            </div>
+
         </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ACCESOS
+    ====================================================== -->
+
+    <div class="section-title">
+
+        <h2>
+            Accesos rápidos
+        </h2>
+
+        <p>
+            Herramientas principales de la plataforma.
+        </p>
+
+    </div>
+
+
+    <div class="grid grid-3">
+
 
         <div class="card">
-            <div class="search-box">
-                <input id="searchInput" type="text" placeholder="Buscar por marca, modelo o título..." oninput="renderVehiclesList()">
-                <button class="btn btn-primary" onclick="renderVehiclesList()">Buscar</button>
+
+            <div class="icon">
+                🚗
             </div>
 
-            <div class="filter-panel">
-                <div class="field">
-                    <label>Tipo de Vehículo</label>
-                    <select id="filterType" onchange="renderVehiclesList()">
-                        <option value="">Todos los tipos</option>
-                        <option value="sedan">Sedán</option>
-                        <option value="suv">SUV</option>
-                        <option value="pickup">Pickup</option>
-                        <option value="hatchback">Hatchback</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Precio Máximo (USD)</label>
-                    <input id="filterMaxPrice" type="number" placeholder="Ej. 25000" oninput="renderVehiclesList()">
-                </div>
-                <div class="field">
-                    <label>Ordenar Por</label>
-                    <select id="filterSort" onchange="renderVehiclesList()">
-                        <option value="recent">Más recientes</option>
-                        <option value="price-asc">Menor precio</option>
-                        <option value="price-desc">Mayor precio</option>
-                    </select>
-                </div>
+            <h3>
+                Comprar
+            </h3>
+
+            <p>
+                Explorá vehículos mediante filtros
+                y revisá sus fichas.
+            </p>
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showView('comprar')">
+
+                    Buscar
+
+                </button>
+
             </div>
+
         </div>
 
-        <div id="vehiclesGrid" class="grid grid-2">
-            <!-- Inyección dinámica de autos -->
-        </div>
-    </section>
-
-    <!-- =========================================================
-         VISTA 3: VENDER / PUBLICAR
-    ========================================================= -->
-    <section id="vender" class="view">
-        <div class="section-title">
-            <h2>Publicar un Vehículo</h2>
-            <p>Completá los datos clave de tu vehículo para ponerlo a la venta en el acto.</p>
-        </div>
 
         <div class="card">
-            <form id="publishForm" onsubmit="handleCreatePublication(event)" class="form-grid">
-                <div class="field full">
-                    <label>Título de la Publicación *</label>
-                    <input type="text" id="pubTitle" placeholder="Ej. Toyota Corolla XEI 2.0 Automatico" required>
-                </div>
 
-                <div class="field">
-                    <label>Tipo de Vehículo *</label>
-                    <select id="pubType" required>
-                        <option value="sedan">Sedán</option>
-                        <option value="suv">SUV / Crossover</option>
-                        <option value="pickup">Pickup / Camioneta</option>
-                        <option value="hatchback">Hatchback</option>
-                    </select>
-                </div>
-
-                <div class="field">
-                    <label>Precio ($ USD) *</label>
-                    <input type="number" id="pubPrice" placeholder="Ej. 18500" required>
-                </div>
-
-                <div class="field">
-                    <label>Año *</label>
-                    <input type="number" id="pubYear" placeholder="2021" required>
-                </div>
-
-                <div class="field">
-                    <label>Kilometraje (km) *</label>
-                    <input type="number" id="pubKm" placeholder="45000" required>
-                </div>
-
-                <div class="field full">
-                    <label>URL de Imagen (Opcional - Imagen de muestra si se deja vacío)</label>
-                    <input type="url" id="pubImage" placeholder="https://ejemplo.com/foto.jpg">
-                </div>
-
-                <div class="field full">
-                    <label>Descripción detallada</label>
-                    <textarea id="pubDescription" placeholder="Estado del vehículo, servicios realizados, papeles al día, etc."></textarea>
-                </div>
-
-                <div class="field full" style="margin-top: 10px;">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">🚀 Publicar Vehículo Ahora</button>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- =========================================================
-         VISTA 4: CHAT REAL FUNCIONAL
-    ========================================================= -->
-    <section id="chat" class="view">
-        <div class="section-title">
-            <h2>Mensajes y Negociación Directa</h2>
-            <p>Conversá en tiempo real sobre cada publicación activa.</p>
-        </div>
-
-        <div class="chat-layout">
-            <div class="chat-list" id="chatListCol">
-                <div class="chat-list-header">
-                    Conversaciones Activas
-                </div>
-                <div class="conversations-container" id="conversationsContainer">
-                    <!-- Se listan los chats iniciados dinámicamente -->
-                </div>
+            <div class="icon">
+                💰
             </div>
 
-            <div class="chat-main" id="chatMainCol">
-                <div class="chat-header" id="chatHeaderBar">
-                    <div class="chat-header-info">
-                        <h4 id="chatHeaderTitle">Seleccioná una conversación</h4>
-                        <p id="chatHeaderSub">Iniciá un chat desde una publicación para comenzar</p>
+            <h3>
+                Vender
+            </h3>
+
+            <p>
+                Creá una publicación detallada
+                con fotografías y video.
+            </p>
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-outline"
+                    onclick="showView('vender')">
+
+                    Publicar
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                💬
+            </div>
+
+            <h3>
+                Conversaciones
+            </h3>
+
+            <p>
+                Confirmá condiciones básicas antes
+                de pasar al chat libre.
+            </p>
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-outline"
+                    onclick="showView('chat')">
+
+                    Abrir chat
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                📍
+            </div>
+
+            <h3>
+                Punto de encuentro
+            </h3>
+
+            <p>
+                Coordiná ubicación, fecha y horario
+                para una visita.
+            </p>
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-outline"
+                    onclick="openMeeting()">
+
+                    Coordinar
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                ⭐
+            </div>
+
+            <h3>
+                Puntos de compra
+            </h3>
+
+            <p>
+                Acumulá puntos por completar
+                etapas de operaciones.
+            </p>
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-outline"
+                    onclick="showPoints()">
+
+                    Ver puntos
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🛡️
+            </div>
+
+            <h3>
+                Centro de seguridad
+            </h3>
+
+            <p>
+                Recomendaciones para revisar
+                información antes de operar.
+            </p>
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-outline"
+                    onclick="showSecurity()">
+
+                    Seguridad
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ACTIVIDAD
+    ====================================================== -->
+
+    <div class="section-title">
+
+        <h2>
+            Actividad reciente
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="check-list">
+
+            <div class="check" style="cursor:pointer" onclick="showView('chat')">
+
+                <span>
+                    💬
+                </span>
+
+                <div>
+
+                    <b>
+                        Conversación activa
+                    </b>
+
+                    <p>
+                        Toyota Corolla XEI · negociación abierta.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="check" style="cursor:pointer" onclick="openMeeting()">
+
+                <span>
+                    📍
+                </span>
+
+                <div>
+
+                    <b>
+                        Visita pendiente
+                    </b>
+
+                    <p>
+                        Todavía no se confirmó fecha y horario.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="check" style="cursor:pointer" onclick="showPoints()">
+
+                <span>
+                    ⭐
+                </span>
+
+                <div>
+
+                    <b>
+                        +50 puntos
+                    </b>
+
+                    <p>
+                        Completaste una etapa de coordinación.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     COMPRAR
+========================================================= -->
+
+<section
+    id="comprar"
+    class="view">
+
+
+    <div class="section-title">
+
+        <h2>
+            Comprar un vehículo
+        </h2>
+
+        <p>
+            Revisá la información disponible antes
+            de contactar al vendedor.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="search-box">
+
+            <input
+                id="searchVehicle"
+                placeholder="Buscar marca, modelo o versión..."
+                oninput="filterVehicles()">
+
+            <button
+                class="btn btn-primary"
+                onclick="filterVehicles()">
+
+                🔎 Buscar
+
+            </button>
+
+        </div>
+
+
+        <div class="filter-panel">
+
+
+            <div class="filter-field">
+
+                <label>
+                    Tipo de vehículo
+                </label>
+
+                <select
+                    id="filterType"
+                    onchange="filterVehicles()">
+
+                    <option value="">
+                        Todos
+                    </option>
+
+                    <option value="sedan">
+                        Sedán
+                    </option>
+
+                    <option value="hatchback">
+                        Hatchback
+                    </option>
+
+                    <option value="suv">
+                        SUV
+                    </option>
+
+                    <option value="pickup">
+                        Pickup
+                    </option>
+
+                    <option value="coupe">
+                        Coupé
+                    </option>
+
+                    <option value="wagon">
+                        Familiar
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="filter-field">
+
+                <label>
+                    Año
+                </label>
+
+                <select
+                    id="filterYear"
+                    onchange="filterVehicles()">
+
+                    <option value="">
+                        Todos los años
+                    </option>
+
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="filter-field">
+
+                <label>
+                    Transmisión
+                </label>
+
+                <select
+                    id="filterTransmission"
+                    onchange="filterVehicles()">
+
+                    <option value="">
+                        Todas
+                    </option>
+
+                    <option value="automatico">
+                        Automática
+                    </option>
+
+                    <option value="manual">
+                        Manual
+                    </option>
+
+                    <option value="cvt">
+                        CVT
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="filter-field">
+
+                <label>
+                    Combustible
+                </label>
+
+                <select
+                    id="filterFuel"
+                    onchange="filterVehicles()">
+
+                    <option value="">
+                        Todos
+                    </option>
+
+                    <option value="nafta">
+                        Nafta
+                    </option>
+
+                    <option value="diesel">
+                        Diésel
+                    </option>
+
+                    <option value="hibrido">
+                        Híbrido
+                    </option>
+
+                    <option value="electrico">
+                        Eléctrico
+                    </option>
+
+                    <option value="gnc">
+                        GNC
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="filter-field">
+
+                <label>
+                    Precio máximo
+                </label>
+
+                <input
+                    id="filterPrice"
+                    type="number"
+                    placeholder="Ej: 30000000"
+                    oninput="filterVehicles()">
+
+            </div>
+
+
+            <div class="filter-field">
+
+                <label>
+                    Kilometraje máximo
+                </label>
+
+                <input
+                    id="filterKm"
+                    type="number"
+                    placeholder="Ej: 100000"
+                    oninput="filterVehicles()">
+
+            </div>
+
+
+        </div>
+
+
+        <div class="filters">
+
+            <div class="filter" onclick="quickFilter('type', 'sedan')">
+                🚘 Sedán
+            </div>
+
+            <div class="filter" onclick="quickFilter('type', 'suv')">
+                🚙 SUV
+            </div>
+
+            <div class="filter" onclick="quickFilter('type', 'pickup')">
+                🛻 Pickup
+            </div>
+
+            <div class="filter" onclick="quickFilter('transmission', 'manual')">
+                ⚙ Manual
+            </div>
+
+            <div class="filter" onclick="quickFilter('price', '25000000')">
+                💰 Presupuesto &lt; $25M
+            </div>
+
+            <div class="filter" onclick="resetFilters()">
+                🔄 Limpiar Filtros
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="section-title">
+
+        <h2>
+            Vehículos disponibles
+        </h2>
+
+        <p id="resultsCount">
+            Mostrando publicaciones disponibles.
+        </p>
+
+    </div>
+
+
+    <div
+        id="vehicleGrid"
+        class="grid grid-2">
+
+
+        <!-- =================================================
+             VEHICULO 1
+        ================================================== -->
+
+        <article
+            class="card vehicle-card"
+            data-search="toyota corolla xei"
+            data-type="sedan"
+            data-year="2021"
+            data-transmission="automatico"
+            data-fuel="nafta"
+            data-price="24500000"
+            data-km="48200">
+
+
+            <figure class="vehicle-photo">
+
+                <img
+                    src="https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=1200&q=85"
+                    alt="Toyota Corolla">
+
+                <figcaption class="vehicle-photo-badge">
+                    DESTACADO
+                </figcaption>
+
+            </figure>
+
+
+            <div class="vehicle-header">
+
+                <div>
+
+                    <div class="vehicle-title">
+                        Toyota Corolla XEI
                     </div>
-                    <button class="btn btn-outline btn-sm" onclick="toggleMobileChatView()" style="display:none;" id="btnBackChat">← Volver</button>
+
+                    <p>
+                        2021 · 48.200 km
+                    </p>
+
                 </div>
 
-                <div class="messages-area" id="messagesContainer">
-                    <div style="text-align:center; color:#888; margin-auto:auto; padding: 40px 0;">
-                        💬 Selecciona un chat de la lista o ve a "Comprar" para consultar por un vehículo.
-                    </div>
+                <div class="price">
+                    $24.500.000
                 </div>
 
-                <form class="chat-input-bar" id="chatForm" onsubmit="handleSendMessage(event)">
-                    <input type="text" id="chatInput" placeholder="Escribe un mensaje..." disabled autocomplete="off">
-                    <button type="submit" class="btn btn-primary" id="chatSendBtn" disabled>Enviar</button>
-                </form>
             </div>
-        </div>
-    </section>
 
-    <!-- =========================================================
-         VISTA 5: MI CUENTA / PERFIL
-    ========================================================= -->
-    <section id="cuenta" class="view">
-        <div class="section-title">
-            <h2>Perfil de Usuario</h2>
-            <p>Gestioná tus datos y revisá tus publicaciones activas.</p>
-        </div>
 
-        <div class="card">
-            <h3 id="profileName">Cargando...</h3>
-            <p id="profileEmail">email@ejemplo.com</p>
+            <div class="vehicle-meta">
+
+                <span class="meta-pill">
+                    Sedán
+                </span>
+
+                <span class="meta-pill">
+                    Automático
+                </span>
+
+                <span class="meta-pill">
+                    Nafta
+                </span>
+
+            </div>
+
+
             <br>
-            <button class="btn btn-dark btn-sm" onclick="showModal('modalNuevoUsuario')">＋ Registrar otro usuario</button>
+
+
+            <span class="status ok">
+                ● Información declarada completa
+            </span>
+
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showVehicleDetail('Toyota Corolla XEI', '$24.500.000', '2021', '48.200 km', 'Automática', 'Nafta', 'AB 123 CD', 'https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=1200&q=85')">
+
+                    Ver ficha
+
+                </button>
+
+
+                <button
+                    class="btn btn-outline"
+                    onclick="openChatWithVehicle('Toyota Corolla XEI')">
+
+                    💬 Contactar
+
+                </button>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             VEHICULO 2
+        ================================================== -->
+
+        <article
+            class="card vehicle-card"
+            data-search="volkswagen polo highline"
+            data-type="hatchback"
+            data-year="2022"
+            data-transmission="automatico"
+            data-fuel="nafta"
+            data-price="27900000"
+            data-km="31700">
+
+
+            <figure class="vehicle-photo">
+
+                <img
+                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85"
+                    alt="Volkswagen Polo">
+
+                <figcaption class="vehicle-photo-badge">
+                    DISPONIBLE
+                </figcaption>
+
+            </figure>
+
+
+            <div class="vehicle-header">
+
+                <div>
+
+                    <div class="vehicle-title">
+                        Volkswagen Polo Highline
+                    </div>
+
+                    <p>
+                        2022 · 31.700 km
+                    </p>
+
+                </div>
+
+                <div class="price">
+                    $27.900.000
+                </div>
+
+            </div>
+
+
+            <div class="vehicle-meta">
+
+                <span class="meta-pill">
+                    Hatchback
+                </span>
+
+                <span class="meta-pill">
+                    Automático
+                </span>
+
+                <span class="meta-pill">
+                    Nafta
+                </span>
+
+            </div>
+
+
+            <br>
+
+
+            <span class="status warning">
+                ● Revisar información pendiente
+            </span>
+
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showVehicleDetail('Volkswagen Polo Highline', '$27.900.000', '2022', '31.700 km', 'Automática', 'Nafta', 'AF 982 YZ', 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85')">
+
+                    Ver ficha
+
+                </button>
+
+
+                <button
+                    class="btn btn-outline"
+                    onclick="openChatWithVehicle('Volkswagen Polo Highline')">
+
+                    💬 Contactar
+
+                </button>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             VEHICULO 3
+        ================================================== -->
+
+        <article
+            class="card vehicle-card"
+            data-search="ford ranger xlt"
+            data-type="pickup"
+            data-year="2023"
+            data-transmission="automatico"
+            data-fuel="diesel"
+            data-price="39900000"
+            data-km="28000">
+
+
+            <figure class="vehicle-photo">
+
+                <img
+                    src="https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=1200&q=85"
+                    alt="Ford Ranger">
+
+                <figcaption class="vehicle-photo-badge">
+                    VERIFICADO
+                </figcaption>
+
+            </figure>
+
+
+            <div class="vehicle-header">
+
+                <div>
+
+                    <div class="vehicle-title">
+                        Ford Ranger XLT
+                    </div>
+
+                    <p>
+                        2023 · 28.000 km
+                    </p>
+
+                </div>
+
+                <div class="price">
+                    $39.900.000
+                </div>
+
+            </div>
+
+
+            <div class="vehicle-meta">
+
+                <span class="meta-pill">
+                    Pickup
+                </span>
+
+                <span class="meta-pill">
+                    Automático
+                </span>
+
+                <span class="meta-pill">
+                    Diésel
+                </span>
+
+            </div>
+
+
+            <br>
+
+
+            <span class="status neutral">
+                ● Información en revisión
+            </span>
+
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showVehicleDetail('Ford Ranger XLT', '$39.900.000', '2023', '28.000 km', 'Automática', 'Diésel', 'AG 441 TR', 'https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=1200&q=85')">
+
+                    Ver ficha
+
+                </button>
+
+
+                <button
+                    class="btn btn-outline"
+                    onclick="openChatWithVehicle('Ford Ranger XLT')">
+
+                    💬 Contactar
+
+                </button>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FICHA VEHICULO
+========================================================= -->
+
+<section
+    id="vehiculo"
+    class="view">
+
+
+    <div class="section-title">
+
+        <h2 id="viewCarTitle">
+            Toyota Corolla XEI
+        </h2>
+
+        <p>
+            Datos declarados y elementos que requieren
+            verificación adicional.
+        </p>
+
+    </div>
+
+
+    <div class="grid grid-2">
+
+
+        <div class="card">
+
+            <figure class="vehicle-photo">
+
+                <img
+                    id="viewCarImg"
+                    src="https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=1400&q=85"
+                    alt="Auto Ficha">
+
+            </figure>
+
+
+            <div class="vehicle-header">
+                <div>
+                    <div class="vehicle-title" id="viewCarSubTitle">
+                        Toyota Corolla XEI
+                    </div>
+
+                    <p id="viewCarSpecs">
+                        2021 · Automático · 48.200 km
+                    </p>
+                </div>
+                <div class="price" id="viewCarPrice">
+                    $24.500.000
+                </div>
+            </div>
+
+
+            <br>
+
+
+            <div class="data-list">
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Patente
+                    </span>
+
+                    <span class="data-value" id="viewCarPatente">
+                        AB 123 CD
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        VIN / Chasis
+                    </span>
+
+                    <span class="data-value">
+                        ********8K29
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Motor
+                    </span>
+
+                    <span class="data-value">
+                        ******4721
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Kilometraje
+                    </span>
+
+                    <span class="data-value" id="viewCarKm">
+                        48.200 km
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Combustible
+                    </span>
+
+                    <span class="data-value" id="viewCarFuel">
+                        Nafta
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Transmisión
+                    </span>
+
+                    <span class="data-value" id="viewCarTrans">
+                        Automática
+                    </span>
+
+                </div>
+
+            </div>
+
         </div>
+
+
+
+        <div class="card">
+
+            <h3>
+                Estado de la información
+            </h3>
+
+            <br>
+
+
+            <div class="check-list">
+
+
+                <div class="check">
+
+                    <span>✓</span>
+
+                    <div>
+
+                        <b>
+                            Titularidad declarada
+                        </b>
+
+                        <p>
+                            Declarada por el vendedor.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="check">
+
+                    <span>✓</span>
+
+                    <div>
+
+                        <b>
+                            Identificación cargada
+                        </b>
+
+                        <p>
+                            Patente, VIN y motor informados.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="check">
+
+                    <span>✓</span>
+
+                    <div>
+
+                        <b>
+                            Documentación declarada
+                        </b>
+
+                        <p>
+                            El vendedor declara disponer
+                            de documentación.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="check">
+
+                    <span>!</span>
+
+                    <div>
+
+                        <b>
+                            Consulta oficial
+                        </b>
+
+                        <p>
+                            Pendiente de conexión con
+                            una fuente oficial.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="check">
+
+                    <span>!</span>
+
+                    <div>
+
+                        <b>
+                            Situación registral
+                        </b>
+
+                        <p>
+                            No confirmada dentro de esta demo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <br>
+
+
+            <div class="security-box">
+
+                <h3>
+                    🛡️ Importante
+                </h3>
+
+                <p>
+
+                    "Declarado" no significa "verificado".
+                    La plataforma deberá conectarse con
+                    fuentes oficiales autorizadas para realizar
+                    verificaciones reales.
+
+                </p>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="openChatFromFicha()">
+
+                    💬 Consultar vendedor
+
+                </button>
+
+
+                <button
+                    class="btn btn-danger"
+                    onclick="reportIssue()">
+
+                    🚨 Reportar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- REGISTRAL -->
+
+    <div class="section-title">
+
+        <h2>
+            Información registral y documental
+        </h2>
+
+    </div>
+
+
+    <div class="grid grid-2">
+
+
+        <div class="card">
+
+            <h3>
+                Identificación registral
+            </h3>
+
+            <br>
+
+
+            <div class="data-list">
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Titular declarado
+                    </span>
+
+                    <span class="data-value">
+                        Juan Pérez
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Localidad
+                    </span>
+
+                    <span class="data-value">
+                        Córdoba
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Transferencia
+                    </span>
+
+                    <span class="data-value">
+                        A confirmar
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Titularidad
+                    </span>
+
+                    <span class="status neutral">
+                        Declarada
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Documentación
+            </h3>
+
+            <br>
+
+
+            <div class="check-list">
+
+                <div class="check">
+
+                    <span>✓</span>
+
+                    <div>
+
+                        <b>
+                            Cédula
+                        </b>
+
+                        <p>
+                            Declarada disponible.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="check">
+
+                    <span>✓</span>
+
+                    <div>
+
+                        <b>
+                            Título
+                        </b>
+
+                        <p>
+                            Declarado disponible.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="check">
+
+                    <span>!</span>
+
+                    <div>
+
+                        <b>
+                            Informe registral
+                        </b>
+
+                        <p>
+                            Consulta pendiente.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="check">
+
+                    <span>!</span>
+
+                    <div>
+
+                        <b>
+                            Multas / deudas
+                        </b>
+
+                        <p>
+                            No consultadas en esta demo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+        <h2>
+            Historial declarado
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="check-list">
+
+            <div class="check">
+
+                <span>✓</span>
+
+                <div>
+
+                    <b>
+                        Service realizado
+                    </b>
+
+                    <p>
+                        Declarado por el vendedor.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="check">
+
+                <span>✓</span>
+
+                <div>
+
+                    <b>
+                        Dos llaves
+                    </b>
+
+                    <p>
+                        Declarado por el vendedor.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="check">
+
+                <span>✓</span>
+
+                <div>
+
+                    <b>
+                        Neumáticos renovados
+                    </b>
+
+                    <p>
+                        Declarado por el vendedor.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="check">
+
+                <span>!</span>
+
+                <div>
+
+                    <b>
+                        Accidentes
+                    </b>
+
+                    <p>
+                        Sin información suficiente.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     VENDER
+========================================================= -->
+
+<section
+    id="vender"
+    class="view">
+
+
+    <div class="section-title">
+
+        <h2>
+            Publicar mi vehículo
+        </h2>
+
+        <p>
+            Cuanta más información aportes,
+            más completa será la ficha.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="security-box">
+
+            <h3>
+                🛡️ Transparencia de publicación
+            </h3>
+
+            <p>
+
+                El comprador podrá distinguir entre
+                información declarada, información
+                pendiente y verificaciones realizadas.
+
+            </p>
+
+        </div>
+
 
         <div class="section-title">
-            <h2>Mis Publicaciones</h2>
+
+            <h2>
+                01 · Datos básicos
+            </h2>
+
         </div>
 
-        <div id="myPublicationsGrid" class="grid grid-2">
-            <!-- Publicaciones creadas por el usuario activo -->
+
+        <div class="form-grid">
+
+
+            <div class="field">
+
+                <label>
+                    Marca *
+                </label>
+
+                <input
+                    id="marca"
+                    placeholder="Ej: Toyota">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Modelo *
+                </label>
+
+                <input
+                    id="modelo"
+                    placeholder="Ej: Corolla">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Versión
+                </label>
+
+                <input
+                    id="version"
+                    placeholder="Ej: XEI Pack">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Tipo
+                </label>
+
+                <select id="tipoVehiculo">
+
+                    <option value="sedan">
+                        Sedán
+                    </option>
+
+                    <option value="hatchback">
+                        Hatchback
+                    </option>
+
+                    <option value="suv">
+                        SUV
+                    </option>
+
+                    <option value="pickup">
+                        Pickup
+                    </option>
+
+                    <option value="coupe">
+                        Coupé
+                    </option>
+
+                    <option value="wagon">
+                        Familiar
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Año *
+                </label>
+
+                <input
+                    id="anio"
+                    type="number"
+                    placeholder="2021">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Precio *
+                </label>
+
+                <input
+                    id="precio"
+                    type="number"
+                    placeholder="24500000">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Kilometraje *
+                </label>
+
+                <input
+                    id="km"
+                    type="number"
+                    placeholder="48200">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Combustible
+                </label>
+
+                <select id="combustible">
+
+                    <option value="nafta">
+                        Nafta
+                    </option>
+
+                    <option value="diesel">
+                        Diésel
+                    </option>
+
+                    <option value="hibrido">
+                        Híbrido
+                    </option>
+
+                    <option value="electrico">
+                        Eléctrico
+                    </option>
+
+                    <option value="gnc">
+                        GNC
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Transmisión
+                </label>
+
+                <select id="transmision">
+
+                    <option value="manual">
+                        Manual
+                    </option>
+
+                    <option value="automatico">
+                        Automática
+                    </option>
+
+                    <option value="cvt">
+                        CVT
+                    </option>
+
+                </select>
+
+            </div>
+
         </div>
-    </section>
+
+
+
+        <div class="section-title">
+
+            <h2>
+                02 · Identificación
+            </h2>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="field">
+
+                <label>
+                    Patente *
+                </label>
+
+                <input
+                    id="patente"
+                    placeholder="AA 000 AA">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    VIN / Chasis
+                </label>
+
+                <input
+                    id="chasis"
+                    placeholder="Número de identificación">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Número de motor
+                </label>
+
+                <input
+                    id="motor"
+                    placeholder="Número de motor">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Localidad
+                </label>
+
+                <input
+                    id="localidad"
+                    placeholder="Ciudad">
+
+            </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+
+            <h2>
+                03 · Situación registral
+            </h2>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="field">
+
+                <label>
+                    Titular registral declarado
+                </label>
+
+                <input
+                    id="titular"
+                    placeholder="Nombre completo">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Cantidad de titulares declarada
+                </label>
+
+                <input
+                    type="number"
+                    min="1"
+                    value="1">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Estado de transferencia
+                </label>
+
+                <select>
+
+                    <option>
+                        A confirmar
+                    </option>
+
+                    <option>
+                        Disponible para transferencia
+                    </option>
+
+                    <option>
+                        Requiere revisión
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Fecha aproximada de adquisición
+                </label>
+
+                <input
+                    type="date">
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    Situaciones relevantes
+                </label>
+
+                <textarea
+                    placeholder="Informá cualquier situación que el comprador deba conocer."></textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+
+            <h2>
+                04 · Historial
+            </h2>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="field">
+
+                <label>
+                    Accidentes declarados
+                </label>
+
+                <select>
+
+                    <option>
+                        No informado
+                    </option>
+
+                    <option>
+                        No
+                    </option>
+
+                    <option>
+                        Sí
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Uso
+                </label>
+
+                <select>
+
+                    <option>
+                        Particular
+                    </option>
+
+                    <option>
+                        Comercial
+                    </option>
+
+                    <option>
+                        Otro
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Propietarios declarados
+                </label>
+
+                <input
+                    type="number"
+                    value="1">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Estado general
+                </label>
+
+                <select>
+
+                    <option>
+                        Muy bueno
+                    </option>
+
+                    <option>
+                        Bueno
+                    </option>
+
+                    <option>
+                        Regular
+                    </option>
+
+                    <option>
+                        Requiere reparación
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    Services / reparaciones
+                </label>
+
+                <textarea
+                    placeholder="Distribución, frenos, neumáticos, services, reparaciones, etc."></textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOTOS
+        ================================================== -->
+
+        <div class="section-title">
+
+            <h2>
+                05 · Fotos y video
+            </h2>
+
+            <p>
+                Podés cargar hasta 10 fotografías y un video
+                para mostrar el vehículo.
+            </p>
+
+        </div>
+
+
+        <div class="upload-zone">
+
+            <label
+                class="upload-button"
+                for="photoInput">
+
+                📸 Seleccionar fotos
+
+            </label>
+
+
+            <input
+                id="photoInput"
+                type="file"
+                accept="image/*"
+                multiple
+                onchange="previewPhotos(this)">
+
+
+            <br><br>
+
+
+            <label
+                class="upload-button"
+                for="videoInput">
+
+                🎥 Seleccionar video
+
+            </label>
+
+
+            <input
+                id="videoInput"
+                type="file"
+                accept="video/*"
+                onchange="previewVideo(this)">
+
+
+            <div
+                id="mediaPreview"
+                class="media-preview">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             DOCUMENTACION
+        ================================================== -->
+
+        <div class="section-title">
+
+            <h2>
+                06 · Documentación
+            </h2>
+
+        </div>
+
+
+        <div class="check-list">
+
+
+            <label class="check">
+
+                <input
+                    type="checkbox" checked>
+
+                <span>✓</span>
+
+                <div>
+                    <b>
+                        Cédula disponible
+                    </b>
+                </div>
+
+            </label>
+
+
+            <label class="check">
+
+                <input
+                    type="checkbox" checked>
+
+                <span>✓</span>
+
+                <div>
+                    <b>
+                        Título disponible
+                    </b>
+                </div>
+
+            </label>
+
+
+            <label class="check">
+
+                <input
+                    type="checkbox" checked>
+
+                <span>✓</span>
+
+                <div>
+                    <b>
+                        Documentación disponible para revisión
+                    </b>
+                </div>
+
+            </label>
+
+        </div>
+
+
+
+        <div class="section-title">
+
+            <h2>
+                07 · Declaraciones
+            </h2>
+
+        </div>
+
+
+        <div class="check-list">
+
+
+            <label class="check">
+
+                <input
+                    id="decl1"
+                    type="checkbox">
+
+                <span>✓</span>
+
+                <div>
+                    Declaro que la información corresponde
+                    al vehículo publicado.
+                </div>
+
+            </label>
+
+
+            <label class="check">
+
+                <input
+                    id="decl2"
+                    type="checkbox">
+
+                <span>✓</span>
+
+                <div>
+                    Acepto que el comprador pueda solicitar
+                    documentación adicional.
+                </div>
+
+            </label>
+
+
+            <label class="check">
+
+                <input
+                    id="decl3"
+                    type="checkbox">
+
+                <span>✓</span>
+
+                <div>
+                    Me comprometo a informar circunstancias
+                    relevantes.
+                </div>
+
+            </label>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="publishCar()">
+
+                🚗 Publicar vehículo
+
+            </button>
+
+            <button
+                class="btn btn-outline"
+                onclick="showView('inicio')">
+
+                Cancelar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CHAT
+========================================================= -->
+
+<section
+    id="chat"
+    class="view">
+
+
+    <div class="section-title">
+
+        <h2>
+            Mensajes
+        </h2>
+
+        <p>
+            Primero se confirman algunos puntos básicos.
+            Después se habilita la conversación libre.
+        </p>
+
+    </div>
+
+
+    <div class="chat-layout">
+
+
+        <!-- LISTA -->
+
+        <aside class="chat-list">
+
+            <div class="chat-list-header">
+
+                <b>
+                    Conversaciones
+                </b>
+
+            </div>
+
+
+            <div
+                id="chatTabToyota"
+                class="conversation active"
+                onclick="switchChat('Toyota Corolla XEI', this)">
+
+                <b>
+                    Toyota Corolla XEI
+                </b>
+
+                <p
+                    style="color:var(--text3);font-size:12px;margin-top:4px;">
+
+                    Comprador ↔ Vendedor
+
+                </p>
+
+            </div>
+
+
+            <div
+                id="chatTabPolo"
+                class="conversation"
+                onclick="switchChat('Volkswagen Polo', this)">
+
+                <b>
+                    Volkswagen Polo
+                </b>
+
+                <p
+                    style="color:var(--text3);font-size:12px;margin-top:4px;">
+
+                    Pendiente de respuesta
+
+                </p>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- CHAT PRINCIPAL -->
+
+        <div class="chat-main">
+
+
+            <div class="chat-header">
+
+                <div>
+
+                    <b id="activeChatTitle">
+                        Toyota Corolla XEI
+                    </b>
+
+                    <p
+                        style="font-size:12px;color:var(--text3);">
+
+                        Comprador ↔ Vendedor
+
+                    </p>
+
+                </div>
+
+
+                <div class="actions"
+                     style="margin-top:0;">
+
+                    <span
+                        id="chatState"
+                        class="status warning">
+
+                        PRE-COORDINACIÓN
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ETAPA AUTOMATIZADA
+            ================================================== -->
+
+            <div
+                id="chatStage"
+                class="chat-stage">
+
+
+                <div>
+
+                    <span class="status blue">
+                        ETAPA 1 DE 2
+                    </span>
+
+                    <h3 style="margin-top:10px;">
+                        Confirmación inicial
+                    </h3>
+
+                    <p
+                        style="
+                            color:var(--text3);
+                            font-size:13px;
+                            margin-top:5px;
+                        ">
+
+                        Estas preguntas ayudan a dejar
+                        claros algunos puntos antes de
+                        pasar al chat libre.
+
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="stageProgress"
+                    class="stage-progress">
+
+                    <div class="stage-dot current"></div>
+                    <div class="stage-dot"></div>
+                    <div class="stage-dot"></div>
+                    <div class="stage-dot"></div>
+                    <div class="stage-dot"></div>
+
+                </div>
+
+
+                <div
+                    id="questionCard"
+                    class="question-card">
+
+
+                    <div
+                        id="questionNumber"
+                        class="question-number">
+
+                        Pregunta 1 de 5
+
+                    </div>
+
+
+                    <div
+                        id="questionText"
+                        class="question">
+
+                        ¿El vehículo continúa disponible
+                        para ser visto?
+
+                    </div>
+
+
+                    <div class="question-actions">
+
+                        <button
+                            class="btn btn-success"
+                            onclick="answerQuestion('SI')">
+
+                            ✓ Sí
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="answerQuestion('NO')">
+
+                            ✕ No
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BARRA CHAT LIBRE
+            ================================================== -->
+
+            <div
+                id="freeChatBanner"
+                class="chat-free-banner"
+                style="display:none;">
+
+                ✓ Las 5 confirmaciones fueron completadas.
+                Ahora podés utilizar el chat libre.
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MENSAJES
+            ================================================== -->
+
+            <div
+                id="messages"
+                class="messages">
+
+
+                <div class="message seller">
+
+                    Hola. Sí, el vehículo continúa disponible.
+
+                    <small>
+                        Vendedor · 14:32
+                    </small>
+
+                </div>
+
+
+                <div class="message buyer">
+
+                    Quisiera conocer algunos detalles
+                    antes de coordinar.
+
+                    <small>
+                        Comprador · 14:34
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 NEGOCIACION
+            ================================================== -->
+
+            <div
+                id="negotiationArea"
+                class="negotiation"
+                style="display:none;">
+
+
+                <h3>
+                    🤝 Negociación
+                </h3>
+
+
+                <p
+                    style="
+                        color:var(--text3);
+                        font-size:12px;
+                        margin-top:5px;
+                    ">
+
+                    El precio se puede conversar entre
+                    las partes. Este MVP no procesa pagos.
+
+                </p>
+
+
+                <div
+                    class="price-negotiation"
+                    style="margin-top:12px;">
+
+
+                    <div class="offer-box">
+
+                        <div class="offer-label">
+                            Precio publicado
+                        </div>
+
+                        <div class="offer-value" id="chatOfferPrice">
+                            $24.500.000
+                        </div>
+
+                    </div>
+
+
+                    <div class="offer-box">
+
+                        <div class="offer-label">
+                            Mi propuesta ($)
+                        </div>
+
+                        <input
+                            id="offerPrice"
+                            type="number"
+                            placeholder="Ej: 23500000"
+                            style="
+                                width:100%;
+                                margin-top:7px;
+                                padding:10px;
+                                background:var(--bg);
+                                border:1px solid var(--border);
+                                border-radius:9px;
+                                color:white;
+                            ">
+
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="sendOffer()">
+
+                        🤝 Enviar propuesta
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 COORDINACION
+            ================================================== -->
+
+            <div
+                id="meetingArea"
+                class="card"
+                style="
+                    margin:15px;
+                    display:none;
+                ">
+
+
+                <h3>
+                    📍 Coordinación de punto de encuentro
+                </h3>
+
+
+                <p
+                    style="
+                        color:var(--text3);
+                        font-size:12px;
+                        margin-top:5px;
+                    ">
+
+                    Ambas partes pueden proponer
+                    ubicación, fecha y horario.
+
+                </p>
+
+
+                <div
+                    class="meeting-card"
+                    style="margin-top:15px;">
+
+
+                    <div>
+
+                        <div class="form-grid"
+                             style="grid-template-columns:1fr;">
+
+
+                            <div class="field">
+
+                                <label>
+                                    Punto de encuentro
+                                </label>
+
+                                <input
+                                    id="meetingPlace"
+                                    placeholder="Ej: Patio Olmos">
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>
+                                    Dirección
+                                </label>
+
+                                <input
+                                    id="meetingAddress"
+                                    placeholder="Ej: Av. Vélez Sarsfield 361">
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>
+                                    Fecha
+                                </label>
+
+                                <input
+                                    id="meetingDate"
+                                    type="date">
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label>
+                                    Hora
+                                </label>
+
+                                <input
+                                    id="meetingTime"
+                                    type="time">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="actions">
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="proposeMeeting()">
+
+                                📍 Proponer encuentro
+
+                            </button>
+
+                            <button
+                                class="btn btn-outline"
+                                onclick="useDemoMeeting()">
+
+                                Usar demo
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="mapPreview"
+                        class="map-box">
+
+                        <div class="map-road one"></div>
+
+                        <div class="map-road two"></div>
+
+                        <div class="map-pin"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="meetingStatus"
+                    style="
+                        margin-top:15px;
+                        color:var(--text2);
+                        font-size:13px;
+                    ">
+
+                    Ningún encuentro confirmado todavía.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 WHATSAPP
+            ================================================== -->
+
+            <div
+                id="whatsappArea"
+                style="
+                    display:none;
+                    padding:15px;
+                    border-top:1px solid var(--border);
+                    background:var(--bg2);
+                ">
+
+
+                <div
+                    class="security-box">
+
+                    <b>
+                        WhatsApp habilitado
+                    </b>
+
+                    <p>
+
+                        Las confirmaciones iniciales fueron
+                        completadas. Ahora podés continuar
+                        la coordinación externa si ambas
+                        partes lo desean.
+
+                    </p>
+
+
+                    <div class="actions">
+
+                        <a
+                            id="whatsappLink"
+                            class="btn btn-whatsapp"
+                            href="#"
+                            target="_blank">
+
+                            <span style="font-size:20px;">
+                                ◉
+                            </span>
+
+                            Abrir WhatsApp
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 INPUT CHAT
+            ================================================== -->
+
+            <div
+                id="chatLocked"
+                class="chat-locked">
+
+                Completá las 5 confirmaciones para habilitar
+                el chat libre.
+
+            </div>
+
+
+            <div
+                id="chatInputArea"
+                class="chat-input"
+                style="display:none;">
+
+                <input
+                    id="messageInput"
+                    placeholder="Escribí un mensaje..."
+                    onkeydown="
+                        if(event.key==='Enter'){
+                            sendMessage();
+                        }
+                    ">
+
+
+                <button
+                    class="btn btn-primary"
+                    onclick="sendMessage()">
+
+                    Enviar
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACCIONES CHAT
+            ================================================== -->
+
+            <div
+                class="actions"
+                style="
+                    padding:0 15px 15px;
+                ">
+
+
+                <button
+                    class="btn btn-blue"
+                    onclick="openNegotiation()">
+
+                    🤝 Negociar precio
+
+                </button>
+
+
+                <button
+                    class="btn btn-outline"
+                    onclick="openMeeting()">
+
+                    📍 Coordinar encuentro
+
+                </button>
+
+
+                <button
+                    class="btn btn-danger"
+                    onclick="reportIssue()">
+
+                    🚨 Reportar
+
+                </button>
+
+
+                <button
+                    class="btn btn-dark"
+                    onclick="finishChat()">
+
+                    Archivar conversación
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MIS VEHICULOS
+========================================================= -->
+
+<section
+    id="misvehiculos"
+    class="view">
+
+
+    <div class="section-title">
+
+        <h2>
+            Mis vehículos
+        </h2>
+
+        <p>
+            Vehículos asociados a tu cuenta.
+        </p>
+
+    </div>
+
+
+    <div class="grid grid-2" id="userVehiclesGrid">
+
+
+        <div class="card">
+
+            <span class="status ok">
+                ACTIVO
+            </span>
+
+
+            <figure class="vehicle-photo" style="margin-top:10px;">
+
+                <img
+                    src="https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=1200&q=85"
+                    alt="Vehículo demo">
+
+            </figure>
+
+
+            <h2>
+                Toyota Corolla XEI
+            </h2>
+
+
+            <p style="margin-top:4px;">
+                2021 · AB 123 CD · $24.500.000
+            </p>
+
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showVehicleDetail('Toyota Corolla XEI', '$24.500.000', '2021', '48.200 km', 'Automática', 'Nafta', 'AB 123 CD', 'https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=1200&q=85')">
+
+                    Ver ficha
+
+                </button>
+
+
+                <button
+                    class="btn btn-outline"
+                    onclick="showView('vender')">
+
+                    Editar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CUENTA
+========================================================= -->
+
+<section
+    id="cuenta"
+    class="view">
+
+
+    <div class="section-title">
+
+        <h2>
+            Mi cuenta
+        </h2>
+
+        <p>
+            Perfil, seguridad y puntos.
+        </p>
+
+    </div>
+
+
+    <div class="grid grid-2">
+
+
+        <div class="card">
+
+            <div class="icon">
+                👤
+            </div>
+
+            <h3>
+                Usuario demo
+            </h3>
+
+            <p>
+                usuario@tuauto.demo
+            </p>
+
+
+            <br>
+
+
+            <div class="data-list">
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Estado
+                    </span>
+
+                    <span class="status ok">
+                        Activo
+                    </span>
+
+                </div>
+
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Perfil
+                    </span>
+
+                    <span class="data-value">
+                        98%
+                    </span>
+
+                </div>
+
+                <div class="data-row">
+
+                    <span class="data-label">
+                        Ubicación
+                    </span>
+
+                    <span class="data-value">
+                        Córdoba, Argentina
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-outline" onclick="showToast('Opciones de perfil actualizadas')">
+                    ⚙️ Editar Perfil
+                </button>
+            </div>
+
+        </div>
+
+
+
+        <div class="card points-card">
+
+            <span class="status warning">
+                TU AUTO POINTS
+            </span>
+
+            <div class="points-number">
+                <span id="pointsNumber">
+                    680
+                </span>
+                pts
+            </div>
+
+            <p>
+                Puntos obtenidos por completar
+                acciones dentro de la plataforma.
+            </p>
+
+
+            <div class="progress">
+
+                <div id="pointsProgressBar" style="width: 68%;"></div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-outline"
+                    onclick="showPoints()">
+
+                    Ver historial
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
 
 </main>
 
-<!-- =========================================================
-     MODALES
-========================================================= -->
 
-<!-- MODAL CREAR USUARIO -->
-<div id="modalNuevoUsuario" class="modal">
-    <div class="modal-card">
-        <h3>Registrar Nuevo Usuario</h3>
-        <p style="color:#666; font-size:13px; margin-bottom:15px;">Añade otro perfil a la sesión para simular mensajes de dos partes.</p>
-        <form onsubmit="handleCreateUser(event)">
-            <div class="field" style="margin-bottom: 12px;">
-                <label>Nombre y Apellido *</label>
-                <input type="text" id="newUserName" required placeholder="Ej. Carlos Rossi">
-            </div>
-            <div class="field" style="margin-bottom: 15px;">
-                <label>Correo Electrónico *</label>
-                <input type="email" id="newUserEmail" required placeholder="carlos@ejemplo.com">
-            </div>
-            <div style="display:flex; gap:10px; justify-content:flex-end;">
-                <button type="button" class="btn btn-dark" onclick="closeModal('modalNuevoUsuario')">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Crear e Iniciar Sesión</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- MODAL VER DETALLE DE VEHICULO Y CONTACTAR -->
-<div id="modalVehiculo" class="modal">
-    <div class="modal-card" style="max-width: 650px;">
-        <div id="modalVehiculoContent">
-            <!-- Carga dinámica -->
-        </div>
-        <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn btn-dark" onclick="closeModal('modalVehiculo')">Cerrar</button>
-            <button class="btn btn-primary" id="btnContactSeller">💬 Iniciar Chat por este Auto</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL AYUDA -->
-<div id="modalAyuda" class="modal">
-    <div class="modal-card">
-        <h3>Centro de Ayuda y Consejos</h3>
-        <p style="margin: 10px 0; color:#555;">TuAuto permite el contacto directo entre partes. Recuerda siempre:</p>
-        <ul style="padding-left: 20px; font-size: 13px; color: #444; line-height: 1.6;">
-            <li>No realizar transferencias por adelantado sin verificar el estado legal e inspeccionar el auto.</li>
-            <li>Reunirse en lugares públicos o puntos de encuentro seguros.</li>
-            <li>Verificar la documentación de dominio e informe de dominio antes de abonar.</li>
-        </ul>
-        <br>
-        <button class="btn btn-primary" onclick="closeModal('modalAyuda')">Entendido</button>
-    </div>
-</div>
-
-<!-- TOAST -->
-<div id="toast" class="toast">Notificación de sistema</div>
 
 <!-- =========================================================
      FOOTER
 ========================================================= -->
-<footer>
+
+<footer
+    id="footer">
+
+
     <div class="footer-grid">
-        <div class="footer-col">
-            <div class="logo" style="margin-bottom:10px;">
-                <div class="logo-mark">TA</div>
+
+
+        <div class="footer-brand">
+
+            <div class="logo" onclick="showView('inicio')">
+
+                <div class="logo-mark">
+                    TA
+                </div>
+
                 TuAuto
+
             </div>
-            <p>La plataforma para encontrar, comprar y vender vehículos de forma transparente y ágil.</p>
+
+
+            <p>
+
+                Plataforma demo orientada a organizar
+                operaciones de compra y venta de vehículos
+                en un entorno digital.
+
+            </p>
+
+
+            <div class="actions">
+
+                <a
+                    class="btn btn-whatsapp"
+                    href="https://wa.me/543517734031?text=Hola%20TuAuto%2C%20tengo%20una%20consulta."
+                    target="_blank">
+
+                    WhatsApp
+
+                </a>
+
+                <a
+                    class="btn btn-outline"
+                    href="mailto:soporte@tuauto.demo">
+
+                    Email
+
+                </a>
+
+            </div>
+
         </div>
-        <div class="footer-col">
-            <h4>Navegación</h4>
-            <a href="#" onclick="showView('inicio')">Inicio</a>
-            <a href="#" onclick="showView('comprar')">Comprar Autos</a>
-            <a href="#" onclick="showView('vender')">Vender mi Auto</a>
+
+
+
+        <div class="footer-column">
+
+            <h4>
+                Plataforma
+            </h4>
+
+            <a href="#"
+               onclick="showView('comprar');return false;">
+                Comprar
+            </a>
+
+            <a href="#"
+               onclick="showView('vender');return false;">
+                Vender
+            </a>
+
+            <a href="#"
+               onclick="showView('chat');return false;">
+                Mensajes
+            </a>
+
+            <a href="#"
+               onclick="showPoints();return false;">
+                Puntos
+            </a>
+
         </div>
-        <div class="footer-col">
-            <h4>Soporte</h4>
-            <a href="#" onclick="showModal('modalAyuda')">Consejos de Seguridad</a>
-            <a href="#" onclick="showToast('Soporte en línea disponible 24/7')">Atención al Cliente</a>
+
+
+
+        <div class="footer-column">
+
+            <h4>
+                Soporte
+            </h4>
+
+            <a href="mailto:soporte@tuauto.demo">
+                Email
+            </a>
+
+            <a
+                href="https://wa.me/543517734031"
+                target="_blank">
+
+                WhatsApp
+
+            </a>
+
+            <a href="#" onclick="showSecurity(); return false;">
+                Preguntas frecuentes
+            </a>
+
+            <a href="#" onclick="showSecurity(); return false;">
+                Centro de seguridad
+            </a>
+
         </div>
-        <div class="footer-col">
-            <h4>Legales</h4>
-            <a href="#">Términos y Condiciones</a>
-            <a href="#">Políticas de Privacidad</a>
+
+
+
+        <div class="footer-column">
+
+            <h4>
+                Atención
+            </h4>
+
+            <a href="#">
+                Lunes a viernes
+            </a>
+
+            <a href="#">
+                09:00 — 18:00
+            </a>
+
+            <a href="#">
+                Córdoba, Argentina
+            </a>
+
+            <a href="#">
+                Soporte digital
+            </a>
+
         </div>
+
     </div>
-    <div style="text-align:center; margin-top:30px; font-size:11px; color:#666;">
-        © 2026 TuAuto Marketplace. Todos los derechos reservados.
+
+
+
+    <div
+        class="legal-box">
+
+
+        <strong>
+            Datos legales / fiscales — DEMO
+        </strong>
+
+
+        <br>
+
+
+        Razón social:
+        TuAuto Plataforma Digital S.R.L.
+        — Dato ficticio para prototipo.
+
+
+        <br>
+
+
+        CUIT:
+        XX-XXXXXXXX-X
+        — Dato ficticio.
+
+
+        <br>
+
+
+        Domicilio legal:
+        Córdoba, Argentina
+        — Dato de demostración.
+
+
+        <br>
+
+
+        Este prototipo no representa una sociedad
+        legalmente constituida ni acredita inscripción
+        fiscal real. Antes de publicar el producto,
+        estos datos deben ser reemplazados por los
+        datos jurídicos y fiscales correspondientes.
+
+
+        <br><br>
+
+
+        © 2026 TuAuto · Términos · Privacidad ·
+        Seguridad · Transparencia
+
     </div>
+
 </footer>
 
+
+
 <!-- =========================================================
-     JAVASCRIPT Y LÓGICA DE FUNCIONAMIENTO REAL
+     MODAL
 ========================================================= -->
+
+<div
+    id="modal"
+    class="modal">
+
+
+    <div class="modal-card">
+
+
+        <h2
+            id="modalTitle">
+
+            TuAuto
+
+        </h2>
+
+
+        <div
+            id="modalContent" style="margin-top:15px; margin-bottom:15px;">
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="closeModal()">
+
+                Entendido
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div
+    id="toast"
+    class="toast">
+</div>
+
+
+
 <script>
 
 /* =========================================================
-   1. BASE DE DATOS LOCAL Y ESTADO DEL SISTEMA (LOCALSTORAGE)
+   ESTADO GLOBAL Y DATOS DEL CHAT
 ========================================================= */
 
-const INITIAL_USERS = [
-    { id: 'usr_1', name: 'Juan Pérez', email: 'juan@demo.com' },
-    { id: 'usr_2', name: 'María Gómez (Vendedora)', email: 'maria@demo.com' }
+let currentQuestion = 0;
+let chatUnlocked = false;
+let chatAnswers = [];
+let totalPoints = 680;
+let myVehiclesCount = 1;
+
+const chatQuestions = [
+
+    "¿El vehículo continúa disponible para ser visto?",
+
+    "¿El vendedor confirma que la información principal publicada corresponde al vehículo que se ofrece?",
+
+    "¿Ambas partes están de acuerdo en coordinar una visita antes de tomar una decisión de compra?",
+
+    "¿Ambas partes aceptan conversar previamente sobre precio y condiciones dentro de la plataforma?",
+
+    "¿Ambas partes desean continuar con la coordinación de la operación?"
+
 ];
 
-const INITIAL_PUBLICATIONS = [
-    {
-        id: 'pub_1',
-        title: 'Toyota Corolla 2.0 XEI CVT',
-        type: 'sedan',
-        price: 24500,
-        year: 2021,
-        km: 48200,
-        userId: 'usr_2',
-        image: 'https://images.unsplash.com/photo-1623869675781-80aa31012a5a?auto=format&fit=crop&w=800&q=80',
-        description: 'Impecable estado general, único dueño, services realizados en concesionaria oficial Toyota. VTV al día.'
-    },
-    {
-        id: 'pub_2',
-        title: 'Volkswagen Polo Highline 1.6',
-        type: 'hatchback',
-        price: 19800,
-        year: 2022,
-        km: 31000,
-        userId: 'usr_2',
-        image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80',
-        description: 'Auto muy económico, caja automática, pantalla multimedia de 10 pulgadas, cámara de retroceso.'
-    },
-    {
-        id: 'pub_3',
-        title: 'Ford Ranger XLT 3.2 4x4',
-        type: 'pickup',
-        price: 36500,
-        year: 2023,
-        km: 25000,
-        userId: 'usr_1',
-        image: 'https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=800&q=80',
-        description: 'Excelente camioneta para trabajo y uso diario. Lona cobertora, enganche e inspección legal al día.'
-    }
-];
-
-const INITIAL_CHATS = [
-    {
-        id: 'chat_1',
-        publicationId: 'pub_1',
-        buyerId: 'usr_1',
-        sellerId: 'usr_2',
-        messages: [
-            { senderId: 'usr_1', text: 'Hola María, ¿sigue disponible el Corolla?', timestamp: '10:30' },
-            { senderId: 'usr_2', text: 'Hola Juan! Sí, está disponible. Podés pasar a verlo por Córdoba Capital.', timestamp: '10:32' }
-        ]
-    }
-];
-
-// Carga Inicial desde localStorage
-function loadData(key, fallback) {
-    const data = localStorage.getItem('tuauto_' + key);
-    return data ? JSON.parse(data) : fallback;
-}
-
-function saveData(key, data) {
-    localStorage.setItem('tuauto_' + key, JSON.stringify(data));
-}
-
-let users = loadData('users', INITIAL_USERS);
-let publications = loadData('publications', INITIAL_PUBLICATIONS);
-let chats = loadData('chats', INITIAL_CHATS);
-
-// Usuario Activo en Sesión
-let currentUserId = localStorage.getItem('tuauto_current_user') || users[0].id;
-let activeChatId = null;
-let currentViewingVehicleId = null;
 
 /* =========================================================
-   2. GESTIÓN DE VISTAS Y NAVEGACIÓN
+   INICIALIZACIÓN
+========================================================= */
+window.onload = function() {
+    renderQuestion();
+    updatePointsUI();
+};
+
+
+/* =========================================================
+   NAVEGACION
 ========================================================= */
 
-function showView(viewId, btnEl) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    const target = document.getElementById(viewId);
-    if(target) target.classList.add('active');
+function showView(id, button = null) {
 
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    if(btnEl) btnEl.classList.add('active');
+    document.querySelectorAll(".view").forEach(view => {
+        view.classList.remove("active");
+    });
 
-    // Cerrar menú móvil
-    document.getElementById('mobileNav').classList.remove('show');
+    const target = document.getElementById(id);
 
-    // Renderizar contenidos según la vista activada
-    if(viewId === 'inicio') renderHome();
-    if(viewId === 'comprar') renderVehiclesList();
-    if(viewId === 'chat') renderChatSection();
-    if(viewId === 'cuenta') renderProfile();
+    if (target) {
+        target.classList.add("active");
+    }
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelectorAll("nav button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    } else {
+        // Find matching nav button if not passed directly
+        const navBtns = document.querySelectorAll("nav button");
+        navBtns.forEach(btn => {
+            if (btn.getAttribute("onclick") && btn.getAttribute("onclick").includes(`'${id}'`)) {
+                btn.classList.add("active");
+            }
+        });
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
+
+
+function mobileNavigate(id) {
+    showView(id);
+    document.getElementById("mobileNav").classList.remove("show");
+}
+
 
 function toggleMobileMenu() {
-    document.getElementById('mobileNav').classList.toggle('show');
+    document.getElementById("mobileNav").classList.toggle("show");
 }
 
-function mobileNavigate(viewId) {
-    showView(viewId);
-}
 
 /* =========================================================
-   3. GESTIÓN DE USUARIOS Y ROLES (SIMULACIÓN DE DOS PARTES)
+   PUNTOS Y NOTIFICACIONES
 ========================================================= */
 
-function updateActiveUserUI() {
-    const user = users.find(u => u.id === currentUserId) || users[0];
-    currentUserId = user.id;
-    localStorage.setItem('tuauto_current_user', currentUserId);
-
-    document.getElementById('currentActiveUserLabel').innerText = `${user.name} (${user.email})`;
-    document.getElementById('headerAvatar').innerText = user.name.substring(0,2).toUpperCase();
-
-    // Actualizar vista actual si es necesario
-    const activeView = document.querySelector('.view.active');
-    if(activeView && activeView.id === 'chat') renderChatSection();
-    if(activeView && activeView.id === 'cuenta') renderProfile();
+function addPoints(amount, reason) {
+    totalPoints += amount;
+    updatePointsUI();
+    showToast(`+${amount} TuAuto Points: ${reason}`);
 }
 
-function switchUserRole() {
-    const currentIndex = users.findIndex(u => u.id === currentUserId);
-    const nextIndex = (currentIndex + 1) % users.length;
-    currentUserId = users[nextIndex].id;
-    updateActiveUserUI();
-    showToast(`Ahora estás navegando como: ${users[nextIndex].name}`);
+function updatePointsUI() {
+    const pNum = document.getElementById("pointsNumber");
+    const dashP = document.getElementById("dashPointsValue");
+    const bar = document.getElementById("pointsProgressBar");
+    
+    if (pNum) pNum.innerText = totalPoints;
+    if (dashP) dashP.innerText = totalPoints;
+    if (bar) {
+        const pct = Math.min(100, Math.round((totalPoints / 1000) * 100));
+        bar.style.width = pct + "%";
+    }
 }
 
-function handleCreateUser(e) {
-    e.preventDefault();
-    const name = document.getElementById('newUserName').value.trim();
-    const email = document.getElementById('newUserEmail').value.trim();
-
-    if(!name || !email) return;
-
-    const newUser = {
-        id: 'usr_' + Date.now(),
-        name: name,
-        email: email
-    };
-
-    users.push(newUser);
-    saveData('users', users);
-
-    currentUserId = newUser.id;
-    updateActiveUserUI();
-
-    closeModal('modalNuevoUsuario');
-    document.getElementById('newUserName').value = '';
-    document.getElementById('newUserEmail').value = '';
-    showToast(`Usuario ${name} creado con éxito y activo.`);
+function showPoints() {
+    showModal(
+        "⭐ TuAuto Points",
+        `
+        <p>Acumulá puntos por operar de forma transparente y completar coordinaciones dentro del portal.</p>
+        <br>
+        <div class="data-list">
+            <div class="data-row">
+                <span>Puntos actuales</span>
+                <b style="color:var(--orange2); font-size:18px;">${totalPoints} pts</b>
+            </div>
+            <div class="data-row">
+                <span>Publicación completada</span>
+                <span class="status ok">+100 pts</span>
+            </div>
+            <div class="data-row">
+                <span>Coordinación de visita</span>
+                <span class="status ok">+50 pts</span>
+            </div>
+            <div class="data-row">
+                <span>Confirmación de seguridad</span>
+                <span class="status ok">+30 pts</span>
+            </div>
+        </div>
+        `
+    );
 }
+
+function showNotifications() {
+    showModal(
+        "🔔 Notificaciones",
+        `
+        <div class="check-list">
+            <div class="check">
+                <span>💬</span>
+                <div>
+                    <b>Toyota Corolla XEI</b>
+                    <p>Tiene una propuesta de negociación o mensaje nuevo.</p>
+                </div>
+            </div>
+            <div class="check">
+                <span>🛡️</span>
+                <div>
+                    <b>Seguridad al día</b>
+                    <p>Recordá verificar la documentación del vehículo antes de realizar una seña.</p>
+                </div>
+            </div>
+        </div>
+        `
+    );
+}
+
+function showSecurity() {
+    showModal(
+        "🛡️ Centro de Seguridad",
+        `
+        <h3>Recomendaciones de Seguridad</h3>
+        <br>
+        <ul style="padding-left:20px; line-height:1.7; color:var(--text2);">
+            <li>Nunca realices transferencias previas sin haber visto el vehículo en persona.</li>
+            <li>Revisá la documentación original (Cédula, Título, Formulario 08).</li>
+            <li>Coordiná reuniones en puntos públicos e iluminados.</li>
+            <li>Reportá a usuarios que soliciten métodos de pago inusuales.</li>
+        </ul>
+        `
+    );
+}
+
 
 /* =========================================================
-   4. RENDERIZADO DE VEHÍCULOS Y PUBLICACIONES
+   FILTRADO DE VEHICULOS
 ========================================================= */
 
-function renderVehicleCard(pub) {
-    const seller = users.find(u => u.id === pub.userId) || { name: 'Vendedor' };
-    return `
-        <article class="card vehicle-card">
-            <div class="vehicle-photo">
-                <img src="${pub.image}" alt="${pub.title}" onerror="this.src='https://placehold.co/800x500/222/fff?text=TuAuto'">
-                <span class="vehicle-photo-badge">${pub.year}</span>
-            </div>
-            <div class="vehicle-body">
-                <div class="vehicle-header">
-                    <div>
-                        <div class="vehicle-title">${pub.title}</div>
-                        <p style="font-size:12px; color:#666;">Vendedor: ${seller.name}</p>
-                    </div>
-                    <div class="price">$${pub.price.toLocaleString()} USD</div>
-                </div>
-                <div class="vehicle-meta">
-                    <span class="meta-pill">🚘 ${pub.type.toUpperCase()}</span>
-                    <span class="meta-pill">⚡ ${pub.km.toLocaleString()} km</span>
-                </div>
-                <div style="margin-top:auto; padding-top:12px; display:flex; gap:8px;">
-                    <button class="btn btn-dark btn-sm" style="flex:1;" onclick="openVehicleModal('${pub.id}')">Ver Ficha</button>
-                    <button class="btn btn-primary btn-sm" onclick="startChatForPublication('${pub.id}')">💬 Chatear</button>
-                </div>
-            </div>
-        </article>
-    `;
-}
+function filterVehicles() {
+    const searchVal = document.getElementById("searchVehicle").value.toLowerCase();
+    const typeVal = document.getElementById("filterType").value;
+    const yearVal = document.getElementById("filterYear").value;
+    const transVal = document.getElementById("filterTransmission").value;
+    const fuelVal = document.getElementById("filterFuel").value;
+    const priceVal = parseFloat(document.getElementById("filterPrice").value) || Infinity;
+    const kmVal = parseFloat(document.getElementById("filterKm").value) || Infinity;
 
-function renderHome() {
-    const grid = document.getElementById('homeFeaturedGrid');
-    grid.innerHTML = publications.slice(0, 3).map(renderVehicleCard).join('');
-}
+    const cards = document.querySelectorAll("#vehicleGrid .vehicle-card");
+    let count = 0;
 
-function renderVehiclesList() {
-    const grid = document.getElementById('vehiclesGrid');
-    const searchVal = document.getElementById('searchInput').value.toLowerCase();
-    const typeVal = document.getElementById('filterType').value;
-    const maxPriceVal = parseFloat(document.getElementById('filterMaxPrice').value);
-    const sortVal = document.getElementById('filterSort').value;
+    cards.forEach(card => {
+        const search = card.dataset.search || "";
+        const type = card.dataset.type || "";
+        const year = card.dataset.year || "";
+        const trans = card.dataset.transmission || "";
+        const fuel = card.dataset.fuel || "";
+        const price = parseFloat(card.dataset.price) || 0;
+        const km = parseFloat(card.dataset.km) || 0;
 
-    let filtered = publications.filter(p => {
-        const matchesSearch = p.title.toLowerCase().includes(searchVal) || p.description.toLowerCase().includes(searchVal);
-        const matchesType = !typeVal || p.type === typeVal;
-        const matchesPrice = isNaN(maxPriceVal) || p.price <= maxPriceVal;
-        return matchesSearch && matchesType && matchesPrice;
+        const matchesSearch = search.includes(searchVal);
+        const matchesType = !typeVal || type === typeVal;
+        const matchesYear = !yearVal || year === yearVal;
+        const matchesTrans = !transVal || trans === transVal;
+        const matchesFuel = !fuelVal || fuel === fuelVal;
+        const matchesPrice = price <= priceVal;
+        const matchesKm = km <= kmVal;
+
+        if (matchesSearch && matchesType && matchesYear && matchesTrans && matchesFuel && matchesPrice && matchesKm) {
+            card.style.display = "block";
+            count++;
+        } else {
+            card.style.display = "none";
+        }
     });
 
-    if(sortVal === 'price-asc') filtered.sort((a,b) => a.price - b.price);
-    if(sortVal === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+    document.getElementById("resultsCount").innerText = `Mostrando ${count} vehículo(s) encontrado(s).`;
+}
 
-    if(filtered.length === 0) {
-        grid.innerHTML = `<div class="card" style="grid-column:1/-1; text-align:center; padding:40px;">No se encontraron publicaciones con esos criterios.</div>`;
-    } else {
-        grid.innerHTML = filtered.map(renderVehicleCard).join('');
+function quickFilter(type, val) {
+    if (type === 'type') document.getElementById("filterType").value = val;
+    if (type === 'transmission') document.getElementById("filterTransmission").value = val;
+    if (type === 'price') document.getElementById("filterPrice").value = val;
+    filterVehicles();
+}
+
+function resetFilters() {
+    document.getElementById("searchVehicle").value = "";
+    document.getElementById("filterType").value = "";
+    document.getElementById("filterYear").value = "";
+    document.getElementById("filterTransmission").value = "";
+    document.getElementById("filterFuel").value = "";
+    document.getElementById("filterPrice").value = "";
+    document.getElementById("filterKm").value = "";
+    filterVehicles();
+}
+
+
+/* =========================================================
+   DETALLE DE VEHICULO
+========================================================= */
+
+function showVehicleDetail(title, price, year, km, trans, fuel, patente, img) {
+    document.getElementById("viewCarTitle").innerText = title;
+    document.getElementById("viewCarSubTitle").innerText = title;
+    document.getElementById("viewCarPrice").innerText = price;
+    document.getElementById("viewCarSpecs").innerText = `${year} · ${trans} · ${km}`;
+    document.getElementById("viewCarKm").innerText = km;
+    document.getElementById("viewCarFuel").innerText = fuel;
+    document.getElementById("viewCarTrans").innerText = trans;
+    document.getElementById("viewCarPatente").innerText = patente;
+    if(img) document.getElementById("viewCarImg").src = img;
+
+    showView("vehiculo");
+}
+
+function openChatFromFicha() {
+    const title = document.getElementById("viewCarTitle").innerText;
+    openChatWithVehicle(title);
+}
+
+function openChatWithVehicle(title) {
+    openChat();
+    switchChat(title);
+}
+
+
+/* =========================================================
+   PUBLICAR UN AUTO (VENDER)
+========================================================= */
+
+function previewPhotos(input) {
+    const preview = document.getElementById("mediaPreview");
+    if (input.files) {
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const item = document.createElement("div");
+                item.className = "media-preview-item";
+                item.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                preview.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        });
     }
 }
 
-function filterGlobalVehicles() {
-    const text = document.getElementById('headerSearchInput').value;
-    showView('comprar');
-    document.getElementById('searchInput').value = text;
-    renderVehiclesList();
+function previewVideo(input) {
+    const preview = document.getElementById("mediaPreview");
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const item = document.createElement("div");
+            item.className = "media-preview-item";
+            item.innerHTML = `<video src="${e.target.result}" controls></video>`;
+            preview.appendChild(item);
+        };
+        reader.readAsDataURL(file);
+    }
 }
 
-/* =========================================================
-   5. MODAL DETALLE DE VEHÍCULO
-========================================================= */
+function publishCar() {
+    const marca = document.getElementById("marca").value.trim();
+    const modelo = document.getElementById("modelo").value.trim();
+    const anio = document.getElementById("anio").value.trim();
+    const precio = document.getElementById("precio").value.trim();
+    const km = document.getElementById("km").value.trim();
+    const patente = document.getElementById("patente").value.trim();
 
-function openVehicleModal(pubId) {
-    const pub = publications.find(p => p.id === pubId);
-    if(!pub) return;
+    const decl1 = document.getElementById("decl1").checked;
+    const decl2 = document.getElementById("decl2").checked;
+    const decl3 = document.getElementById("decl3").checked;
 
-    currentViewingVehicleId = pub.id;
-    const seller = users.find(u => u.id === pub.userId) || { name: 'Vendedor' };
+    if (!marca || !modelo || !anio || !precio || !km || !patente) {
+        showToast("Por favor completá todos los campos obligatorios (*).");
+        return;
+    }
 
-    const content = `
-        <div style="height: 250px; overflow:hidden; border-radius:6px; margin-bottom:15px;">
-            <img src="${pub.image}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='https://placehold.co/800x500/222/fff?text=TuAuto'">
-        </div>
-        <div style="display:flex; justify-size:space-between; align-items:flex-start;">
+    if (!decl1 || !decl2 || !decl3) {
+        showToast("Aceptá las declaraciones requeridas para publicar.");
+        return;
+    }
+
+    const title = `${marca} ${modelo}`;
+    const priceFormatted = `$${Number(precio).toLocaleString('es-AR')}`;
+    const defaultImg = "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=85";
+
+    // Add to Public Grid
+    const vehicleGrid = document.getElementById("vehicleGrid");
+    const newArticle = document.createElement("article");
+    newArticle.className = "card vehicle-card";
+    newArticle.dataset.search = `${marca} ${modelo}`.toLowerCase();
+    newArticle.dataset.type = document.getElementById("tipoVehiculo").value;
+    newArticle.dataset.year = anio;
+    newArticle.dataset.transmission = document.getElementById("transmision").value;
+    newArticle.dataset.fuel = document.getElementById("combustible").value;
+    newArticle.dataset.price = precio;
+    newArticle.dataset.km = km;
+
+    newArticle.innerHTML = `
+        <figure class="vehicle-photo">
+            <img src="${defaultImg}" alt="${title}">
+            <figcaption class="vehicle-photo-badge">NUEVA PUBLICACIÓN</figcaption>
+        </figure>
+        <div class="vehicle-header">
             <div>
-                <h2>${pub.title}</h2>
-                <p style="color:#666; font-size:13px; margin-top:2px;">Publicado por: <strong>${seller.name}</strong></p>
+                <div class="vehicle-title">${title}</div>
+                <p>${anio} · ${Number(km).toLocaleString('es-AR')} km</p>
             </div>
-            <div style="font-size:24px; font-weight:900; color:var(--orange);">$${pub.price.toLocaleString()} USD</div>
+            <div class="price">${priceFormatted}</div>
         </div>
-        <hr style="margin: 15px 0; border:0; border-top:1px solid #eee;">
-        <div style="display:flex; gap:15px; margin-bottom:15px; font-size:13px;">
-            <div><strong>Año:</strong> ${pub.year}</div>
-            <div><strong>Kilómetros:</strong> ${pub.km.toLocaleString()} km</div>
-            <div><strong>Categoría:</strong> ${pub.type.toUpperCase()}</div>
+        <div class="vehicle-meta">
+            <span class="meta-pill">${document.getElementById("tipoVehiculo").value.toUpperCase()}</span>
+            <span class="meta-pill">${document.getElementById("transmision").value.toUpperCase()}</span>
+            <span class="meta-pill">${document.getElementById("combustible").value.toUpperCase()}</span>
         </div>
-        <h4>Descripción del Vendedor</h4>
-        <p style="font-size:13px; color:#444; line-height:1.5; margin-top:5px;">${pub.description || 'Sin descripción adicional.'}</p>
+        <br>
+        <span class="status ok">● Información declarada completa</span>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="showVehicleDetail('${title}', '${priceFormatted}', '${anio}', '${km} km', '${document.getElementById("transmision").value}', '${document.getElementById("combustible").value}', '${patente}', '${defaultImg}')">Ver ficha</button>
+            <button class="btn btn-outline" onclick="openChatWithVehicle('${title}')">💬 Contactar</button>
+        </div>
     `;
 
-    document.getElementById('modalVehiculoContent').innerHTML = content;
-    document.getElementById('btnContactSeller').onclick = function() {
-        closeModal('modalVehiculo');
-        startChatForPublication(pub.id);
-    };
+    vehicleGrid.prepend(newArticle);
 
-    showModal('modalVehiculo');
+    // Add to My Vehicles Grid
+    const userGrid = document.getElementById("userVehiclesGrid");
+    const userArticle = document.createElement("div");
+    userArticle.className = "card";
+    userArticle.innerHTML = `
+        <span class="status ok">ACTIVO</span>
+        <figure class="vehicle-photo" style="margin-top:10px;">
+            <img src="${defaultImg}" alt="${title}">
+        </figure>
+        <h2>${title}</h2>
+        <p style="margin-top:4px;">${anio} · ${patente} · ${priceFormatted}</p>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="showVehicleDetail('${title}', '${priceFormatted}', '${anio}', '${km} km', '${document.getElementById("transmision").value}', '${document.getElementById("combustible").value}', '${patente}', '${defaultImg}')">Ver ficha</button>
+            <button class="btn btn-outline" onclick="showView('vender')">Editar</button>
+        </div>
+    `;
+    userGrid.prepend(userArticle);
+
+    myVehiclesCount++;
+    document.getElementById("userVehiclesCount").innerText = myVehiclesCount;
+
+    addPoints(100, "Vehículo publicado con éxito");
+
+    showModal("¡Vehículo Publicado!", `<p>Tu auto <b>${title}</b> ya está visible en la plataforma de TuAuto.</p>`);
+    showView("misvehiculos");
 }
+
 
 /* =========================================================
-   6. PUBLICAR UN VEHÍCULO
+   CHAT
 ========================================================= */
 
-function handleCreatePublication(e) {
-    e.preventDefault();
-
-    const title = document.getElementById('pubTitle').value.trim();
-    const type = document.getElementById('pubType').value;
-    const price = parseFloat(document.getElementById('pubPrice').value);
-    const year = parseInt(document.getElementById('pubYear').value);
-    const km = parseInt(document.getElementById('pubKm').value);
-    let image = document.getElementById('pubImage').value.trim();
-    const description = document.getElementById('pubDescription').value.trim();
-
-    if(!image) {
-        image = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80';
-    }
-
-    const newPub = {
-        id: 'pub_' + Date.now(),
-        title,
-        type,
-        price,
-        year,
-        km,
-        userId: currentUserId,
-        image,
-        description
-    };
-
-    publications.unshift(newPub);
-    saveData('publications', publications);
-
-    document.getElementById('publishForm').reset();
-    showToast('¡Publicación creada con éxito!');
-    showView('comprar');
+function openChat() {
+    showView("chat");
 }
 
-/* =========================================================
-   7. SISTEMA DE CHAT TOTALMENTE FUNCIONAL
-========================================================= */
-
-function startChatForPublication(pubId) {
-    const pub = publications.find(p => p.id === pubId);
-    if(!pub) return;
-
-    if(pub.userId === currentUserId) {
-        showToast('Esta publicación es tuya. Cambiá de usuario para simular una consulta.');
-        return;
-    }
-
-    // Buscar si ya existe un chat entre este comprador y vendedor por esta publicación
-    let chat = chats.find(c => c.publicationId === pubId && c.buyerId === currentUserId);
-
-    if(!chat) {
-        chat = {
-            id: 'chat_' + Date.now(),
-            publicationId: pubId,
-            buyerId: currentUserId,
-            sellerId: pub.userId,
-            messages: [
-                {
-                    senderId: 'system',
-                    text: `Chat iniciado por el vehículo: ${pub.title} ($${pub.price} USD)`,
-                    timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-                }
-            ]
-        };
-        chats.push(chat);
-        saveData('chats', chats);
-    }
-
-    activeChatId = chat.id;
-    showView('chat');
-}
-
-function renderChatSection() {
-    const container = document.getElementById('conversationsContainer');
+function switchChat(title, element = null) {
+    document.getElementById("activeChatTitle").innerText = title;
     
-    // Obtener los chats donde el usuario activo sea comprador o vendedor
-    const userChats = chats.filter(c => c.buyerId === currentUserId || c.sellerId === currentUserId);
+    if (element) {
+        document.querySelectorAll(".conversation").forEach(c => c.classList.remove("active"));
+        element.classList.add("active");
+    }
 
-    if(userChats.length === 0) {
-        container.innerHTML = `<div style="padding:20px; font-size:12px; color:#888; text-align:center;">No tienes conversaciones activas aún.</div>`;
-        renderChatMain(null);
+    if (title.includes("Toyota")) {
+        document.getElementById("chatOfferPrice").innerText = "$24.500.000";
+    } else {
+        document.getElementById("chatOfferPrice").innerText = "$27.900.000";
+    }
+
+    resetChatForVehicle();
+}
+
+function resetChatForVehicle() {
+
+    currentQuestion = 0;
+    chatUnlocked = false;
+    chatAnswers = [];
+
+    renderQuestion();
+
+    document.getElementById("chatStage").style.display = "block";
+    document.getElementById("freeChatBanner").style.display = "none";
+    document.getElementById("chatLocked").style.display = "block";
+    document.getElementById("chatInputArea").style.display = "none";
+    document.getElementById("whatsappArea").style.display = "none";
+    document.getElementById("negotiationArea").style.display = "none";
+    document.getElementById("meetingArea").style.display = "none";
+
+    document.getElementById("messages").innerHTML = `
+        <div class="message seller">
+            Hola. Sí, el vehículo continúa disponible.
+            <small>Vendedor · 14:32</small>
+        </div>
+        <div class="message buyer">
+            Quisiera conocer algunos detalles antes de coordinar.
+            <small>Comprador · 14:34</small>
+        </div>
+    `;
+
+    document.getElementById("chatState").className = "status warning";
+    document.getElementById("chatState").innerText = "PRE-COORDINACIÓN";
+}
+
+
+function renderQuestion() {
+
+    if (currentQuestion >= chatQuestions.length) {
+        unlockChat();
         return;
     }
 
-    if(!activeChatId || !userChats.find(c => c.id === activeChatId)) {
-        activeChatId = userChats[0].id;
-    }
+    document.getElementById("questionNumber").innerText = `Pregunta ${currentQuestion + 1} de 5`;
+    document.getElementById("questionText").innerText = chatQuestions[currentQuestion];
 
-    container.innerHTML = userChats.map(c => {
-        const pub = publications.find(p => p.id === c.publicationId) || { title: 'Vehículo' };
-        const otherUserId = (c.buyerId === currentUserId) ? c.sellerId : c.buyerId;
-        const otherUser = users.find(u => u.id === otherUserId) || { name: 'Usuario' };
-        const lastMsg = c.messages[c.messages.length - 1] || { text: '' };
+    const dots = document.querySelectorAll(".stage-dot");
 
-        const isActive = c.id === activeChatId ? 'active' : '';
-
-        return `
-            <div class="conversation-item ${isActive}" onclick="selectChat('${c.id}')">
-                <div class="conv-title">${pub.title}</div>
-                <div class="conv-sub">
-                    <span>Contacto: <strong>${otherUser.name}</strong></span>
-                </div>
-                <div class="conv-last-msg">${lastMsg.text}</div>
-            </div>
-        `;
-    }).join('');
-
-    renderChatMain(activeChatId);
-}
-
-function selectChat(chatId) {
-    activeChatId = chatId;
-    renderChatSection();
-}
-
-function renderChatMain(chatId) {
-    const messagesArea = document.getElementById('messagesContainer');
-    const input = document.getElementById('chatInput');
-    const btn = document.getElementById('chatSendBtn');
-    const headerTitle = document.getElementById('chatHeaderTitle');
-    const headerSub = document.getElementById('chatHeaderSub');
-
-    if(!chatId) {
-        messagesArea.innerHTML = `<div style="text-align:center; color:#888; margin:auto;">Sin chat seleccionado.</div>`;
-        input.disabled = true;
-        btn.disabled = true;
-        headerTitle.innerText = 'Seleccioná una conversación';
-        headerSub.innerText = '';
-        return;
-    }
-
-    const chat = chats.find(c => c.id === chatId);
-    if(!chat) return;
-
-    const pub = publications.find(p => p.id === chat.publicationId) || { title: 'Vehículo' };
-    const otherUserId = (chat.buyerId === currentUserId) ? chat.sellerId : chat.buyerId;
-    const otherUser = users.find(u => u.id === otherUserId) || { name: 'Usuario' };
-
-    headerTitle.innerText = pub.title;
-    headerSub.innerText = `Chateando con ${otherUser.name}`;
-
-    input.disabled = false;
-    btn.disabled = false;
-
-    messagesArea.innerHTML = chat.messages.map(m => {
-        if(m.senderId === 'system') {
-            return `<div class="msg-bubble system">${m.text}</div>`;
+    dots.forEach((dot, index) => {
+        dot.classList.remove("done", "current");
+        if (index < currentQuestion) {
+            dot.classList.add("done");
         }
-        const isMe = m.senderId === currentUserId;
-        return `
-            <div class="msg-bubble ${isMe ? 'me' : 'other'}">
-                ${m.text}
-                <span class="msg-meta">${m.timestamp}</span>
-            </div>
-        `;
-    }).join('');
-
-    messagesArea.scrollTop = messagesArea.scrollHeight;
+        if (index === currentQuestion) {
+            dot.classList.add("current");
+        }
+    });
 }
 
-function handleSendMessage(e) {
-    e.preventDefault();
-    const input = document.getElementById('chatInput');
+
+function answerQuestion(answer) {
+
+    chatAnswers.push({
+        question: chatQuestions[currentQuestion],
+        answer
+    });
+
+    addSystemMessage(`Confirmación ${currentQuestion + 1}/5: ${answer}.`);
+
+    if (answer === "NO") {
+        showToast("La respuesta quedó registrada. Podés continuar revisando la operación.");
+    }
+
+    currentQuestion++;
+
+    setTimeout(() => {
+        renderQuestion();
+    }, 250);
+}
+
+
+function unlockChat() {
+
+    chatUnlocked = true;
+
+    document.getElementById("chatStage").style.display = "none";
+    document.getElementById("freeChatBanner").style.display = "block";
+    document.getElementById("chatLocked").style.display = "none";
+    document.getElementById("chatInputArea").style.display = "flex";
+    document.getElementById("whatsappArea").style.display = "block";
+
+    document.getElementById("chatState").className = "status ok";
+    document.getElementById("chatState").innerText = "CHAT LIBRE";
+
+    document.getElementById("whatsappLink").href =
+        "https://wa.me/543517734031?text=" +
+        encodeURIComponent("Hola, estoy coordinando una operación mediante TuAuto y quisiera continuar la conversación.");
+
+    addSystemMessage("✓ Se completaron las 5 confirmaciones. El chat libre y WhatsApp quedaron habilitados.");
+    
+    addPoints(50, "Completaste las confirmaciones de seguridad");
+
+    showToast("Chat libre habilitado.");
+}
+
+
+/* =========================================================
+   MENSAJES
+========================================================= */
+
+function sendMessage() {
+
+    if (!chatUnlocked) {
+        showToast("Primero completá las 5 confirmaciones.");
+        return;
+    }
+
+    const input = document.getElementById("messageInput");
     const text = input.value.trim();
 
-    if(!text || !activeChatId) return;
+    if (!text) {
+        return;
+    }
 
-    const chat = chats.find(c => c.id === activeChatId);
-    if(!chat) return;
+    const suspiciousWords = [
+        "transferime",
+        "transferencia",
+        "usdt",
+        "cripto",
+        "depositame",
+        "seña urgente"
+    ];
 
-    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    const suspicious = suspiciousWords.some(word => text.toLowerCase().includes(word));
 
-    chat.messages.push({
-        senderId: currentUserId,
-        text: text,
-        timestamp: time
-    });
+    const messages = document.getElementById("messages");
+    const message = document.createElement("div");
 
-    saveData('chats', chats);
-    input.value = '';
+    message.className = "message buyer";
+    message.innerHTML = `
+        ${escapeHTML(text)}
+        <small>Vos · ahora</small>
+    `;
 
-    renderChatSection();
-}
+    messages.appendChild(message);
+    input.value = "";
+    messages.scrollTop = messages.scrollHeight;
 
-/* =========================================================
-   8. PERFIL Y MI CUENTA
-========================================================= */
-
-function renderProfile() {
-    const user = users.find(u => u.id === currentUserId) || users[0];
-    document.getElementById('profileName').innerText = user.name;
-    document.getElementById('profileEmail').innerText = user.email;
-
-    const myPubs = publications.filter(p => p.userId === currentUserId);
-    const grid = document.getElementById('myPublicationsGrid');
-
-    if(myPubs.length === 0) {
-        grid.innerHTML = `<div class="card" style="grid-column:1/-1;">No has publicado ningún vehículo aún.</div>`;
+    if (suspicious) {
+        setTimeout(() => {
+            showModal(
+                "Revisión preventiva",
+                `
+                <div class="warning-box">
+                    <b>Atención con operaciones de pago.</b>
+                    <p style="margin-top:8px;">
+                        No realices transferencias, entregues documentación sensible ni efectúes pagos basándote únicamente en una conversación.
+                    </p>
+                </div>
+                `
+            );
+        }, 400);
     } else {
-        grid.innerHTML = myPubs.map(renderVehicleCard).join('');
+        // Automatic friendly response simulation
+        setTimeout(() => {
+            const reply = document.createElement("div");
+            reply.className = "message seller";
+            reply.innerHTML = `Perfecto, quedo a tu disposición para avanzar.<small>Vendedor · ahora</small>`;
+            messages.appendChild(reply);
+            messages.scrollTop = messages.scrollHeight;
+        }, 1200);
     }
 }
 
+
+function addSystemMessage(text) {
+
+    const messages = document.getElementById("messages");
+    const message = document.createElement("div");
+
+    message.className = "message system";
+    message.innerHTML = `
+        ${escapeHTML(text)}
+        <small>TuAuto · sistema</small>
+    `;
+
+    messages.appendChild(message);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+
 /* =========================================================
-   9. UTILIDADES UI (MODALES, TOAST)
+   NEGOCIACION
 ========================================================= */
 
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerText = msg;
-    t.classList.add('show');
+function openNegotiation() {
+
+    if (!chatUnlocked) {
+        showToast("Completá primero las 5 confirmaciones.");
+        return;
+    }
+
+    const area = document.getElementById("negotiationArea");
+    area.style.display = "block";
+    area.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+
+function sendOffer() {
+
+    const value = document.getElementById("offerPrice").value;
+
+    if (!value) {
+        showToast("Ingresá una propuesta numérica.");
+        return;
+    }
+
+    addSystemMessage(`Propuesta de precio enviada: $${Number(value).toLocaleString("es-AR")}.`);
+    showToast("Propuesta enviada.");
+    document.getElementById("offerPrice").value = "";
+}
+
+
+/* =========================================================
+   ENCUENTRO / MAPS
+========================================================= */
+
+function openMeeting() {
+
+    if (!chatUnlocked) {
+        showToast("Completá primero las 5 confirmaciones.");
+        return;
+    }
+
+    const area = document.getElementById("meetingArea");
+    area.style.display = "block";
+    area.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+
+function useDemoMeeting() {
+
+    document.getElementById("meetingPlace").value = "Patio Olmos";
+    document.getElementById("meetingAddress").value = "Av. Vélez Sarsfield 361, Córdoba";
+
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+
+    document.getElementById("meetingDate").value = today.toISOString().split("T")[0];
+    document.getElementById("meetingTime").value = "17:30";
+
+    proposeMeeting();
+}
+
+
+function proposeMeeting() {
+
+    const place = document.getElementById("meetingPlace").value.trim();
+    const address = document.getElementById("meetingAddress").value.trim();
+    const date = document.getElementById("meetingDate").value;
+    const time = document.getElementById("meetingTime").value;
+
+    if (!place || !address || !date || !time) {
+        showToast("Completá punto, dirección, fecha y hora.");
+        return;
+    }
+
+    document.getElementById("meetingStatus").innerHTML = `
+        <span class="status warning">PROPUESTA ENVIADA</span>
+        <br><br>
+        📍 <b>${escapeHTML(place)}</b> · ${escapeHTML(address)} · ${escapeHTML(date)} a las ${escapeHTML(time)}
+        <br><br>
+        <span style="color:var(--text3);">La otra parte debe aceptar la propuesta para considerarla confirmada.</span>
+    `;
+
+    addSystemMessage(`Se propuso un encuentro en ${place}, ${address}, el ${date} a las ${time}.`);
+    showToast("Propuesta de encuentro enviada.");
+}
+
+
+/* =========================================================
+   FINALIZAR / ARCHIVAR
+========================================================= */
+
+function finishChat() {
+
+    showModal(
+        "Archivar conversación",
+        `
+        <p>Archivar la conversación no elimina el historial del prototipo.</p>
+        <br>
+        <p style="color:var(--text3);">También podés volver a abrirla posteriormente.</p>
+        <div class="actions" style="margin-top:20px;">
+            <button class="btn btn-danger" onclick="confirmFinishChat()">Archivar</button>
+            <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+        </div>
+        `
+    );
+}
+
+
+function confirmFinishChat() {
+    closeModal();
+    showToast("Conversación archivada.");
+}
+
+
+/* =========================================================
+   REPORTES
+========================================================= */
+
+function reportIssue() {
+
+    showModal(
+        "Reportar irregularidad",
+        `
+        <p>Seleccioná el motivo de tu reporte para que el equipo lo revise:</p>
+        <br>
+        <select id="reportReason" style="width:100%; padding:12px; border:1px solid var(--border); border-radius:10px; background:var(--bg2); color:white; outline:none;">
+            <option>Información posiblemente incorrecta</option>
+            <option>Solicitud de pago sospechosa</option>
+            <option>Documentación inconsistente</option>
+            <option>Identidad dudosa</option>
+            <option>Vehículo posiblemente irregular</option>
+        </select>
+        <br><br>
+        <textarea id="reportDetails" placeholder="Detalles adicionales..." style="width:100%; padding:12px; border:1px solid var(--border); border-radius:10px; background:var(--bg2); color:white; outline:none; min-height:80px;"></textarea>
+        <div class="actions" style="margin-top:20px;">
+            <button class="btn btn-danger" onclick="submitReport()">Enviar reporte</button>
+            <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+        </div>
+        `
+    );
+}
+
+function submitReport() {
+    closeModal();
+    showToast("Reporte registrado. Revisaremos la publicación.");
+}
+
+
+/* =========================================================
+   HELPERS UTILS
+========================================================= */
+
+function showModal(title, content) {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalContent").innerHTML = content;
+    document.getElementById("modal").classList.add("show");
+}
+
+function closeModal() {
+    document.getElementById("modal").classList.remove("show");
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.classList.add("show");
     setTimeout(() => {
-        t.classList.remove('show');
-    }, 3000);
+        toast.classList.remove("show");
+    }, 3200);
 }
 
-function showModal(id) {
-    document.getElementById(id).classList.add('show');
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        }[tag] || tag)
+    );
 }
 
-function closeModal(id) {
-    document.getElementById(id).classList.remove('show');
-}
+</script>
+
+</body>
+</html>
