@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TuAuto | Open Chat Global en Tiempo Real</title>
+    <title>TuAuto | Open Chat P2P en Tiempo Real</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Firebase SDK (Version Compat para fácil integración) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <!-- Librería P2P gratuita y en tiempo real (PeerJS) -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
     <style>
         :root {
@@ -19,7 +18,8 @@
             --surface2: #192a34;
             --border: #283b46;
             --orange: #c96c02;
-            --orange-soft: rgba(201, 108, 2, 0.18);
+            --green: #36cf8b;
+            --red: #ef6262;
             --text: #f5f8fa;
             --text2: #bac8cf;
             --radius: 14px;
@@ -64,10 +64,10 @@
             font-weight: 900;
         }
 
-        .user-tag {
+        .status-badge {
             font-size: 12px;
             background: var(--surface2);
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             border: 1px solid var(--border);
             display: flex;
@@ -76,18 +76,55 @@
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #36cf8b;
+            width: 9px;
+            height: 9px;
+            background: #777;
             border-radius: 50%;
         }
+        .status-dot.online { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .status-dot.offline { background: var(--red); }
 
         .container {
-            width: min(800px, 94%);
+            width: min(850px, 94%);
             margin: 20px auto;
             flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 15px;
+        }
+
+        .room-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .room-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 9px 16px;
+            background: var(--orange);
+            color: #fff;
+            border: 0;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-secondary {
+            background: var(--surface2);
+            border: 1px solid var(--border);
         }
 
         .chat-card {
@@ -96,23 +133,10 @@
             border-radius: var(--radius);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 140px);
+            height: calc(100vh - 210px);
+            min-height: 400px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .chat-header {
-            padding: 15px 20px;
-            background: var(--surface2);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-header h2 {
-            font-size: 16px;
-            font-weight: 800;
         }
 
         .messages-container {
@@ -126,7 +150,7 @@
         }
 
         .message {
-            max-width: 80%;
+            max-width: 75%;
             padding: 12px 16px;
             border-radius: 14px;
             font-size: 14px;
@@ -148,17 +172,28 @@
             border-bottom-left-radius: 2px;
         }
 
+        .message.system {
+            margin: 5px auto;
+            background: rgba(255,255,255,0.06);
+            color: var(--text2);
+            font-size: 12px;
+            text-align: center;
+            max-width: 90%;
+            border-radius: 20px;
+            padding: 6px 16px;
+        }
+
         .meta {
             display: block;
-            font-size: 10px;
-            opacity: 0.75;
+            font-size: 11px;
+            opacity: 0.8;
             margin-bottom: 4px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .time {
             font-size: 9px;
-            opacity: 0.6;
+            opacity: 0.65;
             margin-top: 4px;
             text-align: right;
             display: block;
@@ -183,28 +218,21 @@
             font-size: 14px;
         }
 
-        .chat-input-area input:focus {
-            border-color: var(--orange);
-        }
-
-        .btn-send {
-            padding: 12px 24px;
-            background: var(--orange);
+        .nick-input {
+            width: 140px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #090e13;
             color: #fff;
-            border: 0;
-            border-radius: 10px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-send:hover {
-            opacity: 0.9;
+            font-size: 12px;
+            font-weight: 700;
         }
 
         @media(max-width: 600px) {
             .container { width: 100%; margin: 0; }
-            .chat-card { height: calc(100vh - 70px); border-radius: 0; border: 0; }
+            .chat-card { height: calc(100vh - 150px); border-radius: 0; border: 0; }
+            .room-bar { border-radius: 0; }
         }
     </style>
 </head>
@@ -213,106 +241,199 @@
 <header>
     <div class="logo">
         <div class="logo-mark">TA</div>
-        TuAuto Open Chat
+        TuAuto P2P Chat
     </div>
-    <div class="user-tag">
-        <div class="status-dot"></div>
-        <span id="displayUser">Conectando...</span>
+    <div class="status-badge">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Inicializando...</span>
     </div>
 </header>
 
 <main class="container">
-    <div class="chat-card">
-        <div class="chat-header">
-            <h2>💬 Sala Pública Global de Pruebas</h2>
-            <span style="font-size: 11px; color: var(--text2);">Tiempo Real Activo</span>
+    <div class="room-bar">
+        <div class="room-info">
+            <label style="font-size: 12px; color: var(--text2);">Mi Apodo:</label>
+            <input type="text" id="nicknameInput" class="nick-input" value="Usuario" onchange="updateNickname()">
         </div>
+        <div class="room-info">
+            <button class="btn btn-secondary" onclick="copyInviteLink()">📋 Copiar Link para la otra PC</button>
+            <button class="btn" onclick="connectToPeerPrompt()">🔗 Conectar con ID</button>
+        </div>
+    </div>
 
+    <div class="chat-card">
         <div class="messages-container" id="messagesList">
-            <!-- Mensajes en tiempo real se cargan aquí -->
+            <div class="message system">Generando tu conexión directa P2P...</div>
         </div>
 
         <form class="chat-input-area" onsubmit="sendMessage(event)">
-            <input type="text" id="msgInput" placeholder="Escribí un mensaje público..." autocomplete="off" required>
-            <button type="submit" class="btn-send">Enviar</button>
+            <input type="text" id="msgInput" placeholder="Escribí un mensaje..." autocomplete="off" disabled required>
+            <button type="submit" class="btn" id="sendBtn" disabled>Enviar</button>
         </form>
     </div>
 </main>
 
 <script>
-    // 1. Configuración de Firebase Realtime Database pública para pruebas
-    const firebaseConfig = {
-        databaseURL: "https://tuauto-demo-default-rtdb.firebaseio.com"
-    };
+    let peer = null;
+    let conn = null;
+    let myNickname = "Usuario_" + Math.floor(100 + Math.random() * 900);
+    document.getElementById('nicknameInput').value = myNickname;
 
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    const chatRef = database.ref("global_open_chat");
+    // Detectar si venimos con un ID en el link de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetPeerId = urlParams.get('room');
 
-    // 2. Generar un Nombre/ID de Usuario único para esta computadora/navegador
-    let myUser = localStorage.getItem('tuauto_chat_username');
-    if (!myUser) {
-        myUser = "Usuario_" + Math.floor(1000 + Math.random() * 9000);
-        localStorage.setItem('tuauto_chat_username', myUser);
+    function updateNickname() {
+        const val = document.getElementById('nicknameInput').value.trim();
+        if (val) myNickname = val;
     }
-    document.getElementById('displayUser').innerText = myUser;
 
-    // 3. Enviar mensaje a Firebase
-    function sendMessage(event) {
-        event.preventDefault();
+    // Inicializar servidor de señal P2P
+    function initP2P() {
+        peer = new Peer();
+
+        peer.on('open', (id) => {
+            console.log('Mi ID de Peer es: ' + id);
+            
+            if (targetPeerId) {
+                // Si la URL trae el parámetro room, nos conectamos a esa PC
+                updateStatus(false, "Conectando a la otra PC...");
+                connectToPeer(targetPeerId);
+            } else {
+                // Si no hay parámetro, somos el Host (esperamos a la otra PC)
+                updateStatus(true, "Esperando a la otra PC (Compartí el link)");
+                addSystemMsg("Tu sala está lista. Hacé clic en 'Copiar Link' y abrilo en la otra PC.");
+            }
+        });
+
+        // Escuchar cuando la otra PC se conecta a nosotros
+        peer.on('connection', (connection) => {
+            conn = connection;
+            setupChatEvents();
+            updateStatus(true, "¡Conectado con otra PC!");
+            addSystemMsg("Una persona se unió al chat en tiempo real.");
+            enableInput(true);
+        });
+
+        peer.on('error', (err) => {
+            console.error(err);
+            updateStatus(false, "Error de conexión");
+            addSystemMsg("Ocurrió un error en la red P2P. Intentá recargar.");
+        });
+    }
+
+    // Conectarse manualmente a la otra PC
+    function connectToPeer(remoteId) {
+        conn = peer.connect(remoteId);
+        setupChatEvents();
+    }
+
+    function connectToPeerPrompt() {
+        const remoteId = prompt("Ingresá el ID o Código de la otra PC:");
+        if (remoteId) connectToPeer(remoteId.trim());
+    }
+
+    // Configurar transmisión de datos
+    function setupChatEvents() {
+        conn.on('open', () => {
+            updateStatus(true, "¡Conectado en tiempo real!");
+            addSystemMsg("¡Conexión establecida con éxito!");
+            enableInput(true);
+        });
+
+        conn.on('data', (data) => {
+            // Recibir mensaje enviado desde la otra PC
+            appendMessage(data.user, data.text, false, data.time);
+        });
+
+        conn.on('close', () => {
+            updateStatus(false, "La otra PC se desconectó");
+            addSystemMsg("La otra PC cerró la conexión.");
+            enableInput(false);
+        });
+    }
+
+    // Enviar Mensaje
+    function sendMessage(e) {
+        e.preventDefault();
         const input = document.getElementById('msgInput');
         const text = input.value.trim();
 
-        if (text) {
+        if (text && conn && conn.open) {
             const now = new Date();
             const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
 
-            chatRef.push({
-                user: myUser,
+            const payload = {
+                user: myNickname,
                 text: text,
-                time: timeStr,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            });
+                time: timeStr
+            };
 
+            // Transmitir por canal de datos directo
+            conn.send(payload);
+
+            // Mostrarlo en mi propia pantalla
+            appendMessage(myNickname, text, true, timeStr);
             input.value = '';
         }
     }
 
-    // 4. Escuchar mensajes en Tiempo Real (Sincronización instantánea entre PCs)
-    chatRef.limitToLast(100).on('child_added', (snapshot) => {
-        const data = snapshot.val();
-        appendMessage(data);
-    });
-
-    // 5. Renderizar mensaje en pantalla
-    function appendMessage(data) {
+    function appendMessage(user, text, isMine, time) {
         const container = document.getElementById('messagesList');
         const msgDiv = document.createElement('div');
-        const isMine = data.user === myUser;
-
         msgDiv.className = `message ${isMine ? 'mine' : 'other'}`;
         msgDiv.innerHTML = `
-            <span class="meta">${escapeHTML(data.user)}</span>
-            ${escapeHTML(data.text)}
-            <span class="time">${data.time || ''}</span>
+            <span class="meta">${escapeHTML(user)}</span>
+            ${escapeHTML(text)}
+            <span class="time">${time || ''}</span>
         `;
-
         container.appendChild(msgDiv);
         container.scrollTop = container.scrollHeight;
     }
 
-    // Función de seguridad para evitar inyección de HTML
-    function escapeHTML(str) {
-        return str.replace(/[&<>'"]/g, 
-            tag => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;'
-            }[tag] || tag)
-        );
+    function addSystemMsg(text) {
+        const container = document.getElementById('messagesList');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'message system';
+        msgDiv.innerText = text;
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
     }
+
+    function updateStatus(online, text) {
+        const dot = document.getElementById('statusDot');
+        const label = document.getElementById('statusText');
+        dot.className = `status-dot ${online ? 'online' : 'offline'}`;
+        label.innerText = text;
+    }
+
+    function enableInput(enable) {
+        document.getElementById('msgInput').disabled = !enable;
+        document.getElementById('sendBtn').disabled = !enable;
+        if(enable) document.getElementById('msgInput').focus();
+    }
+
+    function copyInviteLink() {
+        if (!peer || !peer.id) {
+            alert("Todavía se está generando el código de sala. Aguardá 2 segundos.");
+            return;
+        }
+        const link = window.location.origin + window.location.pathname + '?room=' + peer.id;
+        navigator.clipboard.writeText(link).then(() => {
+            alert("¡Link copiado! Abrí este link en la otra PC o pasáselo a la persona con la que quieras probar.");
+        }).catch(() => {
+            prompt("Copiá este enlace manualmente y abrilo en la otra PC:", link);
+        });
+    }
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag] || tag));
+    }
+
+    // Iniciar conexión al cargar
+    window.onload = initP2P;
 </script>
 
 </body>
