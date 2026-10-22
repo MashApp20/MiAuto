@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TuAuto | Chat Global en Vivo</title>
+    <title>TuAuto | Chat Global Automático</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Librería MQTT en vivo para WebSockets reales entre cualquier dispositivo -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+    <!-- PeerJS para conexión directa P2P real -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
     <style>
         :root {
@@ -19,6 +19,7 @@
             --border: #283b46;
             --orange: #c96c02;
             --green: #36cf8b;
+            --red: #ef6262;
             --text: #f5f8fa;
             --text2: #bac8cf;
             --radius: 14px;
@@ -80,12 +81,12 @@
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--green);
+            width: 9px;
+            height: 9px;
+            background: #f39a24;
             border-radius: 50%;
-            box-shadow: 0 0 8px var(--green);
         }
+        .status-dot.online { background: var(--green); box-shadow: 0 0 8px var(--green); }
 
         .container {
             width: min(850px, 94%);
@@ -151,7 +152,7 @@
 
         .message.system {
             margin: 4px auto;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.06);
             color: var(--text2);
             font-size: 11px;
             text-align: center;
@@ -194,10 +195,6 @@
             font-size: 14px;
         }
 
-        .chat-input-area input:focus {
-            border-color: var(--orange);
-        }
-
         .btn-send {
             padding: 12px 24px;
             background: var(--orange);
@@ -206,10 +203,6 @@
             border-radius: 10px;
             font-weight: 800;
             cursor: pointer;
-        }
-
-        .btn-send:hover {
-            opacity: 0.9;
         }
 
         @media(max-width: 600px) {
@@ -223,10 +216,10 @@
 <header>
     <div class="logo">
         <div class="logo-mark">TA</div>
-        TuAuto Chat Global
+        TuAuto Chat Libre
     </div>
     <div class="user-tag" onclick="changeNickname()" title="Hacé clic para cambiar tu apodo">
-        <div class="status-dot"></div>
+        <div class="status-dot" id="statusDot"></div>
         <span id="displayUser">Conectando...</span> ✏️
     </div>
 </header>
@@ -234,99 +227,119 @@
 <main class="container">
     <div class="chat-card">
         <div class="chat-header">
-            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Pública en Vivo</h2>
-            <span style="font-size: 11px; color: var(--green);" id="netStatus">● Conectando red...</span>
+            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Global Automática</h2>
+            <span style="font-size: 11px; color: var(--text2);" id="netStatus">Buscando dispositivos...</span>
         </div>
 
-        <div class="messages-container" id="messagesList">
-            <div class="message system">🟢 Iniciando conexión global en tiempo real...</div>
-        </div>
+        <messages class="messages-container" id="messagesList">
+            <div class="message system">🔄 Iniciando red automática P2P...</div>
+        </messages>
 
         <form class="chat-input-area" onsubmit="sendMessage(event)">
-            <input type="text" id="msgInput" placeholder="Escribí un mensaje..." autocomplete="off" required>
-            <button type="submit" class="btn-send">Enviar</button>
+            <input type="text" id="msgInput" placeholder="Escribí un mensaje..." autocomplete="off" disabled required>
+            <button type="submit" class="btn-send" id="sendBtn" disabled>Enviar</button>
         </form>
     </div>
 </main>
 
 <script>
-    // 1. Manejo del Apodo Editable
-    let myUser = localStorage.getItem('tuauto_username');
+    // 1. Apodo del usuario automático o editable
+    let myUser = localStorage.getItem('tuauto_nickname');
     if (!myUser) {
         myUser = "Usuario_" + Math.floor(1000 + Math.random() * 9000);
-        localStorage.setItem('tuauto_username', myUser);
+        localStorage.setItem('tuauto_nickname', myUser);
     }
     document.getElementById('displayUser').innerText = myUser;
 
     function changeNickname() {
-        const nuevo = prompt("Ingresá tu nuevo apodo:", myUser);
+        const nuevo = prompt("Elegí tu nuevo apodo:", myUser);
         if (nuevo && nuevo.trim() !== "") {
-            const oldUser = myUser;
+            const old = myUser;
             myUser = nuevo.trim();
-            localStorage.setItem('tuauto_username', myUser);
+            localStorage.setItem('tuauto_nickname', myUser);
             document.getElementById('displayUser').innerText = myUser;
-            
-            // Avisar a los demás que cambió de nombre
-            publishNet({
-                type: 'system',
-                text: `🔄 ${oldUser} ahora se llama ${myUser}`
-            });
+            broadcast({ type: 'system', text: `🔄 ${old} cambió su apodo a ${myUser}` });
         }
     }
 
-    // 2. Configuración de Red MQTT en Tiempo Real (Infalible entre redes distintas)
-    const clientID = 'tuauto_' + Math.random().toString(36).substring(2, 9);
-    // Usamos un broker MQTT público seguro (wss)
-    const client = new Paho.MQTT.Client("broker.hivemq.com", 8000, "/mqtt", clientID);
+    // 2. Conexión automática por ID maestro fijo en la red P2P
+    const MASTER_ROOM_ID = "tuauto-sala-global-central-2026";
+    let peer = null;
+    let activeConnections = [];
+    let isHost = false;
 
-    client.onConnectionLost = function (responseObject) {
-        document.getElementById('netStatus').innerText = "● Desconectado (Reconectando...)";
-        document.getElementById('netStatus').style.color = "#ef6262";
-        setTimeout(startConnect, 4000);
-    };
+    function initAutoConnect() {
+        // Intentar crear la sala como Host principal
+        peer = new Peer(MASTER_ROOM_ID);
 
-    client.onMessageArrived = function (message) {
-        try {
-            const data = JSON.parse(message.payloadString);
-            if (data.type === 'chat') {
-                appendMessage(data.user, data.text, data.user === myUser, data.time);
-            } else if (data.type === 'system') {
-                addSystemMsg(data.text);
-            }
-        } catch(e) {}
-    };
+        peer.on('open', (id) => {
+            isHost = true;
+            setOnlineStatus("🟢 Conectado (Anfitrión de sala)");
+            addSystemMsg("🟢 Te uniste a la sala global automáticamente.");
+            enableChat(true);
+        });
 
-    function startConnect() {
-        client.connect({
-            onSuccess: function() {
-                document.getElementById('netStatus').innerText = "● En línea (Conectado)";
-                document.getElementById('netStatus').style.color = "#36cf8b";
-                client.subscribe("tuauto/global/room/v1");
-                addSystemMsg("🟢 ¡Conexión establecida con éxito! Ya podés chatear.");
+        // Si el ID ya existe (porque otro dispositivo ya entró primero), nos convertimos en Cliente automáticamente
+        peer.on('error', (err) => {
+            if (err.type === 'unavailable-id') {
+                isHost = false;
+                peer = new Peer(); // Creamos Peer libre para conectarnos al Host
                 
-                // Anunciar entrada
-                publishNet({
-                    type: 'system',
-                    text: `👋 ${myUser} se unió al chat.`
+                peer.on('open', (myId) => {
+                    const conn = peer.connect(MASTER_ROOM_ID);
+                    setupConnection(conn);
+                    setOnlineStatus("🟢 Conectado a la sala");
+                    addSystemMsg("🟢 Te conectaste a la sala global automáticamente.");
+                    enableChat(true);
                 });
-            },
-            onFailure: function(message) {
-                document.getElementById('netStatus').innerText = "● Error de red";
-                setTimeout(startConnect, 5000);
-            },
-            useSSL: true
+            } else {
+                setOnlineStatus("🔴 Error de red");
+            }
+        });
+
+        // Si somos Host, escuchamos cuando otros entran
+        peer.on('connection', (conn) => {
+            setupConnection(conn);
+            addSystemMsg("📱 Alguien se conectó a la sala.");
         });
     }
 
-    function publishNet(obj) {
-        if (client.isConnected()) {
-            const message = new Paho.MQTT.Message(JSON.stringify(obj));
-            message.destinationName = "tuauto/global/room/v1";
-            client.send(message);
+    function setupConnection(conn) {
+        if (!activeConnections.includes(conn)) {
+            activeConnections.push(conn);
         }
+
+        conn.on('data', (data) => {
+            if (data.type === 'chat') {
+                appendMessage(data.user, data.text, false, data.time);
+                
+                // Si somos el Host, retransmitimos el mensaje a los demás conectados para que todos se hablen con todos
+                if (isHost) {
+                    activeConnections.forEach(c => {
+                        if (c !== conn && c.open) c.send(data);
+                    });
+                }
+            } else if (data.type === 'system') {
+                addSystemMsg(data.text);
+                if (isHost) {
+                    activeConnections.forEach(c => {
+                        if (c !== conn && c.open) c.send(data);
+                    });
+                }
+            }
+        });
+
+        conn.on('close', () => {
+            activeConnections = activeConnections.filter(c => c !== conn);
+        });
     }
 
-    // 3. Enviar Mensaje
+    function broadcast(dataObj) {
+        activeConnections.forEach(c => {
+            if (c.open) c.send(dataObj);
+        });
+    }
+
     function sendMessage(event) {
         event.preventDefault();
         const input = document.getElementById('msgInput');
@@ -343,7 +356,7 @@
                 time: timeStr
             };
 
-            publishNet(payload);
+            broadcast(payload);
             appendMessage(myUser, text, true, timeStr);
             input.value = '';
         }
@@ -352,14 +365,12 @@
     function appendMessage(user, text, isMine, time) {
         const container = document.getElementById('messagesList');
         const msgDiv = document.createElement('div');
-
         msgDiv.className = `message ${isMine ? 'mine' : 'other'}`;
         msgDiv.innerHTML = `
             <span class="meta">${escapeHTML(user)}</span>
             ${escapeHTML(text)}
             <span class="time">${time || ''}</span>
         `;
-
         container.appendChild(msgDiv);
         container.scrollTop = container.scrollHeight;
     }
@@ -373,14 +384,25 @@
         container.scrollTop = container.scrollHeight;
     }
 
+    function setOnlineStatus(text) {
+        document.getElementById('statusDot').classList.add('online');
+        document.getElementById('netStatus').innerText = text;
+    }
+
+    function enableChat(enable) {
+        document.getElementById('msgInput').disabled = !enable;
+        document.getElementById('sendBtn').disabled = !enable;
+        if(enable) document.getElementById('msgInput').focus();
+    }
+
     function escapeHTML(str) {
         return str.replace(/[&<>'"]/g, tag => ({
             '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
         }[tag] || tag));
     }
 
-    // Iniciar conexión automática al cargar la página
-    window.onload = startConnect;
+    // Arrancar automáticamente al cargar la página
+    window.onload = initAutoConnect;
 </script>
 
 </body>
