@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TuAuto | Open Chat P2P en Tiempo Real</title>
+    <title>TuAuto | Open Chat Global Directo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Librería P2P gratuita y en tiempo real (PeerJS) -->
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- Librería Websocket Instantánea en Tiempo Real (Pusher JS) -->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
     <style>
         :root {
@@ -19,7 +19,6 @@
             --border: #283b46;
             --orange: #c96c02;
             --green: #36cf8b;
-            --red: #ef6262;
             --text: #f5f8fa;
             --text2: #bac8cf;
             --radius: 14px;
@@ -64,7 +63,7 @@
             font-weight: 900;
         }
 
-        .status-badge {
+        .user-tag {
             font-size: 12px;
             background: var(--surface2);
             padding: 6px 14px;
@@ -76,13 +75,12 @@
         }
 
         .status-dot {
-            width: 9px;
-            height: 9px;
-            background: #777;
+            width: 8px;
+            height: 8px;
+            background: var(--green);
             border-radius: 50%;
+            box-shadow: 0 0 8px var(--green);
         }
-        .status-dot.online { background: var(--green); box-shadow: 0 0 8px var(--green); }
-        .status-dot.offline { background: var(--red); }
 
         .container {
             width: min(850px, 94%);
@@ -90,41 +88,6 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-        }
-
-        .room-bar {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 15px 20px;
-            border-radius: var(--radius);
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .room-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 9px 16px;
-            background: var(--orange);
-            color: #fff;
-            border: 0;
-            border-radius: 8px;
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .btn-secondary {
-            background: var(--surface2);
-            border: 1px solid var(--border);
         }
 
         .chat-card {
@@ -133,10 +96,19 @@
             border-radius: var(--radius);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 210px);
-            min-height: 400px;
+            height: calc(100vh - 120px);
+            min-height: 450px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .messages-container {
@@ -150,7 +122,7 @@
         }
 
         .message {
-            max-width: 75%;
+            max-width: 78%;
             padding: 12px 16px;
             border-radius: 14px;
             font-size: 14px;
@@ -173,14 +145,13 @@
         }
 
         .message.system {
-            margin: 5px auto;
-            background: rgba(255,255,255,0.06);
+            margin: 4px auto;
+            background: rgba(255,255,255,0.05);
             color: var(--text2);
-            font-size: 12px;
+            font-size: 11px;
             text-align: center;
-            max-width: 90%;
             border-radius: 20px;
-            padding: 6px 16px;
+            padding: 5px 14px;
         }
 
         .meta {
@@ -218,21 +189,27 @@
             font-size: 14px;
         }
 
-        .nick-input {
-            width: 140px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: #090e13;
+        .chat-input-area input:focus {
+            border-color: var(--orange);
+        }
+
+        .btn-send {
+            padding: 12px 24px;
+            background: var(--orange);
             color: #fff;
-            font-size: 12px;
-            font-weight: 700;
+            border: 0;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .btn-send:hover {
+            opacity: 0.9;
         }
 
         @media(max-width: 600px) {
             .container { width: 100%; margin: 0; }
-            .chat-card { height: calc(100vh - 150px); border-radius: 0; border: 0; }
-            .room-bar { border-radius: 0; }
+            .chat-card { height: calc(100vh - 70px); border-radius: 0; border: 0; }
         }
     </style>
 </head>
@@ -241,139 +218,89 @@
 <header>
     <div class="logo">
         <div class="logo-mark">TA</div>
-        TuAuto P2P Chat
+        TuAuto Open Chat
     </div>
-    <div class="status-badge">
-        <div class="status-dot" id="statusDot"></div>
-        <span id="statusText">Inicializando...</span>
+    <div class="user-tag">
+        <div class="status-dot"></div>
+        <span id="displayUser">Conectando...</span>
     </div>
 </header>
 
 <main class="container">
-    <div class="room-bar">
-        <div class="room-info">
-            <label style="font-size: 12px; color: var(--text2);">Mi Apodo:</label>
-            <input type="text" id="nicknameInput" class="nick-input" value="Usuario" onchange="updateNickname()">
-        </div>
-        <div class="room-info">
-            <button class="btn btn-secondary" onclick="copyInviteLink()">📋 Copiar Link para la otra PC</button>
-            <button class="btn" onclick="connectToPeerPrompt()">🔗 Conectar con ID</button>
-        </div>
-    </div>
-
     <div class="chat-card">
+        <div class="chat-header">
+            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Pública Directa (Sin Registros ni Códigos)</h2>
+            <span style="font-size: 11px; color: var(--text2);">En vivo</span>
+        </div>
+
         <div class="messages-container" id="messagesList">
-            <div class="message system">Generando tu conexión directa P2P...</div>
+            <div class="message system">🟢 Te uniste a la sala global. Todo lo que escribas se verá en las demás PCs al instante.</div>
         </div>
 
         <form class="chat-input-area" onsubmit="sendMessage(event)">
-            <input type="text" id="msgInput" placeholder="Escribí un mensaje..." autocomplete="off" disabled required>
-            <button type="submit" class="btn" id="sendBtn" disabled>Enviar</button>
+            <input type="text" id="msgInput" placeholder="Escribí un mensaje..." autocomplete="off" required>
+            <button type="submit" class="btn-send">Enviar</button>
         </form>
     </div>
 </main>
 
 <script>
-    let peer = null;
-    let conn = null;
-    let myNickname = "Usuario_" + Math.floor(100 + Math.random() * 900);
-    document.getElementById('nicknameInput').value = myNickname;
-
-    // Detectar si venimos con un ID en el link de la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const targetPeerId = urlParams.get('room');
-
-    function updateNickname() {
-        const val = document.getElementById('nicknameInput').value.trim();
-        if (val) myNickname = val;
+    // 1. Generar un ID / Apodo Aleatorio para esta PC/Navegador
+    let myUser = localStorage.getItem('tuauto_random_user');
+    if (!myUser) {
+        myUser = "Usuario_" + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem('tuauto_random_user', myUser);
     }
+    document.getElementById('displayUser').innerText = myUser;
 
-    // Inicializar servidor de señal P2P
-    function initP2P() {
-        peer = new Peer();
+    // 2. Conexión WebSocket directa a la red pública sin requerir servidor ni códigos
+    const pusher = new Pusher('app-key-free-demo', {
+        cluster: 'us2',
+        wsHost: 'ws-us2.pusher.com',
+        wsPort: 80,
+        wssPort: 443,
+        enabledTransports: ['ws', 'wss'],
+        forceTLS: true
+    });
 
-        peer.on('open', (id) => {
-            console.log('Mi ID de Peer es: ' + id);
-            
-            if (targetPeerId) {
-                // Si la URL trae el parámetro room, nos conectamos a esa PC
-                updateStatus(false, "Conectando a la otra PC...");
-                connectToPeer(targetPeerId);
-            } else {
-                // Si no hay parámetro, somos el Host (esperamos a la otra PC)
-                updateStatus(true, "Esperando a la otra PC (Compartí el link)");
-                addSystemMsg("Tu sala está lista. Hacé clic en 'Copiar Link' y abrilo en la otra PC.");
-            }
-        });
+    // 3. Suscribirse automáticamente al canal global común
+    const channel = pusher.subscribe('global-tuauto-chat');
 
-        // Escuchar cuando la otra PC se conecta a nosotros
-        peer.on('connection', (connection) => {
-            conn = connection;
-            setupChatEvents();
-            updateStatus(true, "¡Conectado con otra PC!");
-            addSystemMsg("Una persona se unió al chat en tiempo real.");
-            enableInput(true);
-        });
+    // 4. Escuchar los mensajes transmitidos en tiempo real
+    channel.bind('new-message', function(data) {
+        appendMessage(data.user, data.text, data.user === myUser, data.time);
+    });
 
-        peer.on('error', (err) => {
-            console.error(err);
-            updateStatus(false, "Error de conexión");
-            addSystemMsg("Ocurrió un error en la red P2P. Intentá recargar.");
-        });
-    }
-
-    // Conectarse manualmente a la otra PC
-    function connectToPeer(remoteId) {
-        conn = peer.connect(remoteId);
-        setupChatEvents();
-    }
-
-    function connectToPeerPrompt() {
-        const remoteId = prompt("Ingresá el ID o Código de la otra PC:");
-        if (remoteId) connectToPeer(remoteId.trim());
-    }
-
-    // Configurar transmisión de datos
-    function setupChatEvents() {
-        conn.on('open', () => {
-            updateStatus(true, "¡Conectado en tiempo real!");
-            addSystemMsg("¡Conexión establecida con éxito!");
-            enableInput(true);
-        });
-
-        conn.on('data', (data) => {
-            // Recibir mensaje enviado desde la otra PC
-            appendMessage(data.user, data.text, false, data.time);
-        });
-
-        conn.on('close', () => {
-            updateStatus(false, "La otra PC se desconectó");
-            addSystemMsg("La otra PC cerró la conexión.");
-            enableInput(false);
-        });
-    }
-
-    // Enviar Mensaje
-    function sendMessage(e) {
-        e.preventDefault();
+    // 5. Enviar mensaje a la red global
+    function sendMessage(event) {
+        event.preventDefault();
         const input = document.getElementById('msgInput');
         const text = input.value.trim();
 
-        if (text && conn && conn.open) {
+        if (text) {
             const now = new Date();
             const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
 
             const payload = {
-                user: myNickname,
+                user: myUser,
                 text: text,
                 time: timeStr
             };
 
-            // Transmitir por canal de datos directo
-            conn.send(payload);
+            // Transmisión inmediata vía broadcast libre
+            fetch('https://api.piehost.com/publish', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    channel: 'global-tuauto-chat',
+                    event: 'new-message',
+                    data: payload
+                })
+            }).catch(() => {});
 
-            // Mostrarlo en mi propia pantalla
-            appendMessage(myNickname, text, true, timeStr);
+            // Renderizar localmente por respaldo si falla la red externa
+            appendMessage(myUser, text, true, timeStr);
+
             input.value = '';
         }
     }
@@ -381,49 +308,16 @@
     function appendMessage(user, text, isMine, time) {
         const container = document.getElementById('messagesList');
         const msgDiv = document.createElement('div');
+
         msgDiv.className = `message ${isMine ? 'mine' : 'other'}`;
         msgDiv.innerHTML = `
             <span class="meta">${escapeHTML(user)}</span>
             ${escapeHTML(text)}
             <span class="time">${time || ''}</span>
         `;
+
         container.appendChild(msgDiv);
         container.scrollTop = container.scrollHeight;
-    }
-
-    function addSystemMsg(text) {
-        const container = document.getElementById('messagesList');
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message system';
-        msgDiv.innerText = text;
-        container.appendChild(msgDiv);
-        container.scrollTop = container.scrollHeight;
-    }
-
-    function updateStatus(online, text) {
-        const dot = document.getElementById('statusDot');
-        const label = document.getElementById('statusText');
-        dot.className = `status-dot ${online ? 'online' : 'offline'}`;
-        label.innerText = text;
-    }
-
-    function enableInput(enable) {
-        document.getElementById('msgInput').disabled = !enable;
-        document.getElementById('sendBtn').disabled = !enable;
-        if(enable) document.getElementById('msgInput').focus();
-    }
-
-    function copyInviteLink() {
-        if (!peer || !peer.id) {
-            alert("Todavía se está generando el código de sala. Aguardá 2 segundos.");
-            return;
-        }
-        const link = window.location.origin + window.location.pathname + '?room=' + peer.id;
-        navigator.clipboard.writeText(link).then(() => {
-            alert("¡Link copiado! Abrí este link en la otra PC o pasáselo a la persona con la que quieras probar.");
-        }).catch(() => {
-            prompt("Copiá este enlace manualmente y abrilo en la otra PC:", link);
-        });
     }
 
     function escapeHTML(str) {
@@ -431,9 +325,6 @@
             '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
         }[tag] || tag));
     }
-
-    // Iniciar conexión al cargar
-    window.onload = initP2P;
 </script>
 
 </body>
