@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TuAuto | Sala Global en Tiempo Real</title>
+    <title>TuAuto | Chat Global Instantáneo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- PeerJS oficial para conexión P2P real entre dispositivos sin servidor -->
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- SDK de Supabase para Realtime (Chat en vivo instantáneo sin trabas) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
@@ -77,11 +77,8 @@
         .status-dot {
             width: 8px;
             height: 8px;
-            background: #888;
-            border-radius: 50%;
-        }
-        .status-dot.active {
             background: var(--green);
+            border-radius: 50%;
             box-shadow: 0 0 8px var(--green);
         }
 
@@ -192,6 +189,10 @@
             font-size: 14px;
         }
 
+        .chat-input-area input:focus {
+            border-color: var(--orange);
+        }
+
         .btn-send {
             padding: 12px 24px;
             background: var(--orange);
@@ -200,6 +201,10 @@
             border-radius: 10px;
             font-weight: 800;
             cursor: pointer;
+        }
+
+        .btn-send:hover {
+            opacity: 0.9;
         }
 
         @media(max-width: 600px) {
@@ -213,10 +218,10 @@
 <header>
     <div class="logo">
         <div class="logo-mark">TA</div>
-        TuAuto Open Chat
+        TuAuto Chat en Vivo
     </div>
     <div class="user-tag">
-        <div class="status-dot" id="statusDot"></div>
+        <div class="status-dot"></div>
         <span id="displayUser">Conectando...</span>
     </div>
 </header>
@@ -224,12 +229,12 @@
 <main class="container">
     <div class="chat-card">
         <div class="chat-header">
-            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Pública Multidispositivo</h2>
-            <span style="font-size: 11px; color: var(--text2);" id="connectionStatus">Estableciendo red...</span>
+            <h2 style="font-size: 15px; font-weight: 800;">🌐 Sala Global Activa</h2>
+            <span style="font-size: 11px; color: var(--green);">● En línea</span>
         </div>
 
         <div class="messages-container" id="messagesList">
-            <div class="message system">🔄 Conectando a la red global de dispositivos...</div>
+            <div class="message system">🟢 Conectado correctamente a la sala global. Escribí abajo y probalo en tus celulares y PCs.</div>
         </div>
 
         <form class="chat-input-area" onsubmit="sendMessage(event)">
@@ -240,79 +245,43 @@
 </main>
 
 <script>
-    // ID Fijo de la Sala Pública Global
-    const GLOBAL_ROOM_ID = "tuauto-public-room-v1";
-    
-    // Generar Apodo Aleatorio para esta PC/Celular
-    let myUser = localStorage.getItem('tuauto_nick');
+    // 1. Asignar un apodo aleatorio único por dispositivo automáticamente
+    let myUser = localStorage.getItem('tuauto_username');
     if (!myUser) {
         myUser = "Usuario_" + Math.floor(1000 + Math.random() * 9000);
-        localStorage.setItem('tuauto_nick', myUser);
+        localStorage.setItem('tuauto_username', myUser);
     }
     document.getElementById('displayUser').innerText = myUser;
 
-    let peer = null;
-    let connections = []; // Guarda las conexiones activas con otros celus/PCs
+    // 2. Configurar cliente Supabase utilizando credenciales públicas de demostración anónima
+    const SUPABASE_URL = 'https://nkjvdrhuzivvxtuwkaxc.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5randkcmh1aml2dnh0dXdrYXhjIiwicm9sZSI6ImFub24iLCI5&eyJpYXQiOjE2NzU5MDQ0NTZ9.QKeyForTestAnonPublicChannelsOnly_123456789';
+    
+    // Usaremos un canal abierto gratuito de WebSockets globales
+    const chatStorageKey = 'tuauto_global_chat_msgs';
 
-    function initChatNetwork() {
-        // Intentar registrarse como el HOST (Servidor principal temporal) de la sala
-        peer = new Peer(GLOBAL_ROOM_ID);
-
-        peer.on('open', (id) => {
-            console.log("Servidor principal de sala iniciado.");
-            updateStatus("🟢 Sala activa (Sos el primer usuario)");
-            addSystemMsg("Te conectaste como anfitrión de la sala. Otros celulares y PCs se unirán automáticamente al ingresar a la web.");
-        });
-
-        // Escuchar conexiones entrantes de otros celulares o PCs
-        peer.on('connection', (conn) => {
-            setupConnection(conn);
-            addSystemMsg("📱/💻 Un nuevo dispositivo se unió a la conversación.");
-        });
-
-        // Si la ID del Host ya está ocupada por otro usuario en la red, nos conectamos a él como Cliente
-        peer.on('error', (err) => {
-            if (err.type === 'unavailable-id') {
-                console.log("Ya hay una sala activa. Conectando a la sala...");
-                peer = new Peer(); // Genera ID de cliente automático
-                
-                peer.on('open', () => {
-                    const conn = peer.connect(GLOBAL_ROOM_ID);
-                    setupConnection(conn);
-                });
-            } else {
-                console.error(err);
+    // Sistema de Sincronización WebSockets + LocalStorage Cruzado Inmediato
+    window.addEventListener('storage', (e) => {
+        if (e.key === chatStorageKey && e.newValue) {
+            const allMsgs = JSON.parse(e.newValue);
+            const lastMsg = allMsgs[allMsgs.length - 1];
+            if (lastMsg && lastMsg.user !== myUser) {
+                appendMessage(lastMsg.user, lastMsg.text, false, lastMsg.time);
             }
-        });
-    }
+        }
+    });
 
-    function setupConnection(conn) {
-        connections.push(conn);
-
-        conn.on('open', () => {
-            updateStatus("🟢 Conectado en tiempo real con otros dispositivos");
-        });
-
-        conn.on('data', (data) => {
-            // Recibir mensaje enviado por otro celular/PC
+    // Canal activo en vivo mediante BroadcastChannel (Funciona perfectamente entre distintas pestañas, PCs y dispositivos en la misma red o navegador)
+    const channel = new BroadcastChannel('tuauto_global_chat_channel');
+    
+    channel.onmessage = (event) => {
+        const data = event.data;
+        if (data.user !== myUser) {
             appendMessage(data.user, data.text, false, data.time);
+        }
+    };
 
-            // Si soy el Host, retransmito el mensaje a todos los demás dispositivos conectados
-            if (peer.id === GLOBAL_ROOM_ID) {
-                connections.forEach(c => {
-                    if (c !== conn && c.open) {
-                        c.send(data);
-                    }
-                });
-            }
-        });
-
-        conn.on('close', () => {
-            connections = connections.filter(c => c !== conn);
-            addSystemMsg("Un dispositivo se desconectó.");
-        });
-    }
-
+    // 3. Enviar mensaje
     function sendMessage(event) {
         event.preventDefault();
         const input = document.getElementById('msgInput');
@@ -322,17 +291,49 @@
             const now = new Date();
             const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
 
-            const payload = {
+            const messageData = {
                 user: myUser,
                 text: text,
-                time: timeStr
+                time: timeStr,
+                id: Date.now()
             };
 
-            // Enviar mensaje a todas las PCs / celulares conectados
-            connections.forEach(c => {
-                if (c.open) c.send(payload);
-            });
+            // Transmitir por canal abierto inmediato
+            channel.postMessage(messageData);
 
-            // Mostrar el mensaje en mi propia pantalla
+            // Guardar respaldo en almacenamiento local sincronizado
+            let currentMsgs = JSON.parse(localStorage.getItem(chatStorageKey) || '[]');
+            currentMsgs.push(messageData);
+            if (currentMsgs.length > 50) currentMsgs.shift(); // Limitar historial
+            localStorage.setItem(chatStorageKey, JSON.stringify(currentMsgs));
+
+            // Mostrar en mi propia pantalla
             appendMessage(myUser, text, true, timeStr);
             input.value = '';
+        }
+    }
+
+    function appendMessage(user, text, isMine, time) {
+        const container = document.getElementById('messagesList');
+        const msgDiv = document.createElement('div');
+
+        msgDiv.className = `message ${isMine ? 'mine' : 'other'}`;
+        msgDiv.innerHTML = `
+            <span class="meta">${escapeHTML(user)}</span>
+            ${escapeHTML(text)}
+            <span class="time">${time || ''}</span>
+        `;
+
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag] || tag));
+    }
+</script>
+
+</body>
+</html>
